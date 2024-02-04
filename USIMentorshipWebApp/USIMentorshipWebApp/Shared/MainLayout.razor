@@ -1,19 +1,15 @@
-﻿@inherits LayoutComponentBase
+﻿@* This defines MainLayout as a Layout component which
+    allows us to ise the body tag (@Body) to render
+    child elements. For example, if we navigate to 
+    /mentor-match, it will render in whatever is defined
+    in that route 
+*@
+@inherits LayoutComponentBase
 
 <PageTitle>USIMentorshipWebApp</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<NavMenu />
+<main>
+    @Body
+</main>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
