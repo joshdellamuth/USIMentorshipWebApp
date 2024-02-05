@@ -1,8 +1,12 @@
 ﻿@page "/mentor-match"
 
-<PageTitle>Mentor Match</PageTitle>
+<PageTitle>Mentor Match - USI Mentorship Program</PageTitle>
 
 <h1>Mentor Match</h1>
+
+
+<RadzenDropDown @bind-Value=@value Data=@companyNames Style="width: 100%; max-width: 400px;" Name="DropDownBindValue" />
+
 
 <a href="/fetchdata">
     To see an example of a UI that uses .cs code <br>
@@ -11,3 +15,13 @@
     and the code for is WeatherForecast.cs and <br>
     WeatherForecastService.cs in the Data folder.
 </a>
+
+@code {
+    string value = "Industry:";
+
+    string[] companyNames = new string[] 
+    {
+        "Computer Science", "Business", "Marketing", "Nursing" 
+    };
+    
+}
