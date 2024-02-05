@@ -1,16 +1,16 @@
 ﻿@* This is the mentor match page! *@
 @page "/mentor-match"
+@using USIMentorshipWebApp.Shared.MentorMatch
 
 <PageTitle>Mentor Match - USI Mentorship Program</PageTitle>
 
 <h1>Mentor Match</h1>
+<h6>Find the right mentor for you with the options below!</h6>
 
-
-<RadzenDropDown @bind-Value=@value Data=@companyNames Style="width: 100%; max-width: 400px;" Name="DropDownBindValue" />
-
+<MentorMatchSearchFields/>
 
 <a href="/fetchdata">
-    To see an example of a UI that uses .cs code <br>
+    <br> To see an example of a UI that uses .cs code <br>
     click this tag to navigate to a Fetch Data page. <br>
     This page is FetchData.razor in th Pages folder <br>
     and the code for is WeatherForecast.cs and <br>
@@ -18,11 +18,6 @@
 </a>
 
 @code {
-    string value = "Industry:";
 
-    string[] companyNames = new string[] 
-    {
-        "Computer Science", "Business", "Marketing", "Nursing" 
-    };
     
 }

@@ -1,0 +1,65 @@
+﻿<br />
+<div class="row">
+    <div class="column">
+        <label>Industries</label>
+        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
+    </div>
+
+    <div class="column">
+        <label>Major(s)</label>
+        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
+    </div>
+
+    <div class="column">
+        <label>Minor(s)</label>
+        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
+    </div>
+
+    <div class="column">
+        <label>Companies</label>
+        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
+    </div>
+
+    <div class="column">
+        <label>Current Position</label>
+        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
+    </div>
+
+    <div class="column">
+        <label>Class Year(s)</label>
+        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
+    </div>
+
+    <div class="column">
+        <label>Business City</label>
+        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
+    </div>
+
+    <div class="column">
+        <label>Business State</label>
+        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
+    </div>
+
+    <div class="column">
+        <label>Business Country</label>
+        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
+    </div>
+
+    <div class="column">
+        <label>Gender Preference</label>
+        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
+    </div>
+</div>
+
+
+@code {
+    
+    string value = "Industry:";
+
+    /* Make a method here to update value when a click occurs */
+
+    string[] companyNames = new string[]
+    {
+        "Computer Science", "Business", "Marketing", "Nursing"
+    };
+}

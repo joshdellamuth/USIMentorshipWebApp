@@ -1,0 +1,35 @@
+.header-bar {
+    display: flex;
+    background-color: #002856;
+    align-items: center;
+    padding: .7rem;
+    width: 100%;
+    min-height: 70px;
+    position: sticky;
+}
+
+.logo {
+    /* cannot use float:left in a flex container*/
+}
+
+.header-item {
+    display: flex;
+    color: white;
+    font-size: 21px;
+    text-decoration: none;
+}
+
+    .header-item:hover {
+        text-decoration: underline;
+    }
+
+    .header-item:active {
+        text-decoration: underline;
+    }
+
+.header-items-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-grow: 1;
+}
