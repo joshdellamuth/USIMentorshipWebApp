@@ -8,12 +8,17 @@
     position: sticky;
 }
 
+/* Shows big logo when width is above 860px */
 .logo {
-    /* cannot use float:left in a flex container*/
+    display: block;
+}
+
+/* Does not show small logo when width is above 860px */
+.logo-small {
+    display: none;
 }
 
 .header-item {
-    display: flex;
     color: white;
     font-size: 21px;
     text-decoration: none;
@@ -29,7 +34,18 @@
 
 .header-items-container {
     display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+    justify-content: flex-end;
     flex-grow: 1;
+}
+
+@media (max-width:860px) {
+    /* Does not show big logo when width is below 860px */
+    .logo {
+        display: none;
+    }
+
+    /* Shows small logo when width is below 860px */
+    .logo-small {
+        display: block;
+    }
 }

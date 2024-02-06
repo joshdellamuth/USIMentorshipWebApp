@@ -1,13 +1,20 @@
-﻿<div class="header-bar">
+﻿@inherits LayoutComponentBase
+
+<div class="header-bar">
     <div class="logo">
-        <img src=images/usi_logo.png alt="USI-Logo">
+        <a href="/">
+            <img src=images/usi_logo.png alt="USI-Logo">
+        </a>
+    </div>
+
+    @* Shows when the screen width is smaller *@
+    <div class="logo-small">
+        <a href="/">
+            <img src=images/usi-logo-small.png alt="USI-Logo-Small">
+        </a>
     </div>
     <div class="header-items-container">
-        <a class="header-item" href="/mentor-match">Mentor Match</a>
-        <a class="header-item" href="/">Chat</a>
-        <a class="header-item" href="/schedule-meeting">Schedule Meeting</a>
-        <a class="header-item" href="/announcements">Announcements</a>
-        <a class="header-item" href="/profile">Profile</a>
+        <a class="header-item" href="/sign-up-landing-page">Sign Up</a>
     </div>
 </div>
 

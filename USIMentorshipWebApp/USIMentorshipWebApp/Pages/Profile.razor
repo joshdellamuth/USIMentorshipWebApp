@@ -1,8 +1,18 @@
 ﻿@page "/profile"
-
+@layout MainLayout
+@inject NavigationManager NavigationManager
 <PageTitle>Profile - USI Mentorship Program</PageTitle>
 
 <h1>Profile</h1>
+
+<RadzenButton Click=@SignOut Text="Sign Out" ButtonStyle="ButtonStyle.Danger" />
+
+@code {
+    void SignOut(MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
 
 
 @code {

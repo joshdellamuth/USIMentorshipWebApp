@@ -7,16 +7,48 @@
     min-height: 70px;
     position: sticky;
 }
-
+/* Shows big logo when width is above 860px */
 .logo {
-    /* cannot use float:left in a flex container*/
+    display:block; 
+}
+
+/* Does not show small logo when width is above 860px */
+.logo-small {
+    display: none;
+}
+
+/* Does not show hamburger icon when width is above 860px */
+.hamburger-icon {
+    display: none;
 }
 
 .header-item {
     display: flex;
     color: white;
-    font-size: 21px;
+    font-size: 18px;
     text-decoration: none;
+}
+
+.hamburger-menu-item {
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.hamburger-collapsed {
+    /* Never collapse the sidebar for wide screens */
+    display: none;
+}
+
+.hamburger-expanded {
+    /* Never collapse the sidebar for wide screens */
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 65%;
+    height: 100%;
+    background-color: #CCCCCC; /* Semi-transparent background */
+    z-index: 9999; /* Ensure the overlay is on top */
 }
 
     .header-item:hover {
@@ -32,4 +64,36 @@
     align-items: center;
     justify-content: space-evenly;
     flex-grow: 1;
+}
+
+@media (max-width:860px) {
+    /* Does not show big logo when width is below 860px */
+    .logo {
+        display: none;
+    }
+
+    /* Shows small logo when width is below 860px */
+    .logo-small {
+        display: block;
+    }
+
+    /* Shows hamburger icon when width is below 860px */
+    .hamburger-icon {
+        display: block;
+        color: white;
+        font-size: 25px;
+    }
+
+    .hamburger-icon:hover {
+        cursor: pointer;
+    }
+
+    /* Do not show header items when width is below 860px*/
+    .header-item {
+        display:none;
+    }
+
+    .header-items-container {
+        justify-content: flex-end;
+    }
 }

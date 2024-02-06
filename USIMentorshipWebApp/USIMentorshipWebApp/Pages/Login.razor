@@ -1,8 +1,32 @@
 ﻿@page "/"
-@layout NoNavMenu
+@layout NotLoggedInLayout
 
 <PageTitle>Login - USI Mentorship Program</PageTitle>
 
 <h1>Login</h1>
 
+<RadzenLogin AllowRegister="true" AllowResetPassword="true" Username=@userName Password=@password
+             AllowRememberMe="true" RememberMe="@rememberMe"
+             Login=@(args => OnLogin(args, "Login with default values"))
+             ResetPassword=@(args => OnResetPassword(args, "Login with default values"))
+             Register=@(args => OnRegister("Login with default values")) />
+
 <a href="/mentor-match">Click here to go to mentor match.</a>
+
+@code {
+    string userName = "admin";
+    string password = "admin";
+    bool rememberMe = true;
+
+    void OnLogin(LoginArgs args, string name)
+    {
+    }
+
+    void OnRegister(string name)
+    {
+    }
+
+    void OnResetPassword(string value, string name)
+    {
+    }
+}

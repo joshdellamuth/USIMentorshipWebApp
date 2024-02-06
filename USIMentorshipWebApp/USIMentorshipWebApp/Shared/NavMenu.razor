@@ -1,16 +1,50 @@
 ﻿<div class="header-bar">
     <div class="logo">
-        <img src=images/usi_logo.png alt="USI-Logo">
+        <a href="/mentor-match">
+            <img src=images/usi_logo.png alt="USI-Logo">
+        </a>
     </div>
+
+    @* Shows when the screen width is smaller *@
+    <div class="logo-small">
+        <a href="/mentor-match">
+            <img src=images/usi-logo-small.png alt="USI-Logo-Small">
+        </a>
+    </div>
+
     <div class="header-items-container">
         <a class="header-item" href="/mentor-match">Mentor Match</a>
         <a class="header-item" href="/chat">Chat</a>
         <a class="header-item" href="/schedule-meeting">Schedule Meeting</a>
         <a class="header-item" href="/announcements">Announcements</a>
         <a class="header-item" href="/profile">Profile</a>
+        
+        @* Shows when the screen width is smaller *@
+        <div @onclick="ToggleNavMenu">
+            <span class="oi oi-menu hamburger-icon"></span>
+        </div>
+    </div>
+</div>
+
+@* Shows when the hamburger icon is showing, *@
+<div class="@NavMenuCssClass">
+    <div class="column default-margin">
+        <img src=images/usi_logo.png alt="USI-Logo"> <br />
+        <a class="hamburger-menu-item" href="/mentor-match">Mentor Match</a>
+        <a class="hamburger-menu-item" href="/chat">Chat</a>
+        <a class="hamburger-menu-item" href="/schedule-meeting">Schedule Meeting</a>
+        <a class="hamburger-menu-item" href="/announcements">Announcements</a>
+        <a class="hamburger-menu-item" href="/profile">Profile</a>
     </div>
 </div>
 
 @code {
+    private bool IsCollapsed = true;
 
+    private string? NavMenuCssClass => IsCollapsed ? "hamburger-collapsed" : "hamburger-expanded";
+
+    private void ToggleNavMenu()
+    {
+        IsCollapsed = !IsCollapsed;
+    }
 }
