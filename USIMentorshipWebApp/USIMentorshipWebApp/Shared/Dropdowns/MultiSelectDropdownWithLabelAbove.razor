@@ -1,0 +1,31 @@
+﻿@using USIMentorshipWebApp.Data
+@typeparam T
+
+<div class="column">
+    <label>@Label</label>
+    <RadzenDropDown @bind-Value=@SelectedValues Data=@DropdownData TextProperty=@DisplayedProperty ValueProperty=@ValueProperty Name="NeededANameForSomeReason"
+                    class="default-margin-not-at-start-or-top" Multiple=true AllowClear=true Placeholder="" Chips=true Style="width: 100%; max-width: 225px;" />
+</div>
+
+@code {
+    [Parameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public List<string>? SelectedValues { get; set; }
+
+    [Parameter]
+    public List<T>? DropdownData { get; set; }
+    
+    //the ValueProperty parameter is used for the underlying data
+    [Parameter]
+    public string ValueProperty { get; set; }
+
+    //the TextPropery is just what is displayed from that object
+    [Parameter]
+    public string DisplayedProperty { get; set; }
+
+    //if you set data to just a list, you would not need to specify
+    //the  parameters, but for this we want to make sure we can
+    //modify the selected data and get that ID
+}

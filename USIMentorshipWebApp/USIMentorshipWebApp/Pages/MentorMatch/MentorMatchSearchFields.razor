@@ -1,65 +1,87 @@
-﻿<br />
+﻿@using USIMentorshipWebApp.Shared.Dropdowns;
+@using USIMentorshipWebApp.Data;
+
+<br />
 <div class="row">
-    <div class="column">
-        <label>Industries</label>
-        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
-    </div>
-
-    <div class="column">
-        <label>Major(s)</label>
-        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
-    </div>
-
-    <div class="column">
-        <label>Minor(s)</label>
-        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
-    </div>
-
-    <div class="column">
-        <label>Companies</label>
-        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
-    </div>
-
-    <div class="column">
-        <label>Current Position</label>
-        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
-    </div>
-
-    <div class="column">
-        <label>Class Year(s)</label>
-        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
-    </div>
-
-    <div class="column">
-        <label>Business City</label>
-        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
-    </div>
-
-    <div class="column">
-        <label>Business State</label>
-        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
-    </div>
-
-    <div class="column">
-        <label>Business Country</label>
-        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
-    </div>
-
-    <div class="column">
-        <label>Gender Preference</label>
-        <RadzenDropDown @bind-Value=@value class="default-margin-not-at-start-or-top" Data=@companyNames Style="width: 100%; max-width: 250px;" Name="DropDownBindValue" />
-    </div>
+    <DropdownWithLabelAbove DropdownData="@industriesList" SelectedValue="@industrySelected" Label="Industry:" />
+    <DropdownWithLabelAbove DropdownData="@majorsList" SelectedValue="@majorSelected" Label="Major(s):" />
+    <DropdownWithLabelAbove DropdownData="@minorsList" SelectedValue="@minorSelected" Label="Minor(s):" />
+    <MultiSelectDropdownWithLabelAbove Label="Companies:" SelectedValues=@companiesSelected DropdownData=@companies ValueProperty="ExampleClassId" DisplayedProperty="ExampleClassName"/>
+    <DropdownWithLabelAbove DropdownData="@currentPositionsList" SelectedValue="@currentPositionSelected" Label="Current Position:" />
+    <DropdownWithLabelAbove DropdownData="@classYearsList" SelectedValue="@classYearSelected" Label="Class Year:" />
+    <DropdownWithLabelAbove DropdownData="@businessCitiesList" SelectedValue="@businessCitySelected" Label="Business City:" />
+    <DropdownWithLabelAbove DropdownData="@businessStatesList" SelectedValue="@businessStateSelected" Label="Business State:" />
+    <DropdownWithLabelAbove DropdownData="@businessCountriesList" SelectedValue="@businessCountrySelected" Label="Business Country:" />
+    <DropdownWithLabelAbove DropdownData="@genderPreferencesList" SelectedValue="@genderPreferenceSelected" Label="Gender Preference:" />
 </div>
 
 
 @code {
-    
-    string value = "Industry:";
 
+    //NOTE: MAY HAVE TO ADD VALUE PROPERTY AND TEXT PORPERTY TO NONMULTISELECT DROPDOWNS SO WE CAN GET THE IDs OF THE OBJECTS
+
+    # region Industry
+    public string? industrySelected;
+    public List<string> industriesList = new List<string> { "IT", "Fashion", "Entertainment", "Retail" };
+    #endregion
+
+    //HAS A DESCRIPTION OF WHAT WE'LL NEED TO HAVE IN FUTUTRE
+    # region Major
+    // whatever is the current selection will be stored here
+    public string? majorSelected;
+
+    // list of majors to populate the dropdown
+    // in the future, we will set majors list to be equal to a method called GetMajors()
+    // or something that will pull from the database
+    public List<string> majorsList = new List<string> { "Computer Science", "Business", "Electrical Engineering", "Marketing" };
+    # endregion Variables
+
+    #region Minor
+    public string? minorSelected;
+    public List<string> minorsList = new List<string> { "Computer Science", "Business", "Electrical Engineering", "Marketing" };
+    #endregion
+
+    //THIS ONE USES A MULTISELECT COMPONENT
+    # region Companies
+    public List<string>? companiesSelected;
     /* Make a method here to update value when a click occurs */
 
-    string[] companyNames = new string[]
+    List<ExampleClass>? companies = new List<ExampleClass>
     {
-        "Computer Science", "Business", "Marketing", "Nursing"
+        new ExampleClass { ExampleClassId = "1", ExampleClassName = "Mead Johnson"},
+        new ExampleClass { ExampleClassId = "2", ExampleClassName = "Berry Global"},
+        new ExampleClass { ExampleClassId = "3", ExampleClassName = "Deaconess Health"}
     };
+    # endregion
+
+    #region Current Position
+    public string? currentPositionSelected;
+    public List<string> currentPositionsList = new List<string> { "Software Developer", "Surgeon", "Manager", "Auctioneer" };
+    #endregion
+
+    #region Class Years
+    public string? classYearSelected;
+    public List<string> classYearsList = new List<string> { "2000", "2001", "2002", "2003" };
+    #endregion
+
+    #region Business City
+    public string? businessCitySelected;
+    public List<string> businessCitiesList = new List<string> { "Evansville", "Henderson", "Louisville", "Owensboro" };
+    #endregion
+
+    #region Business State
+    public string? businessStateSelected;
+    public List<string> businessStatesList = new List<string> { "Indiana", "Illinois", "Kentucky", "Ohio" };
+    #endregion
+
+    #region Business Country
+    public string? businessCountrySelected;
+    public List<string> businessCountriesList = new List<string> { "USA", "Mexico", "Canada", "India" };
+    #endregion
+
+    #region Gender Preference
+    public string? genderPreferenceSelected;
+    public List<string> genderPreferencesList = new List<string> { "Male", "Female" };
+    #endregion
+
 }

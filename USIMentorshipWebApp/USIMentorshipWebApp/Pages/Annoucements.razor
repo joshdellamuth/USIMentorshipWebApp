@@ -4,12 +4,36 @@
 *@
 @layout MainLayout
 @page "/announcements"
+@using USIMentorshipWebApp.Shared.Dropdowns;
+
+@using USIMentorshipWebApp.Data
 
 <PageTitle>Announcements - USI Mentorship Program</PageTitle>
 
 <h1>Announcements</h1>
 
+<MultiSelectDropdownWithLabelAbove Label="Test" SelectedValues=@values DropdownData=@exampleObjects ValueProperty="ExampleClassId" DisplayedProperty="ExampleClassName"/>
+
+<a href="/fetchdata">
+    <br> To see an example of a UI that uses .cs code <br>
+    click this tag to navigate to a Fetch Data page. <br>
+    This page is FetchData.razor in th Pages folder <br>
+    and the code for is WeatherForecast.cs and <br>
+    WeatherForecastService.cs in the Data folder.
+</a>
 
 @code {
-    
+    List<string>? values;
+
+    //the ValueProperty parameter is used for the underlying data
+    //the TextPropery is just what is displayed
+    //if you set data to just a list, you would not need to specify 
+    //these parameters, but for this we want to make sure we can 
+    //modify the selected data and get that IDExampleClassName
+    List<ExampleClass>? exampleObjects = new List<ExampleClass>
+    {
+        new ExampleClass { ExampleClassId = "1", ExampleClassName = "Apples"},
+        new ExampleClass { ExampleClassId = "2", ExampleClassName = "Oranges"},
+        new ExampleClass { ExampleClassId = "3", ExampleClassName = "Watermelon"}
+    };
 }
