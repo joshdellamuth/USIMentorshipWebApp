@@ -3,40 +3,52 @@
 
 <div class="container-fluid">
     <div class="row px-3">
-        <div class="col-md-3 col-lg-2 p-3">
-            <RadzenCard Style="max-width:100">
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard Style="width:100">
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Major</RadzenText>
-                <RadzenTextBox style="max-width:150px" />
+                <RadzenTextBox class="w-100" />
             </RadzenCard>
         </div>
-        <div class="col-md-3 col-lg-2 p-3">
-            <RadzenCard Style="max-width:100">
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard Style="width:100">
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Minor</RadzenText>
-                <RadzenTextBox style="max-width:150px" />
+                <RadzenTextBox class="w-100" />
             </RadzenCard>
         </div>
-        <div class="col-md-3 col-lg-2 p-3">
-            <RadzenCard Style="max-width:100">
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Current Position</RadzenText>
-                <RadzenTextBox style="max-width:150px"  />
+                <RadzenTextBox class="w-100" />
             </RadzenCard>
         </div>
-        <div class="col-md-3 col-lg-2 p-3">
-            <RadzenCard Style="max-width:100">
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Graduation Year</RadzenText>
-                <RadzenTextBox style="max-width:150px" MaxLength="4" />
+                <RadzenTextBox class="w-100" MaxLength="4" />
             </RadzenCard>
         </div>
-        <div class="col-md-3 col-lg-2 p-3">
-            <RadzenCard Style="max-width:100">
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Student ID</RadzenText>
-                <RadzenTextBox Disabled="true" class="w-100" aria-label="Disabled TextBox">1234567890</RadzenTextBox>
+                <RadzenTextBox Disabled="true" class="w-100">1234567890</RadzenTextBox>
             </RadzenCard>
         </div>
-        <div class="col-md-3 col-lg-2 p-3">
-            <RadzenCard Style="max-width:100">
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Email</RadzenText>
+                <RadzenTextBox class="w-100">example123@email.com</RadzenTextBox>
+            </RadzenCard>
+        </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Role</RadzenText>
-                <DropdownWithLabelAbove DropdownData="@rolesList" SelectedValue="@roleSelected"/>
+                <RadzenRadioButtonList TValue="int">
+                    <Items>
+                        <RadzenRadioButtonListItem Text="Mentee" Value="1"/>
+                        <RadzenRadioButtonListItem Text="Mentor" Value="2" />
+                    </Items>
+                </RadzenRadioButtonList>
+                @*<DropdownWithLabelAbove DropdownData="@rolesList" SelectedValue="@roleSelected"/>*@
             </RadzenCard>
         </div>
     </div>
