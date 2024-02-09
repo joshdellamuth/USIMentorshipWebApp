@@ -1,0 +1,48 @@
+﻿@using USIMentorshipWebApp.Shared.Dropdowns;
+@using USIMentorshipWebApp.Data;
+
+<div class="container-fluid">
+    <div class="row px-3">
+        <div class="col-md-3 col-lg-2 p-3">
+            <RadzenCard Style="max-width:100">
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Major</RadzenText>
+                <RadzenTextBox style="max-width:150px" />
+            </RadzenCard>
+        </div>
+        <div class="col-md-3 col-lg-2 p-3">
+            <RadzenCard Style="max-width:100">
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Minor</RadzenText>
+                <RadzenTextBox style="max-width:150px" />
+            </RadzenCard>
+        </div>
+        <div class="col-md-3 col-lg-2 p-3">
+            <RadzenCard Style="max-width:100">
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Current Position</RadzenText>
+                <RadzenTextBox style="max-width:150px"  />
+            </RadzenCard>
+        </div>
+        <div class="col-md-3 col-lg-2 p-3">
+            <RadzenCard Style="max-width:100">
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Graduation Year</RadzenText>
+                <RadzenTextBox style="max-width:150px" MaxLength="4" />
+            </RadzenCard>
+        </div>
+        <div class="col-md-3 col-lg-2 p-3">
+            <RadzenCard Style="max-width:100">
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Student ID</RadzenText>
+                <RadzenTextBox Disabled="true" class="w-100" aria-label="Disabled TextBox">1234567890</RadzenTextBox>
+            </RadzenCard>
+        </div>
+        <div class="col-md-3 col-lg-2 p-3">
+            <RadzenCard Style="max-width:100">
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Role</RadzenText>
+                <DropdownWithLabelAbove DropdownData="@rolesList" SelectedValue="@roleSelected"/>
+            </RadzenCard>
+        </div>
+    </div>
+</div>
+
+@code {
+    public string? roleSelected;
+    public List<string> rolesList = new List<string> { "Mentee", "Mentor"};
+}
