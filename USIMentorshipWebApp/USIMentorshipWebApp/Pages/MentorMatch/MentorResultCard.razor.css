@@ -1,0 +1,14 @@
+﻿.profile {
+    display: flex;
+    align-items: start;
+}
+
+.profile-info {
+    margin-left: 10px;
+}
+
+.my-row {
+    background-color: #ECECEC; /* Change this to your desired color */
+    border-color: #333; /* Change this to your desired border color */
+    border-width: thin;
+}

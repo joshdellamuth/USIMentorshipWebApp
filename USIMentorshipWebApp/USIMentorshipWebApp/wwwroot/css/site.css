@@ -1,5 +1,10 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+@font-face {
+    font-family: 'Inter';
+    src: url('fonts/Inter-Bold.ttf') format('ttf');
+}
+
 html, body {
     /* Commented out the default font below */
     /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
@@ -7,11 +12,6 @@ html, body {
     
     /* this code defines inter but falls back to sans-serif if needed */
     font-family: Inter, sans-serif;
-}
-
-@font-face {
-    font-family: 'Inter';
-    src: url('fonts/Inter-Bold.ttf') format('ttf');
 }
 
 .default-margin {
@@ -22,18 +22,15 @@ html, body {
     margin: 0rem .8rem .8rem 0;
 }
 
+.default-margin-not-at-start {
+    margin: .8rem .8rem .8rem .8rem;
+}
+
 .column {
     display: flex;
     flex-direction: column;
     width: auto;
 }
-
-.row {
-    display: flex;
-    flex-direction: row;
-    height: auto;
-}
-
 
 /* DEFAULT SITE.CSS CODE STARTS HERE */
 h1:focus {
