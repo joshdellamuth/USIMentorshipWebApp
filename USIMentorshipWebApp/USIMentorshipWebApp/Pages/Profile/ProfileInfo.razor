@@ -1,0 +1,59 @@
+﻿@using USIMentorshipWebApp.Shared.Dropdowns;
+@using USIMentorshipWebApp.Data;
+
+<div class="container-fluid">
+    <div class="row px-3">
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard Style="width:100">
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Major</RadzenText>
+                <RadzenTextBox class="w-100" />
+            </RadzenCard>
+        </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard Style="width:100">
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Minor</RadzenText>
+                <RadzenTextBox class="w-100" />
+            </RadzenCard>
+        </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Current Position</RadzenText>
+                <RadzenTextBox class="w-100" />
+            </RadzenCard>
+        </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Graduation Year</RadzenText>
+                <RadzenTextBox class="w-100" MaxLength="4" />
+            </RadzenCard>
+        </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Student ID</RadzenText>
+                <RadzenTextBox Disabled="true" class="w-100">1234567890</RadzenTextBox>
+            </RadzenCard>
+        </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Email</RadzenText>
+                <RadzenTextBox class="w-100">example123@email.com</RadzenTextBox>
+            </RadzenCard>
+        </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Role</RadzenText>
+                <RadzenRadioButtonList TValue="int">
+                    <Items>
+                        <RadzenRadioButtonListItem Text="Mentee" Value="1"/>
+                        <RadzenRadioButtonListItem Text="Mentor" Value="2" />
+                    </Items>
+                </RadzenRadioButtonList>
+                @*<DropdownWithLabelAbove DropdownData="@rolesList" SelectedValue="@roleSelected"/>*@
+            </RadzenCard>
+        </div>
+    </div>
+</div>
+
+@code {
+    
+}

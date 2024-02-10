@@ -1,0 +1,38 @@
+﻿@page "/profile"
+@layout MainLayout
+@inject NavigationManager NavigationManager
+<PageTitle>Profile - USI Mentorship Program</PageTitle>
+
+<h1>Profile</h1>
+<div class="row">
+    <center><h2>John Smith</h2></center>
+</div>
+<div class="row px-3">
+    <RadzenRow>
+        <div class="col-2">
+            <div class="row; align-content-center">
+            <RadzenImage Path="images/blank-profile-1.png" width="180" height="180" />
+            <RadzenUpload ChooseText="Change Profile Picture" Style="width:180px; text-align:center;"></RadzenUpload>
+            </div>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-7">
+            <ProfileInfo/>
+        </div>
+    </RadzenRow>
+</div>
+<center><RadzenButton Click=@SignOut Text="Sign Out" ButtonStyle="ButtonStyle.Danger" /></center>
+
+
+
+@code {
+    void SignOut(MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
+
+
+@code {
+    
+}
