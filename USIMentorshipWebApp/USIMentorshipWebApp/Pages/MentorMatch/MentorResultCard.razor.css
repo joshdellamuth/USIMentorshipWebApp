@@ -1,6 +1,7 @@
 ﻿.profile {
     display: flex;
     align-items: start;
+    width:180px;
 }
 
 .profile-info {
@@ -8,7 +9,27 @@
 }
 
 .my-row {
-    background-color: #ECECEC; /* Change this to your desired color */
-    border-color: #333; /* Change this to your desired border color */
-    border-width: thin;
+    background-color: #FAFAFA; /* Change this to your desired color */
+    border-color: #D0D0D0; /* Change this to your desired border color */
+    border-style: solid;
+    border-width: 0.6px;
+    border-radius: 10px;
+}
+
+.first-mentor-info {
+    flex: 0 0 10em;
+}
+
+.second-mentor-info {
+    flex: 1 0 25em;
+}
+
+.mentor-buttons {
+    /* Parameters order: 
+        flex grow: the element can grow along the main axis if this parameter is 1. 0 does not enable it to grow
+        flex shrink: the element can shrink along its main axis if it is 1. If it is 0 it won't
+        flex basis: the inital size of the element before any shrinking or growing */
+    flex: 0 0 10rem;
+    flex-direction: column;
+    
 }

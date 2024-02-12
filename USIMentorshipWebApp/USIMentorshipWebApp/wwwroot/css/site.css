@@ -22,8 +22,12 @@ html, body {
     margin: 0rem .8rem .8rem 0;
 }
 
-.default-margin-not-at-start {
-    margin: .8rem .8rem .8rem .8rem;
+.default-margin-top-bottom {
+    margin: .8rem 0rem .8rem 0rem;
+}
+
+.default-margin-top {
+    margin: .8rem 0rem 0rem 0rem;
 }
 
 .column {

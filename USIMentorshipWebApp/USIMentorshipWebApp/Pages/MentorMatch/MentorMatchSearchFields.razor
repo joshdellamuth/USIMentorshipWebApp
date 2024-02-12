@@ -3,26 +3,16 @@
 
 <br />
 <div class="row">
-    <div class="col-sm-3">
-        <DropdownWithLabelAbove DropdownData="@industriesList" SelectedValue="@industrySelected" Label="Industry:" />
-        <DropdownWithLabelAbove DropdownData="@currentPositionsList" SelectedValue="@currentPositionSelected" Label="Current Position:" />
-        <DropdownWithLabelAbove DropdownData="@businessCountriesList" SelectedValue="@businessCountrySelected" Label="Business Country:" />
-    </div>
-    <div class="col-sm-3">
-        <DropdownWithLabelAbove DropdownData="@majorsList" SelectedValue="@majorSelected" Label="Major(s):" />
-        <DropdownWithLabelAbove DropdownData="@classYearsList" SelectedValue="@classYearSelected" Label="Class Year:" />
-        <DropdownWithLabelAbove DropdownData="@genderPreferencesList" SelectedValue="@genderPreferenceSelected" Label="Gender Preference:" />
-    </div>
-
-    <div class="col-sm-3">
-        <DropdownWithLabelAbove DropdownData="@minorsList" SelectedValue="@minorSelected" Label="Minor(s):" />
-        <DropdownWithLabelAbove DropdownData="@businessCitiesList" SelectedValue="@businessCitySelected" Label="Business City:" />
-    </div>
-
-    <div class="col-sm-3">
-        <MultiSelectDropdownWithLabelAbove Label="Companies:" SelectedValues=@companiesSelected DropdownData=@companies ValueProperty="ExampleClassId" DisplayedProperty="ExampleClassName"/>
-        <DropdownWithLabelAbove DropdownData="@businessStatesList" SelectedValue="@businessStateSelected" Label="Business State:" />
-    </div>
+    <DropdownWithLabelAbove DropdownData="@industriesList" SelectedValue="@industrySelected" Label="Industry:" />
+    <DropdownWithLabelAbove DropdownData="@currentPositionsList" SelectedValue="@currentPositionSelected" Label="Current Position:" />
+    <MultiSelectDropdownWithLabelAbove Label="Companies:" SelectedValues=@companiesSelected DropdownData=@companies ValueProperty="ExampleClassId" DisplayedProperty="ExampleClassName" />
+    <DropdownWithLabelAbove DropdownData="@majorsList" SelectedValue="@majorSelected" Label="Major(s):" />
+    <DropdownWithLabelAbove DropdownData="@minorsList" SelectedValue="@minorSelected" Label="Minor(s):" />
+    <DropdownWithLabelAbove DropdownData="@businessCountriesList" SelectedValue="@businessCountrySelected" Label="Business Country:" />
+    <DropdownWithLabelAbove DropdownData="@classYearsList" SelectedValue="@classYearSelected" Label="Class Year:" />
+    <DropdownWithLabelAbove DropdownData="@genderPreferencesList" SelectedValue="@genderPreferenceSelected" Label="Gender Preference:" />
+    <DropdownWithLabelAbove DropdownData="@businessCitiesList" SelectedValue="@businessCitySelected" Label="Business City:" />
+    <DropdownWithLabelAbove DropdownData="@businessStatesList" SelectedValue="@businessStateSelected" Label="Business State:" />
 </div>
 
 

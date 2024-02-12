@@ -1,10 +1,11 @@
 ﻿@using USIMentorshipWebApp.Data
 @typeparam T
 
-<div class="column">
+<div class="column mb-2">
     <label>@Label</label>
-    <RadzenDropDown @bind-Value=@SelectedValues Data=@DropdownData TextProperty=@DisplayedProperty ValueProperty=@ValueProperty Name="NeededANameForSomeReason"
-                     Multiple=true AllowClear=true Placeholder="" Chips=true/>
+    <RadzenDropDown class="dropdown-width" @bind-Value=@SelectedValues Data=@DropdownData TextProperty=@DisplayedProperty ValueProperty=@ValueProperty Name="NeededANameForSomeReason"
+                    Multiple=true AllowClear=true Placeholder="" Chips=true Style="max-width:160px;"/>
+    
 </div>
 
 @code {
