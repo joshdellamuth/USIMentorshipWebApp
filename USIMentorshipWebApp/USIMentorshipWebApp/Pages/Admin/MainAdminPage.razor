@@ -5,103 +5,59 @@
 
 <h1>Admin Portal</h1>
 
-<style>
-    .rz-grid-table {
-        width: unset;
-    }
-</style>
-
-
 <RadzenTabs TabPosition="@TabPosition.Top" @bind-SelectedIndex=@selectedIndex>
     <Tabs>
+        @* USERS TAB *@
         <RadzenTabsItem Text="Users">
             <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="10px" class="mt-2 mb-4">
-                <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" Text="Add New Order" Click="@InsertRow" Disabled="@(editMode == DataGridEditMode.Single && usersToInsert.Count() > 0)" />
-                    <div style="white-space:nowrap; margin-left: 20px ">Edit Mode:</div>
+                @* ADD NEW USER BUTTON *@
+                <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" Text="Add New User" Click="@InsertRow" Disabled="@(editMode == DataGridEditMode.Single && usersToInsert.Count() > 0)" />
+                
+                @* EDIT MODE BUTTON*@
+                <div style="white-space:nowrap; margin-left: 20px ">Edit Mode:</div>
                 <RadzenSelectBar @bind-Value="@editMode" TextProperty="Text" ValueProperty="Value" style="margin-right: 16px"
                              Data="@(Enum.GetValues(typeof(DataGridEditMode)).Cast<DataGridEditMode>().Select(t => new { Text = $"{t}", Value = t }))" Size="ButtonSize.Small"
                              Disabled="@(editMode == DataGridEditMode.Multiple && usersToInsert.Count() > 1)" />
             </RadzenStack>
 
-        <RadzenDataGrid @ref="usersGrid" AllowAlternatingRows="false" AllowFiltering="true" AllowPaging="true" PageSize="5" AllowSorting="true" EditMode="@editMode"
-                        Data="@users" TItem="User" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow" Sort="@Reset" Page="@Reset" Filter="@Reset" ColumnWidth="200px">
-            <Columns>
-                <RadzenDataGridColumn TItem="User" Property="UserId" Title="Order ID" Width="120px" Frozen="true" />
-                <RadzenDataGridColumn TItem="User" Property="User.FirstName" Title="First Name" Width="280px">
-                    <EditTemplate Context="user">
-                        <RadzenDropDown @bind-Value="user.FirstName" Data="@users" TextProperty="CompanyName" ValueProperty="CustomerID" Style="width:100%; display: block;" />
-                    </EditTemplate>
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="User" Property="User.LastName" Title="Last Name" Width="220px">
-                    <Template Context="user">
-                        <RadzenImage Path="@user.Gender" style="width: 32px; height: 32px; border-radius: 16px; margin-right: 6px;" AlternateText="@(user.Industry)" />
-                        @user.Gender
-                    </Template>
-                    <EditTemplate Context="user">
-                        <RadzenDropDown @bind-Value="user.UserId" Data="@users" ValueProperty="EmployeeID" Style="width:100%; display: block;">
-                            <Template>
-                                <RadzenImage Path="@context.Photo" style="width: 20px; height: 20px; border-radius: 16px; margin-right: 6px;" />
-                                @context.FirstName @context.LastName
-                            </Template>
-                        </RadzenDropDown>
-                    </EditTemplate>
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="User" Property="ClassYear" Title="Class Year" Width="200px">
-                    <Template Context="user">
-                        @user.ClassYear
-                    </Template>
-                    <EditTemplate Context="user">
-                        <RadzenDatePicker @bind-Value="user.Gender" Style="width:100%" />
-                    </EditTemplate>
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="User" Property="Gender" Title="Gender">
-                    <Template Context="user">
-                        @String.Format(new System.Globalization.CultureInfo("en-US"), "{0:C}", user.Gender)
-                    </Template>
-                    <EditTemplate Context="user">
-                        <RadzenNumeric @bind-Value="user.Company" Style="width:100%" />
-                    </EditTemplate>
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="User" Property="Minor" Title="Ship Name">
-                    <EditTemplate Context="user">
-                        <RadzenTextBox @bind-Value="user.Minor" Style="width:200px; display: block" Name="ShipName" />
-                        <RadzenRequiredValidator Text="ShipName is required" Component="ShipName" Popup="true" />
-                    </EditTemplate>
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="User" Property="CurrentPosition" Title="Current Position">
-                    <EditTemplate Context="user">
-                        <RadzenTextBox @bind-Value="user.Industry" Style="width:200px; display: block" Name="Industry" />
-                        <RadzenRequiredValidator Text="ShipCountry is required" Component="ShipCountry" Popup="true" />
-                    </EditTemplate>
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="User" Property="ShipCity" Title="ShipCity">
-                    <EditTemplate Context="user">
-                        <RadzenTextBox @bind-Value="user.Major" Style="width:200px; display: block" Name="Major" />
-                        <RadzenRequiredValidator Text="ShipCity is required" Component="ShipCity" Popup="true" />
-                    </EditTemplate>
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="User" Context="order" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Frozen="true" FrozenPosition="FrozenColumnPosition.Right">
-                    <Template Context="user">
-                        <RadzenButton Icon="" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(user))" @onclick:stopPropagation="true">
-                        </RadzenButton>
-                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRow(user))" @onclick:stopPropagation="true">
-                        </RadzenButton>
-                    </Template>
-                    <EditTemplate Context="user">
-                        <RadzenButton Icon="" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => SaveRow(user))">
-                        </RadzenButton>
-                        <RadzenButton Icon="" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@((args) => CancelEdit(user))">
-                        </RadzenButton>
-                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DeleteRow(user))">
-                        </RadzenButton>
-                    </EditTemplate>
-                </RadzenDataGridColumn>
-            </Columns>
-</RadzenDataGrid>
+            @* USER GRID DEFINED *@
+            <RadzenDataGrid @ref="usersGrid" AllowAlternatingRows="false" AllowFiltering="true" AllowPaging="true" PageSize="5" AllowSorting="true" EditMode="@editMode"
+                            Data="@users" TItem="User" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow" Sort="@Reset" Page="@Reset" Filter="@Reset" ColumnWidth="200px">
+                <Columns>
+                    @* USER ID COLUMN *@
+                    <RadzenDataGridColumn TItem="User" Property="UserId" Title="User ID" Width="120px" Frozen="true" />
+                    
+                    @* USER FIRST NAME COLUMN *@
+                    <RadzenDataGridColumn TItem="User" Property="User.FirstName" Title="First Name" Width="280px"/>
+
+                     @* USER LAST NAME COLUMN *@
+                    <RadzenDataGridColumn TItem="User" Property="User.LastName" Title="Last Name" Width="220px"/>
+
+                    @* USER CLASS YEAR COLUMN *@
+                    <RadzenDataGridColumn TItem="User" Property="ClassYear" Title="Class Year" Width="200px"/>
+
+                    @* USER GENDER COLUMN *@
+                    <RadzenDataGridColumn TItem="User" Property="Gender" Title="Gender"/>
+
+                    @* USER MAJOR COLUMN *@
+                    <RadzenDataGridColumn TItem="User" Property="Major" Title="Major" />
+
+                    @* USER MINOR COLUMN *@
+                    <RadzenDataGridColumn TItem="User" Property="Minor" Title="Minor"/>
+
+                    @* USER CURRENT POSITION COLUMN *@
+                    <RadzenDataGridColumn TItem="User" Property="CurrentPosition" Title="Current Position"/>
+                </Columns>
+            </RadzenDataGrid>
+        
         </RadzenTabsItem>
+        
+        @* CHATS TAB *@
         <RadzenTabsItem Text="Chats">
             Chats
         </RadzenTabsItem>
+
+        @* MATCHES TAB *@
         <RadzenTabsItem Text="Matches">
             Matches
         </RadzenTabsItem>
@@ -111,7 +67,63 @@
 @code {
     TabPosition tabPosition = TabPosition.Top;
     RadzenDataGrid<User> usersGrid;
-    IEnumerable<User> users;
+
+    @* EXAMPLE USER DATA FOR THE TABLE *@
+    IEnumerable<User> users = new List<User>
+    {
+        new User
+        {
+            UserId = "1",
+            FirstName = "John",
+            LastName = "Doe",
+            Industry = "Software",
+            CurrentPosition = "Software Engineer",
+            Company = "Tech Corp",
+            Major = "Computer Science",
+            Minor = "Mathematics",
+            BusinessCountry = "USA",
+            BusinessState = "California",
+            BusinessCity = "San Francisco",
+            ClassYear = "2022",
+            Gender = "Male",
+            ProfilePicturePath = null
+        },
+        new User
+        {
+            UserId = "2",
+            FirstName = "Jane",
+            LastName = "Smith",
+            Industry = "Finance",
+            CurrentPosition = "Financial Analyst",
+            Company = "Finance Corp",
+            Major = "Finance",
+            Minor = "Economics",
+            BusinessCountry = "USA",
+            BusinessState = "New York",
+            BusinessCity = "New York City",
+            ClassYear = "2021",
+            Gender = "Female",
+            ProfilePicturePath = null
+        },
+        new User
+        {
+            UserId = "3",
+            FirstName = "Bob",
+            LastName = "Johnson",
+            Industry = "Marketing",
+            CurrentPosition = "Marketing Manager",
+            Company = "Marketing Corp",
+            Major = "Marketing",
+            Minor = "Business Administration",
+            BusinessCountry = "USA",
+            BusinessState = "Illinois",
+            BusinessCity = "Chicago",
+            ClassYear = "2020",
+            Gender = "Male",
+            ProfilePicturePath = null
+        }
+    };
+
     IEnumerable<User> users1;
     IEnumerable<User> users2;
 
