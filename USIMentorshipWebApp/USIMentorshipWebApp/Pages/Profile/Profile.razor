@@ -3,24 +3,44 @@
 @inject NavigationManager NavigationManager
 <PageTitle>Profile - USI Mentorship Program</PageTitle>
 
-<h1>Profile</h1>
-<div class="row">
-    <center><h2>John Smith</h2></center>
-</div>
-<div class="row px-3">
-    <RadzenRow>
-        <div class="col-2">
-            <div class="row; align-content-center">
+@*This is for layout of page*@     
+<head>
+    <style>
+        .container {
+            display: flex; /* This will enable flexbox */
+        }
+
+        .fixed-column {
+            width: 190px; /* This column will always be 190px wide */
+        }
+
+        .flex-column {
+            display: flex; /* This will enable flexbox for the flex-column */
+            flex-wrap: wrap; /* This will allow the items to wrap onto the next line if there isn't enough space */
+            flex-grow: 1; /* This will make the column take up the remaining space */
+            min-width: 200px; /* This will ensure the column is at least 200px wide */
+        }
+
+        .item-box {
+            width: 200px;
+            height: 200px;
+            margin: 10px; /* This will add some space around the boxes */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="fixed-column; justify-content-center">
+            <center><h2>John Smith</h2></center>
             <RadzenImage Path="images/blank-profile-1.png" width="180" height="180" />
             <RadzenUpload ChooseText="Change Profile Picture" Style="width:180px; text-align:center;"></RadzenUpload>
-            </div>
         </div>
-        <div class="col-1"></div>
-        <div class="col-7">
-            <ProfileInfo/>
+        <div class="flex-column">
+            <ProfileInfo />
         </div>
-    </RadzenRow>
-</div>
+    </div>
+</body>
 <center><RadzenButton Click=@SignOut Text="Sign Out" ButtonStyle="ButtonStyle.Danger" /></center>
 
 
