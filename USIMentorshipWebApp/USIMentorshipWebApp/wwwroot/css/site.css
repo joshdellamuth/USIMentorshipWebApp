@@ -30,10 +30,22 @@ html, body {
     margin: .8rem 0rem 0rem 0rem;
 }
 
-.column {
+.our-column {
     display: flex;
     flex-direction: column;
     width: auto;
+    flex-wrap: wrap;
+}
+
+.our-row {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    flex-wrap: wrap;
+}
+
+.our-container {
+    display: flex;
 }
 
 /* DEFAULT SITE.CSS CODE STARTS HERE */
