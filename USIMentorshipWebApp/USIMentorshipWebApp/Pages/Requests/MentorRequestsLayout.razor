@@ -1,0 +1,98 @@
+﻿@using USIMentorshipWebApp.Data;
+
+<body>
+    <h5 style="color:dodgerblue">Pending Requests</h5>
+    <div class="row default-margin-not-at-start-or-top">
+        <div class="column">
+            <img src="images/man1-profile-picture.png" width="120px" height="120px" alt="Sean Paul profile picture">
+        </div>
+        <div class="column" style="min-width:400px">
+            <b>Sean Paul</b>
+            <div>Major: Computer Science</div>
+            <div>Minor: Computer Information Systems</div>
+            <div>Class of 2025</div>
+        </div>
+        <div class="column" style="width:400px">
+            Interests or welcoming phrase, something a little more personal for mentors to get an idea of them.
+        </div>
+        <div class="column">
+            <RadzenButton class="default-margin-not-at-start-or-top" Click=@Accept Text="Accept" ButtonStyle="ButtonStyle.Secondary" />
+            <RadzenButton class="default-margin-not-at-start-or-top" Click=@Decline Text="Decline" ButtonStyle="ButtonStyle.Secondary" />
+        </div>
+    </div>
+    <div class="row default-margin-not-at-start-or-top">
+        <div class="column">
+            <img src="images/man1-profile-picture.png" width="120px" height="120px" alt="Sean Paul profile picture">
+        </div>
+        <div class="column" style="min-width:400px">
+            <b>Sean Paul</b>
+            <div>Major: Computer Science</div>
+            <div>Minor: Computer Information Systems</div>
+            <div>Class of 2025</div>
+        </div>
+        <div class="column" style="width:400px">
+            Interests or welcoming phrase, something a little more personal for mentors to get an idea of them.
+        </div>
+        <div class="column">
+            <RadzenButton class="default-margin-not-at-start-or-top" Click=@Accept Text="Accept" ButtonStyle="ButtonStyle.Secondary" />
+            <RadzenButton class="default-margin-not-at-start-or-top" Click=@Decline Text="Decline" ButtonStyle="ButtonStyle.Secondary" />
+        </div>
+    </div>
+</body>
+
+<body>
+    <h5 style="color:forestgreen">Approved Requests</h5>
+    <div class="row default-margin-not-at-start-or-top">
+        <div class="column">
+            <img src="images/man1-profile-picture.png" width="120px" height="120px" alt="Sean Paul profile picture">
+        </div>
+        <div class="column" style="min-width:400px">
+            <b>Sean Paul</b>
+            <div>Major: Computer Science</div>
+            <div>Minor: Computer Information Systems</div>
+            <div>Class of 2025</div>
+        </div>
+        <div class="column" style="width:400px">
+            Interests or welcoming phrase, something a little more personal for mentors to get an idea of them.
+        </div>
+    </div>
+</body>
+
+<body>
+    <h5 style="color:grey">Denied Requests</h5>
+    <div class="row default-margin-not-at-start-or-top">
+        <div class="column">
+            <img src="images/man1-profile-picture.png" width="120px" height="120px" alt="Sean Paul profile picture">
+        </div>
+        <div class="column" style="min-width:400px">
+            <b>Sean Paul</b>
+            <div>Major: Computer Science</div>
+            <div>Minor: Computer Information Systems</div>
+            <div>Class of 2025</div>
+        </div>
+        <div class="column" style="width:400px">
+            Interests or welcoming phrase, something a little more personal for mentors to get an idea of them.
+        </div>
+    </div>
+</body>
+
+@*Below is a mock of how each entry may be implemented/filled with each individual's information*@
+@* <div class="row default-margin-not-at-start-or-top">
+    <div class="column">
+        <img src="profileImage" width="120px" height="120px">
+    </div>
+    <div class="column" style="min-width:400px">
+        <b>name</b>
+        <div>Field: "field"</div>
+        <div>Current Position: "currentPosition"</div>
+        <div>Previous Major(s): "previousMajor"</div>
+    </div>
+    <div class="column" style="width:400px">
+        About: "about"
+    </div>
+</div> *@
+
+@code {
+    void Accept(){}
+    void Decline(){}
+}
