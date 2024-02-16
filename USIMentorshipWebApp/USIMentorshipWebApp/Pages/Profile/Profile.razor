@@ -34,7 +34,7 @@
         <div class="fixed-column; justify-content-center">
             <center><h2>John Smith</h2></center>
             <RadzenImage Path="images/blank-profile-1.png" width="180" height="180" />
-            <RadzenUpload ChooseText="Change Profile Picture" Style="width:180px; text-align:center;"></RadzenUpload>
+            <RadzenUpload Url="upload/single" ChooseText="Change Profile Picture" Style="width:180px; text-align:center;" Accept="image/*"></RadzenUpload>
         </div>
         <div class="flex-column">
             <ProfileInfo />
@@ -43,16 +43,13 @@
 </body>
 <center><RadzenButton Click=@SignOut Text="Sign Out" ButtonStyle="ButtonStyle.Danger" /></center>
 
-
-
 @code {
+    RadzenUpload radzenUpload;
+
+
+    
     void SignOut(MouseEventArgs args)
     {
         NavigationManager.NavigateTo("/");
     }
-}
-
-
-@code {
-    
 }
