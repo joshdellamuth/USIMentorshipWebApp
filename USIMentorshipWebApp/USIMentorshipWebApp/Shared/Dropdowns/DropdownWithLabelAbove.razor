@@ -1,0 +1,16 @@
+﻿<div class="column">
+    <label>@Label</label>
+    <RadzenDropDown @bind-Value=@SelectedValue class="default-margin-not-at-start-or-top" Data=@DropdownData Style="max-width: 220px;" AllowClear=true />
+</div>
+
+@code {
+    [Parameter]
+    public string SelectedValue { get; set; }
+
+    [Parameter]
+    public List<string> DropdownData { get; set; }
+
+    [Parameter]
+    public string Label { get; set; }
+
+}

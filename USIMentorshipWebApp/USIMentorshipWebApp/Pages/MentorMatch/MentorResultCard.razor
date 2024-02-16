@@ -1,0 +1,128 @@
+﻿@* 
+    1. On left, show image 
+    2. Show profile picture, Name, Bio and buttons
+    3. Make responsive 
+    4. Hard code for now 
+*@
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+
+@* In this component, eventually, we will need to pull in the data to render 
+    this component a certain amount of times. To do this, we would have
+    to run the query to get the Mentors first, then from those results, 
+    loop through that list and for each mentor object, render the element
+    pulling from each of its properties. 
+*@
+
+@*
+    Make sure to add css to where display is none on the mobile mockup for
+    the details. The user can then click the mentor to see more details. 
+    Maybe add a search button to this page so the database is queried 
+    less? 
+*@
+
+<div class="row default-margin-not-at-start-or-top">
+    <div class="column">
+        <span>
+            <img src="images/man1-profile-picture.png" width="120px" height="120px" alt="Sean Paul profile picture">
+        </span>
+    </div>
+    
+    <div class="column">
+        <b>Sean Paul</b>
+        <div>Computer Science</div>
+        <div>Class of 2021</div>
+    </div>
+
+    <div class="column">
+        Bio: Lorem ipsum dolor sit amet.
+    </div>
+
+    <div class="column" style="max-width:150px;">
+        <RadzenButton class="default-margin-not-at-start-or-top" Click=@(args => DialogService.Confirm("This is where mentor details would show", "Sean Paul", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" })) Text="Request Mentorship" ButtonStyle="ButtonStyle.Secondary" />
+        <RadzenButton class="default-margin-not-at-start-or-top" Click=@GoToThatMentorsChat Text="Send Chat" ButtonStyle="ButtonStyle.Secondary" />
+    </div>
+</div>
+
+@* Manual Profile Defintions DELETE LATER *@
+<div class="row default-margin-not-at-start-or-top">
+    <div class="column">
+        <span>
+            <img src="images/man2-profile-picture.png" width="120px" height="120px" alt="Sean Paul profile picture">
+        </span>
+    </div>
+
+    <div class="column">
+        <b>Sean Paul</b>
+        <div>Computer Science</div>
+        <div>Class of 2021</div>
+    </div>
+
+    <div class="column">
+        Bio: Lorem ipsum dolor sit amet.
+    </div>
+
+    <div class="column" style="max-width:150px;">
+        <RadzenButton class="default-margin-not-at-start-or-top" Click=@(args => DialogService.Confirm("This is where mentor details would show", "Sean Paul", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" })) Text="Request Mentorship" ButtonStyle="ButtonStyle.Secondary" />
+        <RadzenButton class="default-margin-not-at-start-or-top" Click=@GoToThatMentorsChat Text="Send Chat" ButtonStyle="ButtonStyle.Secondary" />
+    </div>
+</div>
+
+<div class="row default-margin-not-at-start-or-top">
+    <div class="column">
+        <span>
+            <img src="images/woman1-profile-picture.png" width="120px" height="120px" alt="Sean Paul profile picture">
+        </span>
+    </div>
+
+    <div class="column">
+        <b>Sean Paul</b>
+        <div>Computer Science</div>
+        <div>Class of 2021</div>
+    </div>
+
+    <div class="column">
+        Bio: Lorem ipsum dolor sit amet.
+    </div>
+
+    <div class="column" style="max-width:150px;">
+        <RadzenButton class="default-margin-not-at-start-or-top" Click=@(args => DialogService.Confirm("This is where mentor details would show", "Sean Paul", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" })) Text="Request Mentorship" ButtonStyle="ButtonStyle.Secondary" />
+        <RadzenButton class="default-margin-not-at-start-or-top" Click=@GoToThatMentorsChat Text="Send Chat" ButtonStyle="ButtonStyle.Secondary" />
+    </div>
+</div>
+
+<div class="row default-margin-not-at-start-or-top">
+    <div class="column">
+        <span>
+            <img src="images/woman1-profile-picture.png" width="120px" height="120px" alt="Sean Paul profile picture">
+        </span>
+    </div>
+
+    <div class="column">
+        <b>Sean Paul</b>
+        <div>Computer Science</div>
+        <div>Class of 2021</div>
+    </div>
+
+    <div class="column">
+        Bio: Lorem ipsum dolor sit amet.
+    </div>
+
+    <div class="column" style="max-width:150px;">
+        <RadzenButton class="default-margin-not-at-start-or-top" Click=@(args => DialogService.Confirm("This is where mentor details would show", "Sean Paul", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" })) Text="Request Mentorship" ButtonStyle="ButtonStyle.Secondary" />
+        <RadzenButton class="default-margin-not-at-start-or-top" Click=@GoToThatMentorsChat Text="Send Chat" ButtonStyle="ButtonStyle.Secondary" />
+    </div>
+</div>
+@* Manual Profile Definitions end here *@
+
+@code {
+    void GoToThatMentorsChat(MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo("/chat");
+    }
+
+    void RequestMembershipDetails(MouseEventArgs args)
+    {
+                
+    }
+}
