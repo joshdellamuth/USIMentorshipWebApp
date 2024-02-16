@@ -1,0 +1,18 @@
+﻿@page "/requests"
+@layout MainLayout
+@inject NavigationManager NavigationManager
+<PageTitle>Requests - USI Mentorship Program</PageTitle>
+<h1><b>Both requests pages are shown here. First is mentee's, then mentor's. 
+    My idea is for this page to have a conditional and display either one
+    depending on what the user is signed in as.
+</b></h1>
+
+<h1>Requests</h1>
+<h6>View your approved, pending, and denied requests</h6>
+<MenteeRequestsLayout/>
+ <MentorRequestsLayout/>
+
+
+@code {
+
+}
