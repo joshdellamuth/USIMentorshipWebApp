@@ -1,6 +1,14 @@
 ﻿@* This is the mentor match page! *@
 @page "/mentor-match"
 @layout MainLayout
+@using USIMentorshipWebApp.Data
+
+@*
+    Make sure to add css to where display is none on the mobile mockup for
+    the details. The user can then click the mentor to see more details.
+    Maybe add a search button to this page so the database is queried
+    less?
+*@
 
 <PageTitle>Mentor Match - USI Mentorship Program</PageTitle>
 
@@ -9,8 +17,31 @@
 
 <MentorMatchSearchFields/>
 
-<MentorResultCard/>
+<div class="row" style="justify-content:center;">
+    <MentorResultCard Mentor=@userExample />
+    <MentorResultCard Mentor=@userExample />
+    <MentorResultCard Mentor=@userExample />
+    <MentorResultCard Mentor=@userExample />
+    <MentorResultCard Mentor=@userExample />
+    <MentorResultCard Mentor=@userExample />
+</div>
+
 
 @code {
-    
+    User userExample = new User
+        {
+            UserId = "U123",
+            FirstName = "John",
+            LastName = "Doe",
+            Industry = "Software",
+            CurrentPosition = "Software Developer",
+            Company = "Tech Corp",
+            Major = "Computer Science",
+            Minor = "Mathematics",
+            BusinessCountry = "USA",
+            BusinessState = "California",
+            BusinessCity = "San Francisco",
+            ClassYear = "2022",
+            Gender = "Male"
+        };
 }
