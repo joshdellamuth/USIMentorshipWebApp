@@ -7,6 +7,7 @@
 @inject NavigationManager NavigationManager
 @inject DialogService DialogService
 @using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Shared.FullProfileInfo;
 
 @* In this component, eventually, we will need to pull in the data to render 
     this component a certain amount of times. To do this, we would have
@@ -50,7 +51,7 @@
         </RadzenStack>
     </RadzenStack>
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="10">
-        <RadzenButton Variant="Variant.Outlined" Style="font-size:12px" Text="Full Profile" />
+        <FullProfileButton/>
         <RadzenButton Variant="Variant.Outlined" Style="font-size:12px" Text="Request Mentorship" />
         <RadzenButton Variant="Variant.Outlined" Style="font-size:12px" Text="Send Chat" Click="GoToThatMentorsChat"/>
     </RadzenStack>
@@ -58,7 +59,9 @@
 
 
 @code {
-    [Parameter]
+    // CascadingParameter attribute maps it to the parameter from the CascadingParameter in MentorMatch (does this by type)
+    [CascadingParameter]
+    //must have this property for the cascading dropdown 
     public User Mentor { get; set; }
 
     void GoToThatMentorsChat(MouseEventArgs args)

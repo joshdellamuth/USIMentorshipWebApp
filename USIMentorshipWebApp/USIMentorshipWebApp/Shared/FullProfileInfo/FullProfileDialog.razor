@@ -1,0 +1,12 @@
+﻿@using USIMentorshipWebApp.Data;
+
+<h3>FullProfileDialog</h3>
+<h3>FullProfileDialog</h3>
+<h3>@Mentor.FirstName</h3>
+<h3>@Mentor.LastName</h3>
+
+@code {
+    [Parameter]
+    //must have this property for the cascading dropdown
+    public User Mentor { get; set; }
+}

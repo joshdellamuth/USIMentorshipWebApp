@@ -18,12 +18,16 @@
 <MentorMatchSearchFields/>
 
 <div class="row" style="justify-content:center;">
+    @* CascadingValue allows us to pass down the userExample variable to next component to use it there *@
+    <CascadingValue Value="@userExample">
+        <MentorResultCard/>
+    </CascadingValue>
+@*     <MentorResultCard Mentor=@userExample />
     <MentorResultCard Mentor=@userExample />
     <MentorResultCard Mentor=@userExample />
     <MentorResultCard Mentor=@userExample />
     <MentorResultCard Mentor=@userExample />
-    <MentorResultCard Mentor=@userExample />
-    <MentorResultCard Mentor=@userExample />
+    <MentorResultCard Mentor=@userExample /> *@
 </div>
 
 
