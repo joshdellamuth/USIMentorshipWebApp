@@ -1,11 +1,47 @@
-﻿@page "/chat"
+﻿@page "/Chat"
 @layout MainLayout
-<PageTitle>Chat - USI Mentorship Program</PageTitle>
+<PageTitle>Chat</PageTitle>
 
-<h1>Chat</h1>
+<div class="chat-container">
+    <div class="sidebar">
+        <!-- Accounts list -->
+        <div class="account-heading">Chat</div>
+        <div class="account-subheading">
+            Get Chatting with your Mentors Below
+        </div>
+        <div class="account">
+            <img src="" alt="Profile Picture 1" class="profile-picture" />
+            Account 1
+        </div>
+        <div class="account">
+            <img src="" alt="Profile Picture 2" class="profile-picture" />
+            Account 2
+        </div>
+        <div class="account">
+            <img src="" alt="Profile Picture 3" class="profile-picture" />
+            Account 3
+        </div>
+        <!-- Add more accounts here -->
+    </div>
 
-<h1> testing </h1>
+    <div class="chat">
+        <!-- Messages -->
+        <div class="message">Message 1</div>
+        <div class="message2">Message 2</div>
+        <!-- Add more messages here -->
+        <div class="message-input">
+            <input type="text" placeholder="Type your message..." />
+            <button>Send</button>
+        </div>
+    </div>
+</div>
 
 @code {
-    
+    bool sidebar1Expanded = true;
+
+ 
+
+
+
 }
+
