@@ -1,0 +1,149 @@
+﻿/* Resetting some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    height: 100%;
+}
+
+/* Navbar styles */
+.navbar {
+    height: 10vh; /* 10% of the viewport height */
+    background-color: #2c3e50;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Container for sidebar and chat */
+.chat-container {
+    display: flex;
+    height: 90vh; /* 90% of the viewport height */
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 20%; /* 20% of the container width */
+    background-color: #fff;
+    padding: 20px;
+    overflow-y: auto; /* Enable scrolling if content exceeds sidebar height */
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+/* Accound headings */
+.account-heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.account-subheading {
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+/* Account styles */
+.account {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #2c3e50;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex; /* Display as flex container */
+    align-items: center; /* Center items vertically */
+}
+
+    .account img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+        background-image: url("https://th.bing.com/th/id/R.782adc2b6062ab00461359da5b02b753?rik=Y%2fJZM98TPsfXxA&riu=http%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fProfile-PNG-File.png&ehk=nJ0Yls4aiMdSvREO5hB2GU7Hc3cL04UQeojwLhvL8Gk%3d&risl=&pid=ImgRaw&r=0"); /* Set default image */
+        background-size: cover; /* Ensure the image covers the entire space */
+    }
+
+    .account:hover {
+        background-color: #2c3e50;
+    }
+
+    .account:last-child {
+        border-bottom: none;
+    }
+
+/* Chat styles */
+.chat {
+    flex: 1; /* Occupy remaining width */
+    padding: 20px;
+    background-color: #ecf0f1;
+    overflow-y: auto; /* Enable scrolling if content exceeds chat height */
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.message {
+    margin-top: 90%;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.message2 {
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.message-input {
+    margin-top: auto; /* Push to the bottom */
+    padding: 20px; /* Add padding for spacing */
+    display: flex;
+    align-items: center; /* Align items horizontally */
+    justify-content: end;
+}
+
+    .message-input input[type="text"] {
+        flex: 1; /* Occupy remaining space */
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 20px;
+        outline: none;
+        margin-right: 10px;
+        background-color: #f5f5f5;
+        font-size: 16px;
+        color: #333;
+        transition: border-color 0.3s;
+    }
+
+        .message-input input[type="text"]::placeholder {
+            color: #999;
+        }
+
+        .message-input input[type="text"]:focus {
+            border-color: #3498db;
+        }
+
+    .message-input button {
+        padding: 10px 20px;
+        background-color: #3498db;
+        border: none;
+        border-radius: 20px;
+        color: #fff;
+        cursor: pointer;
+        outline: none;
+        transition: background-color 0.3s;
+    }
+
+        .message-input button:hover {
+            background-color: #2980b9;
+        }
