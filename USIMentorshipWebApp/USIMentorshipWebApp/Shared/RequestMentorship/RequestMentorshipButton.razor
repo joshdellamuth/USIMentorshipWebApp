@@ -1,0 +1,12 @@
+﻿@using USIMentorshipWebApp.Data
+@inject DialogService DialogService
+
+
+
+@code {
+    [CascadingParameter]
+    //must have this property for the cascading dropdown
+    public User Mentor { get; set; }
+
+    
+}
