@@ -10,9 +10,9 @@
 
     public async Task ShowFullProfile()
     {
-        await DialogService.OpenAsync<FullProfileDialog>($"Name {Mentor.FirstName} {Mentor.LastName}",
+        await DialogService.OpenAsync<FullProfileDialog>($"Mentor {Mentor.FirstName} {Mentor.LastName}",
                new Dictionary<string, object>() { { "Mentor", Mentor } },
                // can configure the dropdown to be resizable and dragable (commented out)
-               new DialogOptions() { Width = "700px", Height = "512px", /* Resizable = true, Draggable = true */ });
+               new DialogOptions() { Width = "700px", Height = "550px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
     }
 }
