@@ -1,0 +1,22 @@
+﻿@typeparam T
+
+<div class="our-column mb-2">
+    <label>@Label</label>
+    <RadzenAutoComplete @bind-Value=@SelectedValue Data=@AutoCompleteData TextProperty=@DisplayPropertyName Style="max-width:200px;" />
+</div>
+
+@code {
+    [Parameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public string SelectedValue { get; set; }
+
+    [Parameter]
+    // kept generic to accomodate for objects or just plan strings
+    public List<T> AutoCompleteData { get; set; }
+
+    [Parameter]
+    // used to specify the property of the data object that will be used as the display text in the autocomplete list
+    public string? DisplayPropertyName { get; set; }
+}

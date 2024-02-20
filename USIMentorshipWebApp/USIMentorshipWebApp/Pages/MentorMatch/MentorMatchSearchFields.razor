@@ -5,16 +5,22 @@
 
 <br />
 <div class="row">
-    <DropdownWithLabelAbove DropdownData="@industriesList" SelectedValue="@industrySelected" Label="Industry:" />
-    <DropdownWithLabelAbove DropdownData="@currentPositionsList" SelectedValue="@currentPositionSelected" Label="Current Position:" />
+    <MultiSelectDropdownWithLabelAbove DropdownData="@industriesList" SelectedValues="@industriesSelected" Label="Industry:" />
+    <MultiSelectDropdownWithLabelAbove DropdownData="@currentPositionsList" SelectedValues="@currentPositionSelected" Label="Current Position(s):" />
+    @* Companies is an example of selecting from a list of objects *@
     <MultiSelectDropdownWithLabelAbove Label="Companies:" SelectedValues=@companiesSelected DropdownData=@companies ValueProperty="ExampleClassId" DisplayedProperty="ExampleClassName" />
-    <DropdownWithLabelAbove DropdownData="@majorsList" SelectedValue="@majorSelected" Label="Major(s):" />
-    <DropdownWithLabelAbove DropdownData="@minorsList" SelectedValue="@minorSelected" Label="Minor(s):" />
-    <DropdownWithLabelAbove DropdownData="@businessCountriesList" SelectedValue="@businessCountrySelected" Label="Business Country:" />
-    <DropdownWithLabelAbove DropdownData="@classYearsList" SelectedValue="@classYearSelected" Label="Class Year:" />
-    <DropdownWithLabelAbove DropdownData="@genderPreferencesList" SelectedValue="@genderPreferenceSelected" Label="Gender Preference:" />
-    <DropdownWithLabelAbove DropdownData="@businessCitiesList" SelectedValue="@businessCitySelected" Label="Business City:" />
-    <DropdownWithLabelAbove DropdownData="@businessStatesList" SelectedValue="@businessStateSelected" Label="Business State:" />
+    <MultiSelectDropdownWithLabelAbove DropdownData="@majorsList" SelectedValues="@majorSelected" Label="Ex-Major(s):" />
+    
+    @* Removed Minor selection per Maggie request *@
+    @* <MultiSelectDropdownWithLabelAbove DropdownData="@minorsList" SelectedValues="@minorSelected" Label="Minor(s):" /> *@
+    <MultiSelectDropdownWithLabelAbove DropdownData="@businessCountriesList" SelectedValues="@businessCountriesSelected" Label="Business Countries:" />
+    <MultiSelectDropdownWithLabelAbove DropdownData="@ageRangeList" SelectedValues=@ageRangesSelected Label="Age Preference(s):" />
+    <MultiSelectDropdownWithLabelAbove DropdownData="@genderPreferencesList" SelectedValues="@genderPreferencesSelected" Label="Gender Preference:" />
+    <MultiSelectDropdownWithLabelAbove DropdownData="@businessCitiesList" SelectedValues="@businessCitiesSelected" Label="Business City:" />
+    <MultiSelectDropdownWithLabelAbove DropdownData="@businessStatesList" SelectedValues="@businessStatesSelected" Label="Business State:" />
+
+    @* AutoComplete for Searching for a Mentor by Name *@
+    <AutoCompleteWithLabelAbove Label="Search by Mentor Name:" SelectedValue=@SelectedMentorName AutoCompleteData=@mentors DisplayPropertyName="FirstName"/>
 </div>
 
 
@@ -23,25 +29,31 @@
     //NOTE: MAY HAVE TO ADD VALUE PROPERTY AND TEXT PORPERTY TO NONMULTISELECT DROPDOWNS SO WE CAN GET THE IDs OF THE OBJECTS
 
     # region Industry
-    public string? industrySelected;
+    public List<string>? industriesSelected;
     public List<string> industriesList = new List<string> { "IT", "Fashion", "Entertainment", "Retail" };
+    #endregion
+
+    #region Current Position
+    public List<string>? currentPositionSelected;
+    public List<string> currentPositionsList = new List<string> { "Software Developer", "Surgeon", "Manager", "Auctioneer" };
     #endregion
 
     //HAS A DESCRIPTION OF WHAT WE'LL NEED TO HAVE IN FUTUTRE
     # region Major
     // whatever is the current selection will be stored here
-    public string? majorSelected;
+    public List<string>? majorSelected;
 
     // list of majors to populate the dropdown
     // in the future, we will set majors list to be equal to a method called GetMajors()
     // or something that will pull from the database
     public List<string> majorsList = new List<string> { "Computer Science", "Business", "Electrical Engineering", "Marketing" };
-    # endregion Variables
-
-    #region Minor
-    public string? minorSelected;
-    public List<string> minorsList = new List<string> { "Computer Science", "Business", "Electrical Engineering", "Marketing" };
     #endregion
+
+    // Removed Minor selection per Maggie request
+    // #region Minor
+    // public string? minorSelected;
+    // public List<string> minorsList = new List<string> { "Computer Science", "Business", "Electrical Engineering", "Marketing" };
+    // #endregion
 
     //THIS ONE USES A MULTISELECT COMPONENT
     # region Companies
@@ -56,34 +68,36 @@
     };
     # endregion
 
-    #region Current Position
-    public string? currentPositionSelected;
-    public List<string> currentPositionsList = new List<string> { "Software Developer", "Surgeon", "Manager", "Auctioneer" };
-    #endregion
-
-    #region Class Years
-    public string? classYearSelected;
-    public List<string> classYearsList = new List<string> { "2000", "2001", "2002", "2003" };
+    #region Age Range
+    public List<string> ageRangesSelected;
+    public List<string> ageRangeList = new List<string> { "20-30", "30-40", "50-60", "60-70", "70-80", "80+" };
     #endregion
 
     #region Business City
-    public string? businessCitySelected;
+    public List<string>? businessCitiesSelected;
     public List<string> businessCitiesList = new List<string> { "Evansville", "Henderson", "Louisville", "Owensboro" };
     #endregion
 
     #region Business State
-    public string? businessStateSelected;
+    public List<string>? businessStatesSelected;
     public List<string> businessStatesList = new List<string> { "Indiana", "Illinois", "Kentucky", "Ohio" };
     #endregion
 
     #region Business Country
-    public string? businessCountrySelected;
+    public List<string>? businessCountriesSelected;
     public List<string> businessCountriesList = new List<string> { "USA", "Mexico", "Canada", "India" };
     #endregion
 
     #region Gender Preference
-    public string? genderPreferenceSelected;
+    public List<string>? genderPreferencesSelected;
     public List<string> genderPreferencesList = new List<string> { "Male", "Female" };
+    #endregion
+
+    #region Search by Name Variables
+    //define the value of the data that is selected
+    public string SelectedMentorName;
+    public List<User> mentors = UserData.users;
+
     #endregion
 
 }
