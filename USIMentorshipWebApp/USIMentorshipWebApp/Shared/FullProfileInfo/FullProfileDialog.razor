@@ -1,4 +1,5 @@
 ﻿@using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Shared.RequestMentorship
 @inject NavigationManager NavigationManager
 
 <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
@@ -52,13 +53,15 @@
 
 @* BOTTOM BUTTONS *@
 <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap="6" class="rz-p-2">
-    <RadzenButton Variant="Variant.Outlined" Style="font-size:14px" Text="Request Mentorship" />
-    <RadzenButton Variant="Variant.Outlined" Style="font-size:14px" Text="Send Chat" Click="GoToThatMentorsChat" />
+    <CascadingValue Value="@Mentor">
+        <RequestMentorshipButton />
+    </CascadingValue>
+    <RadzenButton Variant="Variant.Outlined" Style="font-size:12px" Text="Send Chat" Click="GoToThatMentorsChat" />
 </RadzenStack>
 
 @code {
-    [Parameter]
     //must have this property for the cascading dropdown
+    [Parameter]
     public User Mentor { get; set; }
 
     void GoToThatMentorsChat(MouseEventArgs args)
