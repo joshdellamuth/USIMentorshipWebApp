@@ -1,12 +1,12 @@
 ﻿@using USIMentorshipWebApp.Data
 @using USIMentorshipWebApp.Shared.Dropdowns
-@inject DialogService DialogService
+@inject Radzen.DialogService radzenDialogService
 
 @* Align Items centered the elements in the middle of the popup *@
-<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center">
+<RadzenStack Orientation="Radzen.Orientation.Vertical" AlignItems="Radzen.AlignItems.Center">
     <RadzenImage Path=@Mentor.ProfilePicturePath Style="width: 180px; height: 180px; border-radius: 50%;" />
     <DropdownWithLabelAbove SelectedValue=@selectedMentorshipLength DropdownData=@mentorshipLengths Label="Mentorship Length:"/>
-    <RadzenButton Click="@((args) => DialogService.Close(true))" Variant="Variant.Outlined" Text="Send Request" Style="width: 120px" />
+    <RadzenButton Click="@((args) => radzenDialogService.Close(true))" Variant="Radzen.Variant.Outlined" Text="Send Request" Style="width: 120px" />
 </RadzenStack>
 
 @code {

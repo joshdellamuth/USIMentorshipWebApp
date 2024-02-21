@@ -16,6 +16,11 @@
     @* this Radzen stylesheet (below) can be changed and includes multiple different 
         themes for us to use throughout the application *@
     <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css">
+
+    @* MudBlazor Styles *@
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
 <body>
@@ -34,5 +39,9 @@
     @* Javascript for Radzen components *@
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
     <script src="_framework/blazor.server.js"></script>
+
+    @* Javascript for MudBlazor Components *@
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+
 </body>
 </html>

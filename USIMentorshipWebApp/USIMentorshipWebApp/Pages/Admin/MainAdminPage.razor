@@ -9,15 +9,15 @@
     <Tabs>
         @* USERS TAB *@
         <RadzenTabsItem Text="Users">
-            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="10px" class="mt-2 mb-4">
+            <RadzenStack Orientation="Radzen.Orientation.Horizontal" AlignItems="Radzen.AlignItems.Center" Gap="10px" class="mt-2 mb-4">
                 @* ADD NEW USER BUTTON *@
-                <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" Text="Add New User" Click="@InsertRow" Disabled="@(editMode == DataGridEditMode.Single && usersToInsert.Count() > 0)" />
+                <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" Text="Add New User" Click="@InsertRow" Disabled="@(editMode == Radzen.DataGridEditMode.Single && usersToInsert.Count() > 0)" />
                 
                 @* EDIT MODE BUTTON*@
                 <div style="white-space:nowrap; margin-left: 20px ">Edit Mode:</div>
                 <RadzenSelectBar @bind-Value="@editMode" TextProperty="Text" ValueProperty="Value" style="margin-right: 16px"
-                             Data="@(Enum.GetValues(typeof(DataGridEditMode)).Cast<DataGridEditMode>().Select(t => new { Text = $"{t}", Value = t }))" Size="ButtonSize.Small"
-                             Disabled="@(editMode == DataGridEditMode.Multiple && usersToInsert.Count() > 1)" />
+                             Data="@(Enum.GetValues(typeof(Radzen.DataGridEditMode)).Cast<Radzen.DataGridEditMode>().Select(t => new { Text = $"{t}", Value = t }))" Size="ButtonSize.Small"
+                             Disabled="@(editMode == Radzen.DataGridEditMode.Multiple && usersToInsert.Count() > 1)" />
             </RadzenStack>
 
             @* USER GRID DEFINED *@
@@ -127,7 +127,7 @@
     IEnumerable<User> users1;
     IEnumerable<User> users2;
 
-    DataGridEditMode editMode = DataGridEditMode.Single;
+    Radzen.DataGridEditMode editMode = Radzen.DataGridEditMode.Single;
 
     List<User> usersToInsert = new List<User>();
     List<User> usersToUpdate = new List<User>();
@@ -159,7 +159,7 @@
 
     async Task EditRow(User user)
     {
-        if (editMode == DataGridEditMode.Single && usersToInsert.Count() > 0)
+        if (editMode == Radzen.DataGridEditMode.Single && usersToInsert.Count() > 0)
         {
             Reset();
         }
@@ -217,7 +217,7 @@
 
     async Task InsertRow()
     {
-        if (editMode == DataGridEditMode.Single)
+        if (editMode == Radzen.DataGridEditMode.Single)
         {
             Reset();
         }

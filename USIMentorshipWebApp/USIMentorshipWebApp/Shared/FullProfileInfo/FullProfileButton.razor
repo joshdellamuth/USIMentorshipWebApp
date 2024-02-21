@@ -1,7 +1,7 @@
 ﻿@using USIMentorshipWebApp.Data
-@inject DialogService DialogService
+@inject Radzen.DialogService radzenDialogService
 
-<RadzenButton Variant="Variant.Outlined" Click=@ShowFullProfile Style="font-size:12px" Text="Full Profile" />
+<RadzenButton Variant="Radzen.Variant.Outlined" Click=@ShowFullProfile Style="font-size:12px" Text="Full Profile" />
 
 @code {
     [CascadingParameter]
@@ -10,9 +10,9 @@
 
     public async Task ShowFullProfile()
     {
-        await DialogService.OpenAsync<FullProfileDialog>($"Mentor {Mentor.FirstName} {Mentor.LastName}",
+        await radzenDialogService.OpenAsync<FullProfileDialog>($"Mentor {Mentor.FirstName} {Mentor.LastName}",
                new Dictionary<string, object>() { { "Mentor", Mentor } },
                // can configure the dropdown to be resizable and dragable (commented out)
-               new DialogOptions() { Width = "700px", Height = "550px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
+               new Radzen.DialogOptions() { Width = "700px", Height = "550px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
     }
 }

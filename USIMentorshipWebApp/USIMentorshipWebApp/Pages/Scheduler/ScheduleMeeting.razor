@@ -1,6 +1,6 @@
 ﻿@page "/schedule-meeting"
 @layout MainLayout
-@inject DialogService DialogService
+@inject Radzen.DialogService radzenDialogService
 @using USIMentorshipWebApp.Data
 
 <PageTitle>Schedule Meeting - USI Mentorship Program</PageTitle>
@@ -54,7 +54,7 @@
 
         if (args.View.Text != "Year")
         {
-            Appointment data = await DialogService.OpenAsync<AddAppointment>("Add Appointment",
+            Appointment data = await radzenDialogService.OpenAsync<AddAppointment>("Add Appointment",
                 new Dictionary<string, object> { { "Start", args.Start }, { "End", args.End } });
 
             if (data != null)
@@ -77,12 +77,12 @@
                 Text = args.Data.Text
             };
 
-        var data = await DialogService.OpenAsync<EditAppointment>("Edit Appointment", new Dictionary<string, object> { { "Appointment", copy } });
+        var data = await radzenDialogService.OpenAsync<EditAppointment>("Edit Appointment", new Dictionary<string, object> { { "Appointment", copy } });
 
         if (data != null)
         {
             // Update the appointment
-            args.Data.Start = data.Start;
+            args.Data.Start = data.Radzen.Start;
             args.Data.End = data.End;
             args.Data.Text = data.Text;
         }

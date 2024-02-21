@@ -5,7 +5,7 @@
     4. Hard code for now 
 *@
 @inject NavigationManager NavigationManager
-@inject DialogService DialogService
+@inject Radzen.DialogService radzenDialogService;
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Shared.FullProfileInfo;
 @using USIMentorshipWebApp.Shared.RequestMentorship;
@@ -22,9 +22,9 @@
 @* rz-mx-auto applies a margin to both the left and right of an element (mx stands for margin x) auto means the browser will select a suitable margin *@
 <RadzenCard Class="rz-p-3 default-margin" Style="max-width: 350px;">
     @* rz-p-2 applies padding to all sides of an element to radzen stack *@
-    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
+    <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
         @* PROFILE PICTURE AND BUSINESS LOCATION *@
-        <RadzenStack Orientation="Orientation.Vertical" Style="max-width:160px;">
+        <RadzenStack Orientation="Radzen.Orientation.Vertical" Style="max-width:160px;">
             <RadzenImage Path=@Mentor.ProfilePicturePath Style="width: 160px; height: 160px; border-radius: 50%;" />
             <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Ex-Major</RadzenText>
             <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Major</b></RadzenText>
@@ -51,10 +51,10 @@
             <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@(Mentor.BusinessCity + ", " + Mentor.BusinessState + ", " + Mentor.BusinessCountry)</b></RadzenText>
         </RadzenStack>
     </RadzenStack>
-    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="10">
+    <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="10">
         <FullProfileButton/>
         <RequestMentorshipButton/>
-        <RadzenButton Variant="Variant.Outlined" Style="font-size:12px" Text="Send Chat" Click="GoToThatMentorsChat"/>
+        <RadzenButton Variant="Radzen.Variant.Outlined" Style="font-size:12px" Text="Send Chat" Click="GoToThatMentorsChat"/>
     </RadzenStack>
 </RadzenCard>
 

@@ -1,7 +1,7 @@
 ﻿@using USIMentorshipWebApp.Data
-@inject DialogService DialogService
+@inject Radzen.DialogService radzenDialogService 
 
-<RadzenButton Variant="Variant.Outlined" Click=@ShowRequestMentorshipDialog Style="font-size:12px" Text="Request Mentorship" />
+<RadzenButton Variant="Radzen.Variant.Outlined" Click=@ShowRequestMentorshipDialog Style="font-size:12px" Text="Request Mentorship" />
 
 @code {
     [CascadingParameter]
@@ -10,9 +10,9 @@
 
     public async Task ShowRequestMentorshipDialog()
     {
-        await DialogService.OpenAsync<RequestMentorshipDialog>($"Send Mentorship Request to {Mentor.FirstName} {Mentor.LastName}?",
+        await radzenDialogService.OpenAsync<RequestMentorshipDialog>($"Send Mentorship Request to {Mentor.FirstName} {Mentor.LastName}?",
                new Dictionary<string, object>() { { "Mentor", Mentor } },
                // can configure the dropdown to be resizable and dragable (commented out)
-               new DialogOptions() { Width = "550px", Height = "450px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
+               new Radzen.DialogOptions() { Width = "550px", Height = "450px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
     }
 }

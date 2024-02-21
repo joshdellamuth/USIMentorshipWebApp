@@ -1,5 +1,5 @@
 ﻿@layout MainLayout
-@inject DialogService DialogService
+@inject Radzen.DialogService radzenDialogService;
 @using USIMentorshipWebApp.Data
 
 
@@ -36,7 +36,7 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col">
-            <RadzenButton ButtonType="ButtonType.Submit" Text="Save" />
+            <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Save" />
         </div>
     </div>
 </RadzenTemplateForm>
@@ -61,7 +61,7 @@
 
     void OnSubmit(Appointment model)
     {
-        DialogService.Close(model);
+        radzenDialogService.Close(model);
     }
 
 }
