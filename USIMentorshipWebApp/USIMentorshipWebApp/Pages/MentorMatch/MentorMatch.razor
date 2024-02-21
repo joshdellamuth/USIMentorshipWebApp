@@ -18,30 +18,18 @@
 <MentorMatchSearchFields/>
 
 <div class="row" style="justify-content:center;">
-    <MentorResultCard Mentor=@userExample />
-    <MentorResultCard Mentor=@userExample />
-    <MentorResultCard Mentor=@userExample />
-    <MentorResultCard Mentor=@userExample />
-    <MentorResultCard Mentor=@userExample />
-    <MentorResultCard Mentor=@userExample />
+    @* CascadingValue allows us to pass down the userExample variable to next component to use it there *@
+    @* *@
+    @foreach (User user in UserData.users)
+    {
+        <CascadingValue Value="@user">
+            <MentorResultCard />
+        </CascadingValue>
+    }
+
 </div>
 
 
 @code {
-    User userExample = new User
-        {
-            UserId = "U123",
-            FirstName = "John",
-            LastName = "Doe",
-            Industry = "Software",
-            CurrentPosition = "Software Developer",
-            Company = "Tech Corp",
-            Major = "Computer Science",
-            Minor = "Mathematics",
-            BusinessCountry = "USA",
-            BusinessState = "California",
-            BusinessCity = "San Francisco",
-            ClassYear = "2022",
-            Gender = "Male"
-        };
+    
 }

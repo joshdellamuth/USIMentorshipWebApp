@@ -7,6 +7,8 @@
 @inject NavigationManager NavigationManager
 @inject DialogService DialogService
 @using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Shared.FullProfileInfo;
+@using USIMentorshipWebApp.Shared.RequestMentorship;
 
 @* In this component, eventually, we will need to pull in the data to render 
     this component a certain amount of times. To do this, we would have
@@ -23,7 +25,7 @@
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
         @* PROFILE PICTURE AND BUSINESS LOCATION *@
         <RadzenStack Orientation="Orientation.Vertical" Style="max-width:160px;">
-            <RadzenImage Path="images/man1-profile-picture.png" Style="width: 160px; height: 160px; border-radius: 50%;" />
+            <RadzenImage Path=@Mentor.ProfilePicturePath Style="width: 160px; height: 160px; border-radius: 50%;" />
             <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Ex-Major</RadzenText>
             <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Major</b></RadzenText>
         </RadzenStack>
@@ -31,7 +33,7 @@
         <RadzenStack Gap="4">
             @* rz-display-flex puts the text in a flexible layout*@
             @* rz-mt-2 applies a margin of value 2 to the top of the text *@
-            @* rz-my-0 applies the vertical margin of 0 to the top and bottom margin (removes the margins on top and bottom) *@
+            @* rz-my-0 applies the vertical ma rgin of 0 to the top and bottom margin (removes the margins on top and bottom) *@
             @* NAME *@
             <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Mentor Name</RadzenText>
             <RadzenText TextStyle="TextStyle.Body1"><b>@(Mentor.FirstName + " " + Mentor.LastName)</b></RadzenText>
@@ -50,15 +52,17 @@
         </RadzenStack>
     </RadzenStack>
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="10">
-        <RadzenButton Variant="Variant.Outlined" Style="font-size:12px" Text="Full Profile" />
-        <RadzenButton Variant="Variant.Outlined" Style="font-size:12px" Text="Request Mentorship" />
+        <FullProfileButton/>
+        <RequestMentorshipButton/>
         <RadzenButton Variant="Variant.Outlined" Style="font-size:12px" Text="Send Chat" Click="GoToThatMentorsChat"/>
     </RadzenStack>
 </RadzenCard>
 
 
 @code {
-    [Parameter]
+    // CascadingParameter attribute maps it to the parameter from the CascadingParameter in MentorMatch (does this by type)
+    [CascadingParameter]
+    //must have this property for the cascading dropdown 
     public User Mentor { get; set; }
 
     void GoToThatMentorsChat(MouseEventArgs args)

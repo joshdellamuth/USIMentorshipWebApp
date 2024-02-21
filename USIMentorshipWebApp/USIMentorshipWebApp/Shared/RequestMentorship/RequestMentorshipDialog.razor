@@ -1,0 +1,21 @@
+﻿@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Shared.Dropdowns
+@inject DialogService DialogService
+
+@* Align Items centered the elements in the middle of the popup *@
+<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center">
+    <RadzenImage Path=@Mentor.ProfilePicturePath Style="width: 180px; height: 180px; border-radius: 50%;" />
+    <DropdownWithLabelAbove SelectedValue=@selectedMentorshipLength DropdownData=@mentorshipLengths Label="Mentorship Length:"/>
+    <RadzenButton Click="@((args) => DialogService.Close(true))" Variant="Variant.Outlined" Text="Send Request" Style="width: 120px" />
+</RadzenStack>
+
+@code {
+    //must have this property for the cascading dropdown
+    [Parameter]
+    public User Mentor { get; set; }
+
+    string selectedMentorshipLength;
+    List<string> mentorshipLengths = new List<string> { "1 semester", "2 semesters", "3 semesters", "4 semesters" };
+
+    //Eventually we need to make a method here that sends the request to the mentor when the SEND REQUEST button is clicked
+}
