@@ -77,7 +77,7 @@
         display: block;
     }
 
-    /* Shows hamburger icon when width is below 860px */
+    /* Shows hamburger icon when width is below 860px */ 
     .hamburger-icon {
         display: block;
         color: white;

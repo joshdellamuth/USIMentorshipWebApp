@@ -2,33 +2,43 @@
 @layout MainLayout
 <PageTitle>Chat</PageTitle>
 
-<div class="chat-container">
+<!--Wrapper that wraps everything-->
+<div class="wrapper">
+    <!--The sidebar menu container-->
     <div class="sidebar">
-        <!-- Accounts list -->
-        <div class="account-heading">Chat</div>
-        <div class="account-subheading">
-            Get Chatting with your Mentors Below
+        <div class="sidebar-heading-container">
+            <h1>Chat</h1>
+            <p>Get chatting with your mentors/Mentees below!</p>
+        </div>
+
+        <!--Accounts that are connected with each other-->
+        <div class="account">
+            <img src="" alt="" />
+            <p>Account 1</p>
         </div>
         <div class="account">
-            <img src="" alt="Profile Picture 1" class="profile-picture" />
-            Account 1
+            <img src="" alt="" />
+            <p>Account 1</p>
         </div>
         <div class="account">
-            <img src="" alt="Profile Picture 2" class="profile-picture" />
-            Account 2
+            <img src="" alt="" />
+            <p>Account 1</p>
         </div>
-        <div class="account">
-            <img src="" alt="Profile Picture 3" class="profile-picture" />
-            Account 3
-        </div>
-        <!-- Add more accounts here -->
     </div>
 
-    <div class="chat">
-        <!-- Messages -->
-        <div class="message">Message 1</div>
-        <div class="message2">Message 2</div>
-        <!-- Add more messages here -->
+    <!--Message section-->
+    <div class="message-wrapper">
+
+        <div @onclick="ToggleNavMenu">
+            <span class="oi oi-menu hamburger-menu"></span>
+        </div>
+
+
+        <div class="message-area">
+            <div class="message-recieved">Messages Recieved</div>
+            <div class="message-sent">Messages sent</div>
+        </div>
+
         <div class="message-input">
             <input type="text" placeholder="Type your message..." />
             <button>Send</button>
@@ -36,11 +46,44 @@
     </div>
 </div>
 
+@*The following are styles for the hamburger menu *@
+<div class="@NavMenuCssClass column default-margin">
+
+
+    <div @onclick="ToggleNavMenu">
+        <span class="oi oi-menu hamburger-menu small-menu"></span>
+    </div>
+
+
+    <div class="small-sidebar-heading-container">
+        <h1>Chat</h1>
+        <p>Get chatting with your mentors/Mentees below!</p>
+    </div>
+
+    <!--Accounts that are connected with each other-->
+    <div class="small-account">
+        <img src="" alt="" />
+        <p>Account 1</p>
+    </div>
+    <div class="small-account">
+        <img src="" alt="" />
+        <p>Account 1</p>
+    </div>
+    <div class="small-account">
+        <img src="" alt="" />
+        <p>Account 1</p>
+    </div>
+</div>
+
 @code {
-    bool sidebar1Expanded = true;
+    private bool IsCollapsed = true;
 
- 
+    private string? NavMenuCssClass => IsCollapsed ? "hamburger-collapsed" : "hamburger-expanded";
 
+    private void ToggleNavMenu()
+    {
+        IsCollapsed = !IsCollapsed;
+    }
 
 
 }

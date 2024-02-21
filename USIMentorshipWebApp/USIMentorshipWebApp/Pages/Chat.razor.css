@@ -1,5 +1,4 @@
-﻿/* Resetting some default styles */
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -10,40 +9,26 @@ html {
     height: 100%;
 }
 
-/* Navbar styles */
-.navbar {
-    height: 10vh; /* 10% of the viewport height */
-    background-color: #2c3e50;
-    color: #fff;
+.wrapper {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 90vh;
 }
 
-/* Container for sidebar and chat */
-.chat-container {
-    display: flex;
-    height: 90vh; /* 90% of the viewport height */
-}
+/*Sidebar styling*/
 
-/* Sidebar styles */
 .sidebar {
     width: 20%; /* 20% of the container width */
     background-color: #fff;
     padding: 20px;
-    overflow-y: auto; /* Enable scrolling if content exceeds sidebar height */
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
 }
 
 /* Accound headings */
-.account-heading {
+.sidebar-heading-container h1 {
     font-size: 1.5rem;
     font-weight: bold;
 }
 
-.account-subheading {
+.sidebar-heading-container p {
     font-size: 0.7rem;
     font-weight: bold;
     margin-bottom: 2rem;
@@ -77,32 +62,44 @@ html {
         border-bottom: none;
     }
 
-/* Chat styles */
-.chat {
-    flex: 1; /* Occupy remaining width */
-    padding: 20px;
-    background-color: #ecf0f1;
-    overflow-y: auto; /* Enable scrolling if content exceeds chat height */
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+/*message-wrapper styling*/
+
+.hamburger-menu {
+    display: none;
+}
+
+.message-wrapper {
+    height: 100%;
+    width: 80%;
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    border-left: #333 solid 1px;
 }
 
-.message {
-    margin-top: 90%;
-    margin-bottom: 20px;
+.message-area {
+    height: 90%;
     width: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 2rem;
+    padding: 30px;
 }
 
-.message2 {
-    margin-bottom: 20px;
+.message-recieved {
+    width: 75%;
+    text-align: start;
+}
+
+.message-sent {
     width: 100%;
     display: flex;
+    flex-direction: row-reverse;
     justify-content: end;
 }
+
+/*The input and send button area*/
 
 .message-input {
     margin-top: auto; /* Push to the bottom */
@@ -147,3 +144,66 @@ html {
         .message-input button:hover {
             background-color: #2980b9;
         }
+/*styling and logic for small screen*/
+
+.hamburger-expanded {
+    /* Never collapse the sidebar for wide screens */
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 65%;
+    height: 100%;
+    background-color: #CCCCCC; /* Semi-transparent background */
+    z-index: 9999; /* Ensure the overlay is on top */
+}
+
+.hamburger-collapsed {
+    /* Never collapse the sidebar for wide screens */
+    display: none;
+}
+
+.hamburger-menu {
+    display: none;
+}
+
+
+      
+
+@media (max-width:870px) {
+
+
+
+    /* Shows hamburger icon when width is below 860px */
+    .hamburger-menu {
+        display: block;
+        color: black;
+        font-size: 25px;
+    }
+
+    .small-menu {
+        width: 95%;
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 10px;
+    }
+
+
+        .hamburger-icon:hover {
+            cursor: pointer;
+        }
+
+    /* Do not show header items when width is below 860px*/
+    .sidebar {
+        display: none;
+    }
+
+    .header-items-container {
+        justify-content: flex-end;
+    }
+
+    .message-wrapper{
+        border: none;
+        width: 100%;
+    }
+}
+
