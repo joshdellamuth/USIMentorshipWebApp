@@ -1,6 +1,8 @@
 ﻿@page "/requests"
 @layout MainLayout
 @inject NavigationManager NavigationManager
+@using USIMentorshipWebApp.Data
+
 <PageTitle>Requests - USI Mentorship Program</PageTitle>
 <h1><b>Both requests pages are shown here. First is mentee's, then mentor's. 
     My idea is for this page to have a conditional and display either one
@@ -9,8 +11,14 @@
 
 <h1>Requests</h1>
 <h6>View your approved, pending, and denied requests</h6>
-<MenteeRequestsLayout/>
- <MentorRequestsLayout/>
+@foreach (User user in UserData.users)  @*Will need to create a field for mentee or mentor, as well as field for entering mentee/mentors to be displayed*@
+    {
+        
+        <CascadingValue Value="@user">
+        @*<MenteeRequestsLayout />*@
+            <MentorRequestsLayout />
+        </CascadingValue>
+    }
 
 
 @code {

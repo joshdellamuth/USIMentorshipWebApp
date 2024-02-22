@@ -1,6 +1,7 @@
 ﻿@page "/profile"
 @layout MainLayout
 @inject NavigationManager NavigationManager
+@using USIMentorshipWebApp.Data
 <PageTitle>Profile - USI Mentorship Program</PageTitle>
 
 @*This is for layout of page*@     
@@ -33,21 +34,35 @@
     <div class="container">
         <div class="fixed-column; justify-content-center">
             <center><h2>John Smith</h2></center>
-            <RadzenImage Path="images/blank-profile-1.png" width="180" height="180" />
+            @foreach (User user in UserData.users)
+            {
+                if (user.UserId == "U1")
+                {
+                    <CascadingValue Value="@user">
+            <RadzenImage Path="@user.ProfilePicturePath" width="180" height="180" />
+                    </CascadingValue>
+                }
+            }
             <RadzenUpload Url="upload/single" ChooseText="Change Profile Picture" Style="width:180px; text-align:center;" Accept="image/*"></RadzenUpload>
         </div>
         <div class="flex-column">
-            <ProfileInfo />
+            @foreach (User user in UserData.users)
+            {
+                if (user.UserId == "U1")
+                {
+                    <CascadingValue Value="@user">
+                        <ProfileInfo />
+                    </CascadingValue>
+                }
+            }
         </div>
     </div>
 </body>
-<center><RadzenButton Click=@SignOut Text="Sign Out" ButtonStyle="ButtonStyle.Danger" /></center>
+
 
 @code {
     RadzenUpload radzenUpload;
 
-
-    
     void SignOut(MouseEventArgs args)
     {
         NavigationManager.NavigateTo("/");

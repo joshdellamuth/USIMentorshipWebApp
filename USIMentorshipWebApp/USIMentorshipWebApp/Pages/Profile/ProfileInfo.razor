@@ -1,47 +1,51 @@
-﻿@using USIMentorshipWebApp.Data;
+﻿@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Shared.FullProfileInfo;
+@using USIMentorshipWebApp.Shared.RequestMentorship;
 
 <div class="container-fluid">
     <div class="row px-3">
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard Style="width:100">
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Major</RadzenText>
-                <RadzenTextBox class="w-100" />
+                <RadzenTextBox name="rztxtbxMajor" class="w-100" Value="@userProfile.Major" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard Style="width:100">
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Minor</RadzenText>
-                <RadzenTextBox class="w-100" />
+                <RadzenTextBox name="rztxtbxMinor" class="w-100" Value="@userProfile.Minor" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Current Position</RadzenText>
-                <RadzenTextBox class="w-100" />
+                <RadzenTextBox name="rztxtbxCurPos" class="w-100" Value="@userProfile.CurrentPosition" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
-                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Graduation Year</RadzenText>
-                <RadzenTextBox class="w-100" MaxLength="4" />
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Class Year</RadzenText>
+                <RadzenTextBox name="rztxtbxClassYear" class="w-100" MaxLength="4" Value="@userProfile.ClassYear" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Student ID</RadzenText>
-                <RadzenTextBox Disabled="true" class="w-100">1234567890</RadzenTextBox>
+                <RadzenTextBox name="rztxtbxStudentID" Disabled="true" class="w-100" Value="1234567890" /> @*Will need to add field for student id, even if it is null*@
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Email</RadzenText>
-                <RadzenTextBox class="w-100">example123@email.com</RadzenTextBox>
+                <RadzenTextBox name="rztxtbxEmail" class="w-100" Value="@userProfile.Email" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Role</RadzenText>
-                <RadzenRadioButtonList TValue="int">
+                <RadzenRadioButtonList name="rztxtbxRole" Value="2" TValue="int">
                     <Items>
                         <RadzenRadioButtonListItem Text="Mentee" Value="1"/>
                         <RadzenRadioButtonListItem Text="Mentor" Value="2" />
@@ -52,7 +56,27 @@
         </div>
     </div>
 </div>
+<center>
+    <RadzenButton Class="rz-mx-auto; rz-my-auto" Click=@Save Text="Save Changes" ButtonStyle="ButtonStyle.Success" />
+    <RadzenButton Class="rz-mx-auto; rz-my-auto" Click=@SignOut Text="Sign Out" ButtonStyle="ButtonStyle.Danger" />
+</center>
+
 
 @code {
-    
+    // CascadingParameter attribute maps it to the parameter from the CascadingParameter in MentorMatch (does this by type)
+    [CascadingParameter]
+    //must have this property for the cascading dropdown
+    public User userProfile { get; set; }
+
+    void SignOut(MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+    void Save(MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo("/profile");
+        //here will be the updates for each textbox text
+        //it will update each entry of the user's profile
+    }
 }

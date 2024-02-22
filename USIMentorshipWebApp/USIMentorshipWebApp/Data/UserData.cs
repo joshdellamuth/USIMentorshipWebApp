@@ -113,7 +113,7 @@
 
             new User
             {
-                UserId = "U1",
+                UserId = "U6",
                 FirstName = "John",
                 LastName = "Doe",
                 Email = "johndoe@email.com",
