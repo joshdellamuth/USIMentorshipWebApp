@@ -31,15 +31,19 @@
             <p>Account 1</p>
         </div>
     </div>
+
+    <div class="scheduler">
+        <RadzenScheduler @ref=@scheduler SlotRender=@OnSlotRender style="height: 768px;" TItem="Appointment" Data=@appointments StartProperty="Start" EndProperty="End"
+                         TextProperty="Text" SelectedIndex="2"
+                         SlotSelect=@OnSlotSelect AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender>
+            <RadzenDayView />
+            <RadzenWeekView />
+            <RadzenMonthView />
+            <RadzenYearView />
+        </RadzenScheduler>
+    </div>
    
-    <RadzenScheduler @ref=@scheduler SlotRender=@OnSlotRender style="height: 768px;" TItem="Appointment" Data=@appointments StartProperty="Start" EndProperty="End"
-                     TextProperty="Text" SelectedIndex="2"
-                     SlotSelect=@OnSlotSelect AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender>
-        <RadzenDayView />
-        <RadzenWeekView />
-        <RadzenMonthView />
-        <RadzenYearView />
-    </RadzenScheduler>
+
 </div>
 
 @*The following are styles for the hamburger menu *@
