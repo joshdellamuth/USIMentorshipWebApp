@@ -48,7 +48,7 @@
 
 @*************Denied Requests For Mentors*********@
 <body>
-    <h5 style="color:grey">Denied Requests</h5>
+    <h5 style="color:grey">Passed Requests</h5>
     <div class="row default-margin-not-at-start-or-top">
         <div class="column">
             <RadzenImage Path="@Mentee.ProfilePicturePath" width="120px" height="120px" alt="Sean Paul profile picture"/>
@@ -70,6 +70,25 @@
     [CascadingParameter]
     //must have this property for the cascading dropdown
     public User Mentee { get; set; }
+
+    void LoadRequests()
+    {
+        foreach (User user in UserData.users) //This will be from a list of mentees they have requests from connected to their profile, not UserData.users
+        {
+            <div class="column">
+                <img src="images/man1-profile-picture.png" width="120px" height="120px" alt="Sean Paul profile picture">
+            </div>
+            <div class="column" style="min-width:400px">
+                <b>Sean Paul</b>
+                <div>Field: Computer Science</div>
+                <div>Current Position: Software Developer</div>
+                <div>Previous Major(s): Computer Science</div>
+            </div>
+            <div class="column" style="width:400px">
+                About: I have worked as a remote software developer for Google for 20 years. I have lived in Evansville my whole life and I'm excited to continue helping students in this area.
+            </div>
+        }
+    }
 
     void Accept(){}
     void Decline(){}

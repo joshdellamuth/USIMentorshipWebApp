@@ -9,43 +9,43 @@
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard Style="width:100">
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Major</RadzenText>
-                <RadzenTextBox name="rztxtbxMajor" class="w-100" Value="@userProfile.Major" />
+                <RadzenTextBox @ref="rztxtbxMajor" class="w-100" Value="@userProfile.Major" onkeyup="@SaveChange"/>
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard Style="width:100">
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Minor</RadzenText>
-                <RadzenTextBox name="rztxtbxMinor" class="w-100" Value="@userProfile.Minor" />
+                <RadzenTextBox @ref="rztxtbxMinor" class="w-100" Value="@userProfile.Minor" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Current Position</RadzenText>
-                <RadzenTextBox name="rztxtbxCurPos" class="w-100" Value="@userProfile.CurrentPosition" />
+                <RadzenTextBox @ref="rztxtbxCurPos" class="w-100" Value="@userProfile.CurrentPosition" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Class Year</RadzenText>
-                <RadzenTextBox name="rztxtbxClassYear" class="w-100" MaxLength="4" Value="@userProfile.ClassYear" />
+                <RadzenTextBox @ref="rztxtbxClassYear" class="w-100" MaxLength="4" Value="@userProfile.ClassYear" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Student ID</RadzenText>
-                <RadzenTextBox name="rztxtbxStudentID" Disabled="true" class="w-100" Value="1234567890" /> @*Will need to add field for student id, even if it is null*@
+                <RadzenTextBox @ref="rztxtbxStudentID" Disabled="true" class="w-100" Value="1234567890" /> @*Will need to add field for student id, even if it is null*@
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Email</RadzenText>
-                <RadzenTextBox name="rztxtbxEmail" class="w-100" Value="@userProfile.Email" />
+                <RadzenTextBox @ref="rztxtbxEmail" class="w-100" Value="@userProfile.Email" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Role</RadzenText>
-                <RadzenRadioButtonList name="rztxtbxRole" Value="2" TValue="int">
+                <RadzenRadioButtonList @ref="rzrdbtnlstRole" Value="2" TValue="int">
                     <Items>
                         <RadzenRadioButtonListItem Text="Mentee" Value="1"/>
                         <RadzenRadioButtonListItem Text="Mentor" Value="2" />
@@ -67,6 +67,8 @@
     [CascadingParameter]
     //must have this property for the cascading dropdown
     public User userProfile { get; set; }
+    RadzenTextBox rztxtbxMajor,rztxtbxMinor,rztxtbxCurPos,rztxtbxClassYear,rztxtbxStudentID,rztxtbxEmail;
+    RadzenRadioButtonList<int> rzrdbtnlstRole;
 
     void SignOut(MouseEventArgs args)
     {
@@ -76,7 +78,22 @@
     void Save(MouseEventArgs args)
     {
         NavigationManager.NavigateTo("/profile");
-        //here will be the updates for each textbox text
-        //it will update each entry of the user's profile
+        foreach (User user in UserData.users)
+        {
+            if (user.UserId == "U1")
+            {
+                //here will be the updates for each textbox text
+                //it will update each entry of the user's profile
+            }
+        }
+    }
+
+    void SaveChange(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            
+        }
+
     }
 }
