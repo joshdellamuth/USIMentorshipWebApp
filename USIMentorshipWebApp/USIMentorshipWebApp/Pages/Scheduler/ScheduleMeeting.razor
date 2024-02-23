@@ -7,19 +7,93 @@
 
 <h1>Schedule Meeting</h1>
 
-<RadzenScheduler @ref=@scheduler SlotRender=@OnSlotRender style="height: 768px;" TItem="Appointment" Data=@appointments StartProperty="Start" EndProperty="End"
-                 TextProperty="Text" SelectedIndex="2"
-                 SlotSelect=@OnSlotSelect AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender>
-    <RadzenDayView />
-    <RadzenWeekView />
-    <RadzenMonthView />
-    <RadzenYearView />
-</RadzenScheduler>
+
+<!--Wrapper that wraps everything-->
+<div class="wrapper">
+    <!--The sidebar menu container-->
+    <div class="sidebar">
+        <div class="sidebar-heading-container">
+            <h1>Upcoming Meetings</h1>
+            <p>Get chatting with your mentors/Mentees below!</p>
+        </div>
+
+        <!--Accounts that are connected with each other-->
+        <div class="account">
+            <img src="" alt="" />
+            <p>Account 1</p>
+        </div>
+        <div class="account">
+            <img src="" alt="" />
+            <p>Account 1</p>
+        </div>
+        <div class="account">
+            <img src="" alt="" />
+            <p>Account 1</p>
+        </div>
+    </div>
+   
+    <RadzenScheduler @ref=@scheduler SlotRender=@OnSlotRender style="height: 768px;" TItem="Appointment" Data=@appointments StartProperty="Start" EndProperty="End"
+                     TextProperty="Text" SelectedIndex="2"
+                     SlotSelect=@OnSlotSelect AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender>
+        <RadzenDayView />
+        <RadzenWeekView />
+        <RadzenMonthView />
+        <RadzenYearView />
+    </RadzenScheduler>
+</div>
+
+@*The following are styles for the hamburger menu *@
+<div class="@NavMenuCssClass column default-margin">
+
+
+    <div @onclick="ToggleNavMenu">
+        <span class="oi oi-menu hamburger-menu small-menu"></span>
+    </div>
+
+
+    <div class="small-sidebar-heading-container">
+        <h1>Chat</h1>
+        <p>Get chatting with your mentors/Mentees below!</p>
+    </div>
+
+    <!--Accounts that are connected with each other-->
+    <div class="small-account">
+        <img src="" alt="" />
+        <p>Account 1</p>
+    </div>
+    <div class="small-account">
+        <img src="" alt="" />
+        <p>Account 1</p>
+    </div>
+    <div class="small-account">
+        <img src="" alt="" />
+        <p>Account 1</p>
+    </div>
+</div>
+
+
+@* ******************************************************************************************************************* *@
+
+    
 
 
 
 
 @code {
+
+    private bool IsCollapsed = true;
+
+    private string? NavMenuCssClass => IsCollapsed ? "hamburger-collapsed" : "hamburger-expanded";
+
+    private void ToggleNavMenu()
+    {
+        IsCollapsed = !IsCollapsed;
+    }
+
+
+    // ************************************************************************************************************
+
+
 
     RadzenScheduler<Appointment> scheduler;
     Dictionary<DateTime, string> events = new Dictionary<DateTime, string>();
@@ -103,5 +177,9 @@
         }
     }
 
+    
+
+
+    
     
 }
