@@ -1,6 +1,7 @@
 ﻿@page "/schedule-meeting"
 @layout MainLayout
 @inject DialogService DialogService
+@inject NotificationService NotificationService 
 @using USIMentorshipWebApp.Data
 
 <PageTitle>Schedule Meeting - USI Mentorship Program</PageTitle>
@@ -16,8 +17,11 @@
     <RadzenYearView />
 </RadzenScheduler>
 
+
+
+
 @code {
-    
+
     RadzenScheduler<Appointment> scheduler;
     Dictionary<DateTime, string> events = new Dictionary<DateTime, string>();
 
@@ -42,7 +46,7 @@
         }
 
         // Highlight working hours (9-18)
-        if ((args.View.Text == "Week" || args.View.Text == "Day") && args.Start.Hour > 8 && args.Start.Hour < 19)
+        if ((args.View.Text == "Week" || args.View.Text == "Day") && args.Start.Hour > 9 && args.Start.Hour < 17)
         {
             args.Attributes["style"] = "background: rgba(255,220,40,.2);";
         }
@@ -50,7 +54,7 @@
 
     async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
     {
-        
+
 
         if (args.View.Text != "Year")
         {
@@ -68,7 +72,7 @@
 
     async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Appointment> args)
     {
-        
+
 
         var copy = new Appointment
             {
@@ -100,4 +104,5 @@
         }
     }
 
+    
 }
