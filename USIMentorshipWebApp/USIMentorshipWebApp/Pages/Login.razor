@@ -1,19 +1,26 @@
 ﻿@page "/"
 @layout NotLoggedInLayout
-
+@inject NavigationManager NavigationManager
 
 
 <PageTitle>Login - USI Mentorship Program</PageTitle>
 
-<h1>Login</h1>
+<div class="our-row">
+        <img src="images/student-mentor-looking-at-taxes.jpg" width="100vw;" height="100vh" alt="Student and Mentor looking at taxes">
+    <div class="our-column" style="min-width:320px; max-width:25vw;">
+        <h1>Login</h1>
+        <RadzenCard Class="rz-shadow-0">
+            <img src="images/usi-logo-mentorship-program.png" width="300px;" height="auto;" alt="Student and Mentor looking at taxes">
+            <RadzenTemplateForm Data=@("SimpleLogin") Action="http://www.google.com">
+                <RadzenLogin AllowRegister="false" AllowResetPassword="true" />
+            </RadzenTemplateForm>
+        </RadzenCard>
 
-<RadzenLogin AllowRegister="true" AllowResetPassword="true" Username=@userName Password=@password
-             AllowRememberMe="true" RememberMe="@rememberMe"
-             Login=@(args => OnLogin(args, "Login with default values"))
-             ResetPassword=@(args => OnResetPassword(args, "Login with default values"))
-             Register=@(args => OnRegister("Login with default values")) />
+        <a href="/mentor-match">Click here to go to mentor match.</a>
+    </div>
+</div>
 
-<a href="/mentor-match">Click here to go to mentor match.</a>
+
 
 @code {
     string userName = "admin";
