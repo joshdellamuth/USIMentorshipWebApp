@@ -6,17 +6,26 @@
 <PageTitle>Login - USI Mentorship Program</PageTitle>
 
 <div class="our-row">
-        <img src="images/student-mentor-looking-at-taxes.jpg" width="100vw;" height="100vh" alt="Student and Mentor looking at taxes">
-    <div class="our-column" style="min-width:320px; max-width:25vw;">
-        <h1>Login</h1>
-        <RadzenCard Class="rz-shadow-0">
-            <img src="images/usi-logo-mentorship-program.png" width="300px;" height="auto;" alt="Student and Mentor looking at taxes">
-            <RadzenTemplateForm Data=@("SimpleLogin") Action="http://www.google.com">
-                <RadzenLogin AllowRegister="false" AllowResetPassword="true" />
-            </RadzenTemplateForm>
-        </RadzenCard>
+    @* COLUMN FOR IMAGE *@
+    <div class="image-column">
+        <img src="images/student-mentor-looking-at-taxes.jpg" alt="Student and Mentor looking at taxes">
+    </div>
+    <div class="login-column-container">
+        @* LOGIN HEADING *@
+        <h1 class="default-margin">Login</h1>
 
-        <a href="/mentor-match">Click here to go to mentor match.</a>
+        @* SECOND COLUMN FOR LOGIN INFO *@
+        <div class="login-column">
+            @* RADZEN LOGIN CARD *@
+            <RadzenCard Class="rz-shadow-0">
+                <img src="images/usi-logo-mentorship-program.png" alt="Student and Mentor looking at taxes">
+                <RadzenTemplateForm Data=@("SimpleLogin") Action="">
+                    <RadzenLogin AllowRegister="false" AllowResetPassword="true" />
+                </RadzenTemplateForm>
+                @* href to go to the login page *@
+                <a href="/mentor-match">Click here to go to mentor match.</a>
+            </RadzenCard>
+        </div>
     </div>
 </div>
 
@@ -37,5 +46,10 @@
 
     void OnResetPassword(string value, string name)
     {
+    }
+
+    void GoToMentorMatch(MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo("/mentor-match");
     }
 }
