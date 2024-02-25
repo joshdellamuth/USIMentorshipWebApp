@@ -1,0 +1,45 @@
+﻿.parent {
+    display: flex;
+}
+
+.image-column {
+    height: calc(100vh - 77.38px); /* Subtract the navbar's height from 100vh */
+    overflow: hidden; /* Prevents scrollbar */
+}
+
+@media (max-width:955px) {
+    .image-column {
+        display: none;
+    }
+}
+
+.image-column img {
+    height: 100%;
+    width: auto;
+    object-fit: contain; /* This makes the image cover the entire div without distorting its aspect ratio */
+}
+
+.login-column {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.login-column-container {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    height: calc(100vh - 77.38px);
+}
+
+.login-column img {
+    width: 320px;
+    height: auto;
+}
+
+.centered-radio-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
