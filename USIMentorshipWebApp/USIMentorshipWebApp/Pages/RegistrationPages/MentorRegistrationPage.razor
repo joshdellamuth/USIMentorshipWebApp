@@ -6,101 +6,99 @@
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Shared.Dropdowns;
 
-<h1>Sign up as a Mentor</h1>
+<div class="default-margin">
+    <h1>Sign up as a Mentor</h1>
 
-<RadzenRow class="mb-4 mt-4" Gap="25">
-    @* FIRST NAME *@
-    <RadzenFormField Text="First Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
-        <RadzenTextBox @bind-Value=@FirstName />
-    </RadzenFormField>
+    <RadzenRow class="mb-4 mt-4" Gap="25">
+        @* FIRST NAME *@
+        <RadzenFormField Text="First Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
+            <RadzenTextBox @bind-Value=@FirstName />
+        </RadzenFormField>
 
-    @* LAST NAME *@
-    <RadzenFormField Text="Last Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
-        <RadzenTextBox @bind-Value="@LastName" />
-    </RadzenFormField>
-</RadzenRow>
+        @* LAST NAME *@
+        <RadzenFormField Text="Last Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
+            <RadzenTextBox @bind-Value="@LastName" />
+        </RadzenFormField>
+    </RadzenRow>
 
-<RadzenRow class="mb-4" Gap="25">
-    @* EMAIL *@
-    <RadzenFormField Text="Email:" AllowFloatingLabel="false" Variant=Variant.Flat>
-        <RadzenTextBox @bind-Value="@Email" />
-    </RadzenFormField>
+    <RadzenRow class="mb-4" Gap="25">
+        @* EMAIL *@
+        <RadzenFormField Text="Email:" AllowFloatingLabel="false" Variant=Variant.Flat>
+            <RadzenTextBox @bind-Value="@Email" />
+        </RadzenFormField>
 
-    @* PHONE NUMBER *@
-    <RadzenFormField Text="Phone Number:" AllowFloatingLabel="false" Variant=Variant.Flat>
-        <RadzenTextBox @bind-Value="@PhoneNumber" />
-    </RadzenFormField>
-</RadzenRow>
+        @* PHONE NUMBER *@
+        <RadzenFormField Text="Phone Number:" AllowFloatingLabel="false" Variant=Variant.Flat>
+            <RadzenTextBox @bind-Value="@PhoneNumber" />
+        </RadzenFormField>
+    </RadzenRow>
 
-<RadzenRow class="mb-4" Gap="25">
-    @* LINKEDIN *@
-    <RadzenFormField Text="LinkedIn Profile URL:" AllowFloatingLabel="false" Variant=Variant.Flat>
-        <RadzenTextBox @bind-Value="@LinkedInProfileURL" />
-    </RadzenFormField>
-</RadzenRow>
+    <RadzenRow class="mb-4" Gap="25">
+        @* LINKEDIN *@
+        <RadzenFormField Text="LinkedIn Profile URL:" AllowFloatingLabel="false" Variant=Variant.Flat>
+            <RadzenTextBox @bind-Value="@LinkedInProfileURL" />
+        </RadzenFormField>
+    </RadzenRow>
 
-<h3>Further Profile Info</h3>
-<h6>Some of this information will be used in your profile for students to see</h6>
-<RadzenRow class="mb-4 mt-4" Gap="25" AlignItems="AlignItems.Center">
-    @* BIRTHDATE *@
-    <div class="our-column">
-        <RadzenLabel Text="Birthdate:" Style="margin-right: 4px; vertical-align: middle;" />
-        <RadzenDatePicker @bind-Value=@Birthdate ShowCalendarWeek />
-    </div>
-    
-    @* COMPANY *@
-    <RadzenFormField Text="Company:" AllowFloatingLabel="false" Variant=Variant.Flat>
-        <RadzenTextBox @bind-Value="@Company" />
-    </RadzenFormField>
+    <h3>Further Profile Info</h3>
+    <h6>Some of this information will be used in your profile for students to see</h6>
+    <RadzenRow class="mb-4 mt-4" Gap="25" AlignItems="AlignItems.Center">
+        @* BIRTHDATE *@
+        <div class="our-column">
+            <RadzenLabel Text="Birthdate:" Style="margin-right: 4px; vertical-align: middle;" />
+            <RadzenDatePicker @bind-Value=@Birthdate ShowCalendarWeek />
+        </div>
 
-    @* INDUSTRY *@
-    <DropdownWithLabelAbove SelectedValue="@Industry" DropdownData="@industriesList" Label="Industry:" />
-</RadzenRow>
+        @* COMPANY *@
+        <RadzenFormField Text="Company:" AllowFloatingLabel="false" Variant=Variant.Flat>
+            <RadzenTextBox @bind-Value="@Company" />
+        </RadzenFormField>
 
-<RadzenRow class="mb-4 mt-4" Gap="25">
-    @* COMPANY WEBSITE *@
-    <RadzenFormField Text="Company Website:" AllowFloatingLabel="false" Variant=Variant.Flat>
-        <RadzenTextBox @bind-Value="@CompanyWebsite" />
-    </RadzenFormField>
+        @* INDUSTRY *@
+        <DropdownWithLabelAbove SelectedValue="@Industry" DropdownData="@industriesList" Label="Industry:" />
+    </RadzenRow>
 
-    @* MENTEES PER SEMESTER *@
-    <DropdownWithLabelAbove SelectedValue="@MenteesPerSemester" DropdownData="@MenteesPerSemesterOptions" Label="Mentees Per Semester:" />
-</RadzenRow>
+    <RadzenRow class="mb-4 mt-4" Gap="25">
+        @* COMPANY WEBSITE *@
+        <RadzenFormField Text="Company Website:" AllowFloatingLabel="false" Variant=Variant.Flat>
+            <RadzenTextBox @bind-Value="@CompanyWebsite" />
+        </RadzenFormField>
 
-<RadzenRow class="mb-4 mt-4" Gap="25">
-    @* SELF-INTRODUCTION *@
-    <div class="our-column">
-        <label>Self-Introduction</label>
-        <RadzenTextArea @bind-Value=@SelfIntroduction Cols="80" Rows="6" aria-label=Self-Introduction: />
-    </div>
-</RadzenRow>
+        @* MENTEES PER SEMESTER *@
+        <DropdownWithLabelAbove SelectedValue="@MenteesPerSemester" DropdownData="@MenteesPerSemesterOptions" Label="Mentees Per Semester:" />
+    </RadzenRow>
 
-<RadzenRow class="mb-4">
-    @* UPLOAD PROFILE PICTURE *@
-    <RadzenUpload Url="upload/single" ChooseText="Upload Profile Picture" Style="width:180px; text-align:center;" Accept="image/*"></RadzenUpload>
-</RadzenRow>
+    <RadzenRow class="mb-4 mt-4" Gap="25">
+        @* SELF-INTRODUCTION *@
+        <div class="our-column">
+            <label>Self-Introduction</label>
+            <RadzenTextArea @bind-Value=@SelfIntroduction Cols="80" Rows="6" aria-label=Self-Introduction: />
+        </div>
+    </RadzenRow>
 
-<h3>Create a Password</h3>
-<RadzenRow class="mb-4 mt-4" Gap="25">
-    @* PASSWORD *@
-    <RadzenFormField Text="Password" AllowFloatingLabel="false" Variant=Variant.Flat>
-        <RadzenTextBox @bind-Value="@Password" />
-    </RadzenFormField>
+    <RadzenRow class="mb-4">
+        @* UPLOAD PROFILE PICTURE *@
+        <RadzenUpload Url="upload/single" ChooseText="Upload Profile Picture" Style="width:180px; text-align:center;" Accept="image/*"></RadzenUpload>
+    </RadzenRow>
 
-    @* CONFIRM PASSWORD *@
-    <RadzenFormField Text="Confirm Password" AllowFloatingLabel="false" Variant=Variant.Flat>
-        <RadzenTextBox @bind-Value="@Password" />
-    </RadzenFormField>
-</RadzenRow>
+    <h3>Create a Password</h3>
+    <RadzenRow class="mb-4 mt-4" Gap="25">
+        @* PASSWORD *@
+        <RadzenFormField Text="Password" AllowFloatingLabel="false" Variant=Variant.Flat>
+            <RadzenTextBox @bind-Value="@Password" />
+        </RadzenFormField>
 
-<RadzenRow>
-    <RadzenButton Style="width:100px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click=@GoToNextPage Text="Register" />
-    <RadzenButton Style="width:100px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click=@GoToLogin Text="Back To Login" />
-</RadzenRow>
+        @* CONFIRM PASSWORD *@
+        <RadzenFormField Text="Confirm Password" AllowFloatingLabel="false" Variant=Variant.Flat>
+            <RadzenTextBox @bind-Value="@Password" />
+        </RadzenFormField>
+    </RadzenRow>
 
-
-
-
+    <RadzenRow>
+        <RadzenButton Style="width:100px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click=@GoToNextPage Text="Register" />
+        <RadzenButton Style="width:100px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click=@GoToLogin Text="Back To Login" />
+    </RadzenRow>
+</div>
 
 @code {
     string FirstName = "";
