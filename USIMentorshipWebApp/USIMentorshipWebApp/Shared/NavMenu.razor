@@ -1,43 +1,145 @@
-﻿<div class="header-bar">
-    <div class="logo">
+﻿@* MAIN HEADER NAVBAR *@
+<div class="header-bar">
+    <div class="">
         <a href="/mentor-match">
             <img src=images/usi_logo.png alt="USI-Logo">
         </a>
     </div>
 
-    @* Shows when the screen width is smaller *@
-    <div class="logo-small">
-        <a href="/mentor-match">
-            <img src=images/usi-logo-small.png alt="USI-Logo-Small">
-        </a>
-    </div>
-
     <div class="header-items-container">
-        <a class="header-item" href="/mentor-match">Mentor Match</a>
-        <a class="header-item" href="/chat">Chat</a>
-        <a class="header-item" href="/schedule-meeting">Schedule Meeting</a>
-        <a class="header-item" href="/announcements">Announcements</a>
-        <a class="header-item" href="/requests">Requests</a>
-        <a class="header-item" href="/profile">Profile</a>
-        
-        @* Shows when the screen width is smaller *@
+        @* Hamburger Icon now shows always *@
         <div @onclick="ToggleNavMenu">
-            <span class="oi oi-menu hamburger-icon"></span>
+            @* Control the icon that pulls the navbar *@
+            @if (IsCollapsed)
+            {
+                <span class="oi oi-menu hamburger-icon"></span>
+            }
+            else
+            {
+                <span class="oi oi-collapse-left hamburger-icon"></span>
+            }
         </div>
+
+        @* MENTOR MATCH *@
+        <a class="header-item" href="/mentor-match">
+            <span class="oi oi-people" />
+            <div class="underline-on-hover ps-1">
+                Mentor Match
+            </div>
+        </a>
+
+        @* CHAT *@
+        <a class="header-item" href="/chat">
+            <span class="oi oi-chat" />
+            <div class="underline-on-hover ps-1">
+                Chat
+            </div>
+        </a>
+
+        @* SCHEDULE MEETING *@
+        <a class="header-item" href="/schedule-meeting">
+            <span class="oi oi-calendar" />
+            <div class="underline-on-hover ps-1">
+                Schedule Meeting
+            </div>
+        </a>
+
+        @* REQUESTS *@
+        <a class="header-item" href="/requests">
+            <span class="oi oi-envelope-closed" />
+            <div class="underline-on-hover ps-1">
+                Requests
+            </div>
+        </a>
+
+        @* PROFILE *@
+        <a class="header-item" href="/profile">
+            <span class="oi oi-person" />
+            <div class="underline-on-hover ps-1">
+                Profile
+            </div>
+        </a>
+
     </div>
 </div>
 
-@* Shows when the hamburger icon is clicked *@
+@* SIDE NAVIGATION BAR THAT SHOWS WHEN HAMBURGER IS CLICKED *@
 <div class="@NavMenuCssClass">
-    <div class="our-column default-margin">
-        <img src=images/usi_logo.png alt="USI-Logo"> <br />
-        <a class="hamburger-menu-item" @onclick="ToggleNavMenu" href="/mentor-match">Mentor Match</a>
-        <a class="hamburger-menu-item" @onclick="ToggleNavMenu" href="/chat">Chat</a>
-        <a class="hamburger-menu-item" @onclick="ToggleNavMenu" href="/schedule-meeting">Schedule Meeting</a>
-        <a class="hamburger-menu-item" @onclick="ToggleNavMenu" href="/announcements">Announcements</a>
-        <a class="hamburger-menu-item" @onclick="ToggleNavMenu" href="/requests">Requests</a>
-        <a class="hamburger-menu-item" @onclick="ToggleNavMenu" href="/profile">Profile</a>
+    @* LOGO FOR SIDEBAR *@
+    <div class="logo-header-bar-for-sidebar">
+        <a href="/mentor-match">
+            <img src=images/usi_logo.png alt="USI-Logo">
+        </a>
     </div>
+
+    @* PROFILE PICTURE AND NAME *@
+    <div class="our-row mt-1 mb-1" style="background-color:#001e40; border-radius:5px; padding:10px;">
+        <img src=images/tom-schmidt-mentee-profile-picture.png class="circle-image" style="height:100px; width:100px;" alt="Profile Picutre" />
+        <div class="our-column ps-2">
+            <h3 style="color:white;">Tom Schmidt</h3>
+            <div style="color:white; font-size:15px;">tomschmidt@email.com</div>
+            <div style="color:white; font-size:15px;">Mentee</div>
+        </div>
+    </div>
+
+    @* adding padding here *@
+    <div style="padding:15px;">
+
+        @* MENTOR MATCH *@
+        <a class="hamburger-menu-item mb-3" @onclick="ToggleNavMenu" href="/mentor-match">
+            <div class="our-row">
+                <span class="oi oi-people" />
+                <div class="underline-on-hover ps-3">Mentor Match</div>
+            </div>
+        </a>
+
+        @* CHAT *@
+        <a class="hamburger-menu-item mb-3" @onclick="ToggleNavMenu" href="/chat">
+            <div class="our-row">
+                <span class="oi oi-chat" />
+                <div class="underline-on-hover ps-3">Chat</div>
+            </div>
+        </a>
+
+        @* SCHEDULE MEETING *@
+        <a class="hamburger-menu-item mb-3" @onclick="ToggleNavMenu" href="/schedule-meeting">
+            <div class="our-row">
+                <span class="oi oi-calendar" />
+                <div class="underline-on-hover ps-3">Schedule Meeting</div>
+            </div>
+        </a>
+
+        @* REQUESTS *@
+        <a class="hamburger-menu-item mb-3" @onclick="ToggleNavMenu" href="/requests">
+            <div class="our-row">
+                <span class="oi oi-envelope-closed" />
+                <div class="underline-on-hover ps-3">Requests</div>
+            </div>
+        </a>
+
+        @* PROFILE *@
+        <a class="hamburger-menu-item mb-3" @onclick="ToggleNavMenu" href="/profile">
+            <div class="our-row">
+                <span class="oi oi-person" />
+                <div class="underline-on-hover ps-3">Profile</div>
+            </div>
+        </a>
+
+        @* LOGOUT *@
+        <a class="hamburger-menu-item-logout mb-3" @onclick="ToggleNavMenu" href="/">
+            <div class="our-row" style="justify-content:space-between;">
+                <span class="oi oi-account-logout" />
+                <div class="underline-on-hover ps-3">Logout</div>
+            </div>
+        </a>
+
+        <div class="our-row mb-2" style="bottom:0; position:absolute;">
+            <div style="margin-left:273px;" @onclick="ToggleNavMenu">
+                <span class="oi oi-collapse-left hamburger-icon"></span>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @code {
