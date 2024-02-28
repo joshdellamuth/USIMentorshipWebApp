@@ -16,9 +16,8 @@
             }
             else
             {
-                <span class="oi oi-x hamburger-icon"></span>
+                <span class="oi oi-collapse-left hamburger-icon"></span>
             }
-            
         </div>
 
         @* MENTOR MATCH *@
@@ -74,11 +73,11 @@
     </div>
 
     @* PROFILE PICTURE AND NAME *@
-    <div class="our-row mt-1 mb-1" style="background-color:#001e40; border-radius:5px; padding:5px;">
-        <img src=images/john-doe-profile-picture.png class="circle-image" style="height:100px; width:100px;" alt="Profile Picutre" />
-        <div class="our-column ps-3">
-            <h3 style="color:white;">John Doe</h3>
-            <div style="color:white; font-size:15px;">johndoe@email.com</div>
+    <div class="our-row mt-1 mb-1" style="background-color:#001e40; border-radius:5px; padding:10px;">
+        <img src=images/tom-schmidt-mentee-profile-picture.png class="circle-image" style="height:100px; width:100px;" alt="Profile Picutre" />
+        <div class="our-column ps-2">
+            <h3 style="color:white;">Tom Schmidt</h3>
+            <div style="color:white; font-size:15px;">tomschmidt@email.com</div>
             <div style="color:white; font-size:15px;">Mentee</div>
         </div>
     </div>
@@ -128,11 +127,17 @@
 
         @* LOGOUT *@
         <a class="hamburger-menu-item-logout mb-3" @onclick="ToggleNavMenu" href="/">
-            <div class="our-row">
+            <div class="our-row" style="justify-content:space-between;">
                 <span class="oi oi-account-logout" />
                 <div class="underline-on-hover ps-3">Logout</div>
             </div>
         </a>
+
+        <div class="our-row mb-2" style="bottom:0; position:absolute;">
+            <div style="margin-left:273px;" @onclick="ToggleNavMenu">
+                <span class="oi oi-collapse-left hamburger-icon"></span>
+            </div>
+        </div>
     </div>
 
 </div>
