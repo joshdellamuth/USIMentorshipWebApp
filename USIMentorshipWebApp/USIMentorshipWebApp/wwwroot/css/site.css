@@ -48,6 +48,11 @@ html, body {
     display: flex;
 }
 
+.circle-image {
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 /* DEFAULT SITE.CSS CODE STARTS HERE */
 h1:focus {
     outline: none;
@@ -61,6 +66,10 @@ a, .btn-link {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
+}
+
+.underline-on-hover:hover {
+    text-decoration: underline;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
