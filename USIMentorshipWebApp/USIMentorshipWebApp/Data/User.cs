@@ -21,5 +21,8 @@
         public string Gender { get; set; }
         public string? ProfilePicturePath { get; set; }
         public string AccountApprovalOption { get; set;}
+
+        public string Role { get; set; }
+        public string[,] DisplayRequests = new string[10, 10];
     }
 }

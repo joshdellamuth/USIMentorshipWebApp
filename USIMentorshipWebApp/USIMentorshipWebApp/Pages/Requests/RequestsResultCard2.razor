@@ -1,0 +1,53 @@
+﻿@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Shared.FullProfileInfo;
+@using USIMentorshipWebApp.Shared.RequestMentorship;
+
+<RadzenCard Class="rz-p-3 default-margin" Style="max-width: 500px;">
+    @* rz-p-2 applies padding to all sides of an element to radzen stack *@
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
+        @* PROFILE PICTURE AND BUSINESS LOCATION *@
+        <RadzenStack Orientation="Orientation.Vertical" Style="max-width:160px;">
+            <RadzenImage Path=@RequestUser.ProfilePicturePath Style="width: 160px; height: 160px; border-radius: 50%;" />
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Class Of</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.ClassYear</b></RadzenText>
+        </RadzenStack>
+        @* Gap is the size of the gap between the child items of RadzenStack *@
+        <RadzenStack Gap="4">
+            @* rz-display-flex puts the text in a flexible layout*@
+            @* rz-mt-2 applies a margin of value 2 to the top of the text *@
+            @* rz-my-0 applies the vertical ma rgin of 0 to the top and bottom margin (removes the margins on top and bottom) *@
+            @* NAME *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Name</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@(RequestUser.FirstName + " " + RequestUser.LastName)</b></RadzenText>
+
+            @* MAJOR *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Major</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.Major</b></RadzenText>
+
+            @* MINOR *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Minor</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.Minor</b></RadzenText>
+
+            @* HOBBIES/INTERESTS *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Hobbies/Interests</RadzenText>
+            <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>Fishing, Biking, Camping, Hiking</b></RadzenText>
+        </RadzenStack>
+    </RadzenStack>
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="10">
+        @*<FullProfileButton />*@
+        <RadzenButton Shade="Shade.Dark" ButtonStyle="ButtonStyle.Info" Style="font-size:12px" Text="Full Profile" />
+    </RadzenStack>
+</RadzenCard>
+
+@code {
+    [CascadingParameter]
+    public User RequestUser { get; set; }
+
+    void Accept()
+    {
+
+    }
+    void Decline() { }
+}
