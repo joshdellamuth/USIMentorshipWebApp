@@ -4,20 +4,24 @@
 @using USIMentorshipWebApp.Data
 
 <PageTitle>Requests - USI Mentorship Program</PageTitle>
-<h1><b>Both requests pages are shown here. First is mentee's, then mentor's. 
-    My idea is for this page to have a conditional and display either one
-    depending on what the user is signed in as.
-</b></h1>
 
 <h1>Requests</h1>
 <h6>View your approved, pending, and denied requests</h6>
 @foreach (User user in UserData.users)  @*Will need to create a field for mentee or mentor, as well as field for entering mentee/mentors to be displayed*@
+{
+    @if (user.UserId == "U1")
     {
-        
         <CascadingValue Value="@user">
-            <MenteeRequestsLayout />
-            <MentorRequestsLayout />
+            @if (user.Role == "Mentee") 
+            {
+                <MenteeRequestsLayout />    
+            }
+            else if (user.Role == "Mentor")
+            {
+                <MentorRequestsLayout />
+            }
         </CascadingValue>
+    }
     }
 
 

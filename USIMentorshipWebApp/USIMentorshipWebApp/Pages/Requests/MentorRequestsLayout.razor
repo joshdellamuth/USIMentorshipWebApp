@@ -6,70 +6,38 @@
 
 @*************Pending Requests For Mentors*********@
 <body>
-    <h5 style="color:dodgerblue">Pending Requests</h5>
-    <div class="row default-margin-not-at-start-or-top">
-        <div class="column">
-            <RadzenImage Path="@Mentee.ProfilePicturePath" width="120px" height="120px" alt="Sean Paul profile picture" />
-        </div>
-        <div class="column" style="min-width:400px">
-            <b>Sean Paul</b>
-            <div>Major: Computer Science</div>
-            <div>Minor: Computer Information Systems</div>
-            <div>Class of 2025</div>
-        </div>
-        <div class="column" style="width:400px">
-            Interests or welcoming phrase, something a little more personal for mentors to get an idea of them.
-        </div>
-        <div class="column">
-            <RadzenButton class="default-margin-not-at-start-or-top" Click=@Accept Text="Accept" ButtonStyle="ButtonStyle.Secondary" />
-            <RadzenButton class="default-margin-not-at-start-or-top" Click=@Decline Text="Decline" ButtonStyle="ButtonStyle.Secondary" />
-        </div>
-    </div>
+    <h3 style="color:dodgerblue"><b>Pending Requests</b></h3>
+    @if (pending == 1)
+    {
+    <CascadingValue Value="@Mentee">
+            <RequestsResultCard1></RequestsResultCard1>
+    </CascadingValue>
+    }
 </body>
+
+@**@
 
 @*************Approved Requests For Mentors*********@
 <body>
-    <h5 style="color:forestgreen">Approved Requests</h5>
-    <div class="row default-margin-not-at-start-or-top">
-        <div class="column">
-            <RadzenImage Path="@Mentee.ProfilePicturePath" width="120px" height="120px" alt="Sean Paul profile picture"/>
-        </div>
-        <div class="column" style="min-width:400px">
-            <b>Sean Paul</b>
-            <div>Major: Computer Science</div>
-            <div>Minor: Computer Information Systems</div>
-            <div>Class of 2025</div>
-        </div>
-        <div class="column" style="width:400px">
-            Interests or welcoming phrase, something a little more personal for mentors to get an idea of them.
-        </div>
-    </div>
+    <h3 style="color:forestgreen"><b>Approved Requests</b></h3>
+    <CascadingValue Value="@Mentee">
+        <RequestsResultCard2></RequestsResultCard2>
+    </CascadingValue>
 </body>
 
 @*************Denied Requests For Mentors*********@
 <body>
-    <h5 style="color:grey">Passed Requests</h5>
-    <div class="row default-margin-not-at-start-or-top">
-        <div class="column">
-            <RadzenImage Path="@Mentee.ProfilePicturePath" width="120px" height="120px" alt="Sean Paul profile picture"/>
-        </div>
-        <div class="column" style="min-width:400px">
-            <b>Sean Paul</b>
-            <div>Major: Computer Science</div>
-            <div>Minor: Computer Information Systems</div>
-            <div>Class of 2025</div>
-        </div>
-        <div class="column" style="width:400px">
-            Interests or welcoming phrase, something a little more personal for mentors to get an idea of them.
-        </div>
-    </div>
+    <h3 style="color:grey"><b>Passed Requests</b></h3>
+    <CascadingValue Value="@Mentee">
+        <RequestsResultCard2></RequestsResultCard2>
+    </CascadingValue>
 </body>
 
 @code {
-    // CascadingParameter attribute maps it to the parameter from the CascadingParameter in MentorMatch (does this by type)
     [CascadingParameter]
-    //must have this property for the cascading dropdown
     public User Mentee { get; set; }
+
+    int pending = 1;
 
     void LoadRequests()
     {
@@ -90,6 +58,9 @@
         }
     }
 
-    void Accept(){}
+    void Accept()
+    {
+        
+    }
     void Decline(){}
 }
