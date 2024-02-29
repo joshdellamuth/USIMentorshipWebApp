@@ -2,26 +2,21 @@
     display: flex;
     background-color: #002856;
     align-items: center;
-    padding: .7rem;
+    padding: 15px;
     width: 100%;
-    min-height: 70px;
-    position: sticky;
-}
-/* Shows big logo when width is above 860px */
-.logo {
-    display:block; 
+    height: 70px;
 }
 
-/* Does not show small logo when width is above 860px */
+/* Does not show small logo when width is above 330px */
 .logo-small {
     display: none;
 }
 
-/* Does not show hamburger icon when width is above 860px */
-.hamburger-icon {
-    display: none;
+.logo {
+    display: block;
 }
 
+/* each item for the main top navbar */
 .header-item {
     display: flex;
     color: white;
@@ -29,11 +24,32 @@
     text-decoration: none;
 }
 
+/* each item for the sidebar navbar*/
 .hamburger-menu-item {
     color: white;
-    font-size: 18px;
+    font-size: 23px;
     text-decoration: none;
 }
+
+/* logout item on sidebar navbar */
+.hamburger-menu-item-logout {
+    color: red;
+    font-size: 23px;
+    text-decoration: none;
+    position: absolute;
+    bottom: 0;
+}
+
+/* attributes applied to the hamburger icon */
+.hamburger-icon {
+    display: block;
+    color: white;
+    font-size: 23px;
+}
+
+    .hamburger-icon:hover {
+        cursor: pointer;
+    }
 
 .hamburger-collapsed {
     /* Never collapse the sidebar for wide screens */
@@ -43,21 +59,13 @@
 .hamburger-expanded {
     /* Never collapse the sidebar for wide screens */
     position: fixed;
-    top: 0px;
+    top: 0px; /* offesets 70px (height of header bar) from the top */
     left: 0;
-    width: 65%;
+    width: 320px;
     height: 100%;
-    background-color: #CCCCCC; /* Semi-transparent background */
+    background-color: #002856;
     z-index: 9999; /* Ensure the overlay is on top */
 }
-
-    .header-item:hover {
-        text-decoration: underline;
-    }
-
-    .header-item:active {
-        text-decoration: underline;
-    }
 
 .header-items-container {
     display: flex;
@@ -66,34 +74,40 @@
     flex-grow: 1;
 }
 
-@media (max-width:870px) {
-    /* Does not show big logo when width is below 860px */
-    .logo {
-        display: none;
-    }
+/* this class is meant to mimic the header bar but only for the USI image */
+/* the sidebar is actually has the USI logo at the top. It just shows over the logo below it */
+/* this makes two logos. One on the top of the sidebar, and one technically under it, on the main navbar */
+/* needs same padding and everything so it doesn't change when sidebar comes out */
+.logo-header-bar-for-sidebar {
+    align-items: center;
+    background-color: #002856;
+    padding:15px;
+    height: 70px;
+    display:flex;
+}
 
-    /* Shows small logo when width is below 860px */
-    .logo-small {
-        display: block;
-    }
+/* this class is meant to mimic the header bar but only for the USI image */
 
-    /* Shows hamburger icon when width is below 860px */ 
-    .hamburger-icon {
-        display: block;
-        color: white;
-        font-size: 25px;
-    }
 
-    .hamburger-icon:hover {
-        cursor: pointer;
-    }
-
-    /* Do not show header items when width is below 860px*/
+@media (max-width:995px) {
+    /* Do not show header items when width is below 995px */
     .header-item {
         display:none;
     }
 
+    /* pushes everything left to the end of the header bar */
     .header-items-container {
         justify-content: flex-end;
+    }
+}
+
+@media (max-width:355px) {
+    /* Do not show big logo when resolution less tha 355px */
+    .logo-small {
+        display: block;
+    }
+
+    .logo {
+        display:none; 
     }
 }

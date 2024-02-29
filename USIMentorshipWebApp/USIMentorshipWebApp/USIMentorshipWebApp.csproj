@@ -8,10 +8,13 @@
 
   <ItemGroup>
     <None Remove="Pages\Chat.razor.css" />
+    <None Remove="Pages\ScheduleMeeting.razor.css" />
+    <None Remove="Pages\Scheduler\ScheduleMeeting.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Pages\Chat.razor.css" />
+    <Content Include="Pages\Scheduler\ScheduleMeeting.razor.css" />
   </ItemGroup>
 
   <ItemGroup>

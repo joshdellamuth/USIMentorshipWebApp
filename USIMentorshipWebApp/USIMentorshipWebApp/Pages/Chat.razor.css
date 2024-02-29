@@ -153,9 +153,52 @@ html {
     left: 0;
     width: 65%;
     height: 100%;
-    background-color: #CCCCCC; /* Semi-transparent background */
+    background-color: #002856; /* Semi-transparent background */
     z-index: 9999; /* Ensure the overlay is on top */
+    color: #fff;
+    overflow-y: auto;
 }
+
+.sidebar-title {
+    text-align: center;
+    font-size: 2.5rem; /* Adjust size as needed */
+    font-weight: bold;
+    line-height: 1.2; /* Adjust line height for spacing */
+    padding-bottom: .7rem;
+}
+
+.sidebar-subtitle {
+    text-align: center;
+    line-height: 1.2;
+    font-size: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+.account-wrapper {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image-circle {
+    width: 50px; /* Adjust the width and height as needed */
+    height: 50px; /* Ensure width and height are equal for a perfect circle */
+    border-radius: 50%; /* Apply border-radius to create a circle */
+    object-fit: cover; /* Ensure the image covers the entire space without distortion */
+}
+
+.small-account {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px; /* Adjust margin as needed */
+    transition: transform 0.3s ease-in-out; /* Add transition for smooth effect */
+}
+
+    .small-account:hover {
+        transform: scale(1.1); /* Scale up the element on hover */
+    }
 
 .hamburger-collapsed {
     /* Never collapse the sidebar for wide screens */
@@ -178,6 +221,11 @@ html {
         display: block;
         color: black;
         font-size: 25px;
+    }
+
+   
+    .oi-x {
+        color: white;
     }
 
     .small-menu {
