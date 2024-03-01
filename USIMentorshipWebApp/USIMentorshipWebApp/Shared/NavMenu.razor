@@ -8,19 +8,6 @@
     </a>
 
     <div class="header-items-container">
-        @* Hamburger Icon now shows always *@
-        <div @onclick="ToggleNavMenu">
-            @* Control the icon that pulls the navbar *@
-            @if (IsCollapsed)
-            {
-                <span class="oi oi-menu hamburger-icon"></span>
-            }
-            else
-            {
-                <span class="oi oi-collapse-left hamburger-icon "></span>
-            }
-        </div>
-
         @* MENTOR MATCH *@
         <a class="header-item" href="/mentor-match">
             <span class="oi oi-people" />
@@ -60,6 +47,19 @@
                 Profile
             </div>
         </a>
+
+        @* Hamburger Icon now shows always *@
+        <div @onclick="ToggleNavMenu">
+            @* Control the icon that pulls the navbar *@
+            @if (IsCollapsed)
+            {
+                <span class="oi oi-menu hamburger-icon"></span>
+            }
+            else
+            {
+                <span class="oi oi-collapse-left hamburger-icon "></span>
+            }
+        </div>
 
     </div>
 </div>
