@@ -25,4 +25,8 @@
     <Folder Include="Shared\Buttons\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MentorshipAppModels\MentorshipAppModels.csproj" />
+  </ItemGroup>
+
 </Project>

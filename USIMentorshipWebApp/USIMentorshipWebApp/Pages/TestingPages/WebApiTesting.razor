@@ -1,0 +1,34 @@
+﻿@page "/api-testing"
+@using MentorshipAppModels.Models
+@using USIMentorshipWebApp.Services;
+@inject IUserService UserService;
+@layout MainLayout
+
+<h1>Web API Testing Page</h1>
+<h6>This is page is here to make sure we can pull API data and translate it to UI. -Josh D</h6>
+<br/>
+
+@foreach (User user in userList)
+{
+    <h3>@user.FirstName @user.LastName</h3>
+    <h5>User Id: @user.UserId</h5>
+    <h5>Industry: @user.Industry</h5>
+    <h5>Company: @user.Company</h5>
+}
+
+
+
+@code {
+    private List<User> userList = new List<User>();
+
+    // immediatley gets the users 
+    protected override async Task OnInitializedAsync()
+    {
+        await GetUsers();
+    }
+
+    private async Task GetUsers()
+    {
+        userList = await UserService.GetUsers();
+    }
+}
