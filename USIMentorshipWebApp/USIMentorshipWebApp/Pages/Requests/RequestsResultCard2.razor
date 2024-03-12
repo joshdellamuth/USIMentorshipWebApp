@@ -22,21 +22,21 @@
             <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Name</RadzenText>
             <RadzenText TextStyle="TextStyle.Body1"><b>@(RequestUser.FirstName + " " + RequestUser.LastName)</b></RadzenText>
 
-            @* MAJOR *@
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Major</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.Major</b></RadzenText>
+            @* FIELD *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Field</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.Field</b></RadzenText>
 
-            @* MINOR *@
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Minor</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.Minor</b></RadzenText>
+            @* CURRENT POSITION *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Current Position</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.CurrentPosition</b></RadzenText>
 
-            @* HOBBIES/INTERESTS *@
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Hobbies/Interests</RadzenText>
-            <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>Fishing, Biking, Camping, Hiking</b></RadzenText>
+            @* PREVIOUS MAJOR(S) *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Previous Major(s)</RadzenText>
+            <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@RequestUser.Major</b></RadzenText>
         </RadzenStack>
     </RadzenStack>
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="10">
-        @*<FullProfileButton />*@
+        @*<FullProfileButton /> will need to create another version of fullprofile for mentees, and also include in button handling user's role *@
         <RadzenButton Shade="Shade.Dark" ButtonStyle="ButtonStyle.Info" Style="font-size:12px" Text="Full Profile" />
     </RadzenStack>
 </RadzenCard>
@@ -45,9 +45,4 @@
     [CascadingParameter]
     public User RequestUser { get; set; }
 
-    void Accept()
-    {
-
-    }
-    void Decline() { }
 }
