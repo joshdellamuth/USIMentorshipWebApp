@@ -7,58 +7,25 @@
 @*******************Approved Requests For Mentees******************@
 <body>
     <h5 style="color:forestgreen">Approved Requests</h5>
-    <div class="row default-margin-not-at-start-or-top">
-        <div class="column">
-            <img src="images/man1-profile-picture.png" width="120px" height="120px" alt="Sean Paul profile picture">
-        </div>
-        <div class="column" style="min-width:400px">
-            <b>Sean Paul</b>
-            <div>Field: Computer Science</div>
-            <div>Current Position: Software Developer</div>
-            <div>Previous Major(s): Computer Science</div>
-        </div>
-        <div class="column" style="width:400px">
-            About: I have worked as a remote software developer for Google for 20 years. I have lived in Evansville my whole life and I'm excited to continue helping students in this area.
-        </div>
-    </div>
+    <CascadingValue Value="@Mentor">
+        <RequestsResultCard3></RequestsResultCard3>
+    </CascadingValue>
 </body>
 
 @*******************Pending Requests For Mentees******************@
 <body>
-    <h5 style="color:darkorange">Pending Requests</h5>
-    <div class="row default-margin-not-at-start-or-top">
-        <div class="column">
-            <img src="images/man1-profile-picture.png" width="120px" height="120px" alt="Sean Paul profile picture">
-        </div>
-        <div class="column" style="min-width:400px">
-            <b>Sean Paul</b>
-            <div>Field: Computer Science</div>
-            <div>Current Position: Software Developer</div>
-            <div>Previous Major(s): Computer Science</div>
-        </div>
-        <div class="column" style="width:400px">
-            About: I have worked as a remote software developer for Google for 20 years. I have lived in Evansville my whole life and I'm excited to continue helping students in this area.
-        </div>
-    </div>
+    <h5 style="color:dodgerblue">Pending Requests</h5>
+    <CascadingValue Value="@Mentor">
+        <RequestsResultCard3></RequestsResultCard3>
+    </CascadingValue>
 </body>
 
 @*******************Not sure this one is staying******************@
 <body>
-    <h5 style="color:grey">Passed Requests</h5>
-    <div class="row default-margin-not-at-start-or-top">
-        <div class="column">
-            <img src="images/man1-profile-picture.png" width="120px" height="120px" alt="Sean Paul profile picture">
-        </div>
-        <div class="column" style="min-width:400px">
-            <b>Sean Paul</b>
-            <div>Field: Computer Science</div>
-            <div>Current Position: Software Developer</div>
-            <div>Previous Major(s): Computer Science</div>
-        </div>
-        <div class="column" style="width:400px">
-            About: I have worked as a remote software developer for Google for 20 years. I have lived in Evansville my whole life and I'm excited to continue helping students in this area.
-        </div>
-    </div>
+    <h5 style="color:grey">Past Requests</h5>
+    <CascadingValue Value="@Mentor">
+        <RequestsResultCard3></RequestsResultCard3>
+    </CascadingValue>
 </body>
 
 @code {

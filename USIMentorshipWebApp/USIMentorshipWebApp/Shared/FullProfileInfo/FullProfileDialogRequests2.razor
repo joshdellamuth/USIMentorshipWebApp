@@ -1,0 +1,60 @@
+﻿@using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Shared.RequestMentorship
+@inject NavigationManager NavigationManager
+
+<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
+    @* PROFILE PICTURE *@
+    <RadzenStack Orientation="Orientation.Vertical" Style="width:180px;">
+        <RadzenImage Path=@Mentor.ProfilePicturePath Style="width: 180px; height: 180px; border-radius: 50%;" />
+
+        @* EX-MAJOR *@
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-mt-2 rz-my-0">Major</RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Major</b></RadzenText>
+
+        @* CURRENT POSITION *@
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Current Position</RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.CurrentPosition</b></RadzenText>
+
+    </RadzenStack>
+    @* Gap is the size of the gap between the child items of RadzenStack *@
+    <RadzenStack Orientation="Orientation.Vertical" Gap="4">
+        @* rz-display-flex puts the text in a flexible layout*@
+        @* rz-mt-2 applies a margin of value 2 to the top of the text *@
+        @* rz-my-0 applies the vertical margin of 0 to the top and bottom margin (removes the margins on top and bottom) *@
+        @* NAME *@
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Mentor Name</RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1"><b>@(Mentor.FirstName + " " + Mentor.LastName)</b></RadzenText>
+
+        @* CURRENT POSITION *@
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Position</RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.CurrentPosition</b></RadzenText>
+
+        @* COMPANY *@
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Company</RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Company</b></RadzenText>
+
+        @* BUSINESS LOCATION *@
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Business Location</RadzenText>
+        <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@(Mentor.BusinessCity + ", " + Mentor.BusinessState + ", " + Mentor.BusinessCountry)</b></RadzenText>
+
+        @* LINKEDIN *@
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">LinkedIn</RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1"><a href=https://@Mentor.LinkedIn>@Mentor.LinkedIn</a></RadzenText>
+    </RadzenStack>
+</RadzenStack>
+
+@* BIO (it spans he width of both rows at the bottom) *@
+<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="4" class="rz-p-2">
+    <RadzenStack Orientation="Orientation.Vertical">
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Bio</RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Bio</b></RadzenText>
+    </RadzenStack>
+</RadzenStack>
+
+@code {
+    //must have this property for the cascading dropdown
+    [Parameter]
+    public User Mentor { get; set; }
+
+}
+
