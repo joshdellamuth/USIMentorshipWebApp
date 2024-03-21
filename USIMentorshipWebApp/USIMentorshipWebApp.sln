@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34414.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "USIMentorshipWebApp", "USIMentorshipWebApp\USIMentorshipWebApp.csproj", "{352CB4E0-B76F-4A27-810B-5A04928567CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USIMentorshipAPI", "USIMentorshipAPI\USIMentorshipAPI.csproj", "{2C1BA2E9-6924-4664-9EA4-838D4A4D2A36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{352CB4E0-B76F-4A27-810B-5A04928567CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{352CB4E0-B76F-4A27-810B-5A04928567CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{352CB4E0-B76F-4A27-810B-5A04928567CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C1BA2E9-6924-4664-9EA4-838D4A4D2A36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C1BA2E9-6924-4664-9EA4-838D4A4D2A36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C1BA2E9-6924-4664-9EA4-838D4A4D2A36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C1BA2E9-6924-4664-9EA4-838D4A4D2A36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

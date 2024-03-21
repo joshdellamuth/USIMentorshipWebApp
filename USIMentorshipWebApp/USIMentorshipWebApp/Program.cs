@@ -11,7 +11,6 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
