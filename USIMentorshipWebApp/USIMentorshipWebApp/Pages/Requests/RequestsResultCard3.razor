@@ -7,11 +7,11 @@
 <RadzenCard Class="rz-p-3 default-margin" Style="max-width: 500px;">
     @* rz-p-2 applies padding to all sides of an element to radzen stack *@
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
-        @* PROFILE PICTURE AND BUSINESS LOCATION *@
+        @* PROFILE PICTURE AND MENTORSHIP LENGTH *@
         <RadzenStack Orientation="Orientation.Vertical" Style="max-width:160px;">
             <RadzenImage Path=@RequestUser.ProfilePicturePath Style="width: 160px; height: 160px; border-radius: 50%;" />
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Business City</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.BusinessCity</b></RadzenText>
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Mentorship Length</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>6 months</b></RadzenText>
         </RadzenStack>
         @* Gap is the size of the gap between the child items of RadzenStack *@
         <RadzenStack Gap="4">

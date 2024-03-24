@@ -25,7 +25,7 @@ namespace USIMentorshipWebApp.Data;
                 ClassYear = "2022",
                 Gender = "Male",
                 ProfilePicturePath = "images/john-doe-profile-picture.png",
-                Role = "Mentee"
+                Role = "Mentor"
             },
 
             new User

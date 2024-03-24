@@ -7,13 +7,13 @@
     <RadzenStack Orientation="Orientation.Vertical" Style="width:180px;">
         <RadzenImage Path=@Mentee.ProfilePicturePath Style="width: 180px; height: 180px; border-radius: 50%;" />
 
+        @* MENTORSHIP LENGTH *@
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-mt-2 rz-my-0">Mentorship Length</RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1"><b>6 months</b></RadzenText>
+
         @* DESIRED FIELD *@
         <RadzenText TextStyle="TextStyle.Overline" class="rz-mt-2 rz-my-0">Desired Industry</RadzenText>
         <RadzenText TextStyle="TextStyle.Body1"><b>@Mentee.Industry</b></RadzenText>
-
-        @* MINOR *@
-        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Minor</RadzenText>
-        <RadzenText TextStyle="TextStyle.Body1"><b>@Mentee.Minor</b></RadzenText>
 
     </RadzenStack>
     @* Gap is the size of the gap between the child items of RadzenStack *@
@@ -29,9 +29,9 @@
         <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Major</RadzenText>
         <RadzenText TextStyle="TextStyle.Body1"><b>@Mentee.Major</b></RadzenText>
 
-        @* HOBBIES/INTERESTS *@
-        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Hobbies/Interests</RadzenText>
-        <RadzenText TextStyle="TextStyle.Body1"><b>Hobbies/Interests Here!</b></RadzenText>
+        @* MINOR *@
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Minor</RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1"><b>@Mentee.Minor</b></RadzenText>
 
         @* LOCATION *@
         <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Location</RadzenText>
@@ -43,7 +43,7 @@
     </RadzenStack>
 </RadzenStack>
 
-@* BIO (it spans he width of both rows at the bottom) *@
+@* BIO (it spans the width of both rows at the bottom) *@
 <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="4" class="rz-p-2">
     <RadzenStack Orientation="Orientation.Vertical">
         <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Bio</RadzenText>
