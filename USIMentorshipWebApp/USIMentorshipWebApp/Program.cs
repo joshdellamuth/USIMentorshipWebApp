@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 using Radzen;
 using USIMentorshipWebApp.Data;
+using USIMentorshipWebApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 
+// GetConnectionString pulls the connection string from appsettings.json
+builder.Services.AddDbContext<UsiMentorshipApplicationContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

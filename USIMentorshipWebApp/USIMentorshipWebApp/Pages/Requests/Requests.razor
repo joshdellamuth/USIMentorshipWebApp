@@ -6,8 +6,8 @@
 <PageTitle>Requests - USI Mentorship Program</PageTitle>
 
 <h1>Requests</h1>
-<h6>View approved, pending, and past requests</h6>
-@foreach (User user in UserData.users)  @*Will need to create a field for mentee or mentor, as well as field for entering mentee/mentors to be displayed*@
+<h6>View your approved, pending, and denied requests</h6>
+@foreach (UserOld user in UserData.users)  @*Will need to create a field for mentee or mentor, as well as field for entering mentee/mentors to be displayed*@
 {
     @if (user.UserId == "U1")
     {

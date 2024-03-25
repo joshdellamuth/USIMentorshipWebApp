@@ -31,11 +31,11 @@
 @code {
 
     [CascadingParameter]
-    public User Mentor { get; set; }
+    public UserOld Mentor { get; set; }
 
     void LoadRequests()
     {
-        foreach (User user in UserData.users) //This will be from a list of mentors they have requested connected to their profile, not UserData.users
+        foreach (UserOld user in UserData.users) //This will be from a list of mentors they have requested connected to their profile, not UserData.users
         {
         
         }

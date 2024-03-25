@@ -20,7 +20,7 @@
 <div class="row" style="justify-content:center;">
     @* CascadingValue allows us to pass down the userExample variable to next component to use it there *@
     @* *@
-    @foreach (User user in UserData.users)
+    @foreach (UserOld user in UserData.users)
     {
         <CascadingValue Value="@user">
             <MentorResultCard />

@@ -1,6 +1,6 @@
 ﻿namespace USIMentorshipWebApp.Data
 {
-    public class User
+    public class UserOld
     {
         public string UserId { get; set; }
         public string FirstName { get; set; }
