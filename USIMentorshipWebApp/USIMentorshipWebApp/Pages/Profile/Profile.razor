@@ -9,7 +9,7 @@
     <div class="container">
         <div class="fixed-column; justify-content-center">
             <center><h2>John Smith</h2></center>
-            @foreach (User user in UserData.users)
+            @foreach (UserOld user in UserData.users)
             {
                 if (user.UserId == "U1")
                 {
@@ -21,7 +21,7 @@
             <RadzenUpload Url="upload/single" ChooseText="Change Profile Picture" Style="width:180px; text-align:center;" Accept="image/*"></RadzenUpload>
         </div>
         <div class="flex-column">
-            @foreach (User user in UserData.users)
+            @foreach (UserOld user in UserData.users)
             {
                 if (user.UserId == "U1")
                 {

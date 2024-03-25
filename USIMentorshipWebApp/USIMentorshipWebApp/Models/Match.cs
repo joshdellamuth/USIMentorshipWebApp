@@ -16,6 +16,4 @@ public partial class Match
     public virtual ICollection<ConditionDetail> ConditionDetails { get; set; } = new List<ConditionDetail>();
 
     public virtual ICollection<MatchCommunicationDetail> MatchCommunicationDetails { get; set; } = new List<MatchCommunicationDetail>();
-
-    public virtual ICollection<UserMatch> UserMatches { get; set; } = new List<UserMatch>();
 }

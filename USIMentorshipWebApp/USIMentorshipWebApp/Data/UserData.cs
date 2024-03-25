@@ -4,9 +4,9 @@ namespace USIMentorshipWebApp.Data;
 
     public class UserData
     {
-    public static List<User> users = new List<User>()
+    public static List<UserOld> users = new List<UserOld>()
         {
-            new User
+            new UserOld
             {
                 UserId = "U1",
                 FirstName = "John",
@@ -28,7 +28,7 @@ namespace USIMentorshipWebApp.Data;
                 Role = "Mentee"
             },
 
-            new User
+            new UserOld
             {
                 UserId = "U2",
                 FirstName = "Jane",
@@ -52,7 +52,7 @@ namespace USIMentorshipWebApp.Data;
 
 
 
-            new User
+            new UserOld
             {
                 UserId = "U3",
                 FirstName = "Shawn",
@@ -73,7 +73,7 @@ namespace USIMentorshipWebApp.Data;
                 ProfilePicturePath = "images/shawn-smith-profile-picture.png"
             },
 
-            new User
+            new UserOld
             {
                 UserId = "U4",
                 FirstName = "Alissa",
@@ -94,7 +94,7 @@ namespace USIMentorshipWebApp.Data;
                 ProfilePicturePath = "images/jane-doe-profile-picture.png"
             },
 
-            new User
+            new UserOld
             {
                 UserId = "U5",
                 FirstName = "James",
@@ -115,7 +115,7 @@ namespace USIMentorshipWebApp.Data;
                 ProfilePicturePath = "images/blank-profile-1.png"
             },
 
-            new User
+            new UserOld
             {
                 UserId = "U6",
                 FirstName = "John",

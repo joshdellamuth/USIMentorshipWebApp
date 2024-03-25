@@ -50,6 +50,4 @@ public partial class User
     public virtual ICollection<MatchCommunicationDetail> MatchCommunicationDetails { get; set; } = new List<MatchCommunicationDetail>();
 
     public virtual ICollection<UserDetail> UserDetails { get; set; } = new List<UserDetail>();
-
-    public virtual UserMatch? UserMatch { get; set; }
 }

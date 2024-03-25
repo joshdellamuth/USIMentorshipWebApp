@@ -39,9 +39,8 @@ public partial class UsiMentorshipApplicationContext : DbContext
     {
         modelBuilder.Entity<ConditionDetail>(entity =>
         {
-            entity.HasKey(e => e.ConditionDetailId).HasName("PK__Conditio__84553ACB918FA846");
+            entity.HasKey(e => e.ConditionDetailId).HasName("PK__Conditio__84553ACBDCDD8C7D");
 
-            entity.Property(e => e.ConditionDetailId).ValueGeneratedNever();
             entity.Property(e => e.ConditionName)
                 .HasMaxLength(45)
                 .IsUnicode(false);
@@ -51,14 +50,13 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
             entity.HasOne(d => d.Match).WithMany(p => p.ConditionDetails)
                 .HasForeignKey(d => d.MatchId)
-                .HasConstraintName("FK__Condition__Match__59063A47");
+                .HasConstraintName("FK__Condition__Match__5812160E");
         });
 
         modelBuilder.Entity<Match>(entity =>
         {
-            entity.HasKey(e => e.MatchId).HasName("PK__Matches__4218C817870ACB25");
+            entity.HasKey(e => e.MatchId).HasName("PK__Matches__4218C81731F4AB9F");
 
-            entity.Property(e => e.MatchId).ValueGeneratedNever();
             entity.Property(e => e.EndDate).HasColumnType("datetime");
             entity.Property(e => e.StartDate).HasColumnType("datetime");
             entity.Property(e => e.Status)
@@ -68,11 +66,10 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
         modelBuilder.Entity<MatchCommunicationDetail>(entity =>
         {
-            entity.HasKey(e => e.CommunicationDetailId).HasName("PK__MatchCom__AC036A09A5B6F3BA");
+            entity.HasKey(e => e.CommunicationDetailId).HasName("PK__MatchCom__AC036A0943FBA544");
 
             entity.ToTable("MatchCommunicationDetail");
 
-            entity.Property(e => e.CommunicationDetailId).ValueGeneratedNever();
             entity.Property(e => e.CommunicationContent)
                 .HasMaxLength(300)
                 .IsUnicode(false);
@@ -83,18 +80,17 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
             entity.HasOne(d => d.Match).WithMany(p => p.MatchCommunicationDetails)
                 .HasForeignKey(d => d.MatchId)
-                .HasConstraintName("FK__MatchComm__Match__5BE2A6F2");
+                .HasConstraintName("FK__MatchComm__Match__5AEE82B9");
 
             entity.HasOne(d => d.SenderUser).WithMany(p => p.MatchCommunicationDetails)
                 .HasForeignKey(d => d.SenderUserId)
-                .HasConstraintName("FK__MatchComm__Sende__5CD6CB2B");
+                .HasConstraintName("FK__MatchComm__Sende__5BE2A6F2");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1A828D23F0");
+            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1ADE7FBB1E");
 
-            entity.Property(e => e.RoleId).ValueGeneratedNever();
             entity.Property(e => e.RoleDescription)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -105,9 +101,8 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CFB483ED3");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CBD8EF08F");
 
-            entity.Property(e => e.UserId).ValueGeneratedNever();
             entity.Property(e => e.Bio)
                 .HasMaxLength(300)
                 .IsUnicode(false);
@@ -172,11 +167,9 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
         modelBuilder.Entity<UserDetail>(entity =>
         {
-            entity.HasKey(e => e.UserDetail1).HasName("PK__UserDeta__BA66F1232EE8BA05");
+            entity.HasKey(e => e.UserDetail1).HasName("PK__UserDeta__BA66F1239BFC9A4B");
 
-            entity.Property(e => e.UserDetail1)
-                .ValueGeneratedNever()
-                .HasColumnName("UserDetail");
+            entity.Property(e => e.UserDetail1).HasColumnName("UserDetail");
             entity.Property(e => e.DetailName)
                 .HasMaxLength(45)
                 .IsUnicode(false);
@@ -191,18 +184,15 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
         modelBuilder.Entity<UserMatch>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__UserMatc__1788CC4CBF304E92");
+            entity.HasNoKey();
 
-            entity.Property(e => e.UserId).ValueGeneratedNever();
-
-            entity.HasOne(d => d.Match).WithMany(p => p.UserMatches)
+            entity.HasOne(d => d.Match).WithMany()
                 .HasForeignKey(d => d.MatchId)
-                .HasConstraintName("FK__UserMatch__Match__5629CD9C");
+                .HasConstraintName("FK__UserMatch__Match__5535A963");
 
-            entity.HasOne(d => d.User).WithOne(p => p.UserMatch)
-                .HasForeignKey<UserMatch>(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__UserMatch__UserI__5535A963");
+            entity.HasOne(d => d.User).WithMany()
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__UserMatch__UserI__5441852A");
         });
 
         modelBuilder.Entity<UserRole>(entity =>
