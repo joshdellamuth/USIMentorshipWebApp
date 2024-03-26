@@ -52,16 +52,21 @@
             <RadzenDatePicker @bind-Value=@inputtedBirthdate ShowCalendarWeek />
         </div>
 
-        @* COMPANY *@
-        <RadzenFormField Text="Company:" AllowFloatingLabel="false" Variant=Variant.Flat>
-             <RadzenTextBox @bind-Value="@inputtedCompany" />
-        </RadzenFormField>
-
-        @* INDUSTRY *@
+         @* INDUSTRY *@
          <DropdownWithLabelAbove SelectedValue="@inputtedIndustry" DropdownData="@industriesList" Label="Industry:" />
+
+         @* CURRENT POSITION *@
+         <RadzenFormField Text="Current Position:" AllowFloatingLabel="false" Variant=Variant.Flat>
+             <RadzenTextBox @bind-Value="@inputtedCurrentPosition" />
+         </RadzenFormField>
     </RadzenRow>
 
     <RadzenRow class="mb-4 mt-4" Gap="25">
+         @* COMPANY *@
+         <RadzenFormField Text="Company:" AllowFloatingLabel="false" Variant=Variant.Flat>
+             <RadzenTextBox @bind-Value="@inputtedCompany" />
+         </RadzenFormField>
+
         @* COMPANY WEBSITE *@
         <RadzenFormField Text="Company Website:" AllowFloatingLabel="false" Variant=Variant.Flat>
              <RadzenTextBox @bind-Value="@inputtedCompanyWebsite" />
@@ -133,6 +138,8 @@
     string inputtedBusinessLocation = "";
     string inputtedCompanyWebsite = "";
     string inputtedSelfIntroduction = "";
+    string inputtedGraduationYear = "";
+
 
     private UserService _userService = new UserService();
 

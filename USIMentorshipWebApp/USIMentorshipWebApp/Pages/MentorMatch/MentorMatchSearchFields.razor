@@ -1,5 +1,8 @@
 ﻿@using USIMentorshipWebApp.Shared.Dropdowns;
 @using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Models;
+@using System.Linq;
+
 
 @* COULD EVENTUALLY CHANGE THESE TO CASCADING DROPDOWN COMPONENT IN RADZEN *@
 
@@ -8,7 +11,7 @@
     <MultiSelectDropdownWithLabelAbove DropdownData="@industriesList" SelectedValues="@industriesSelected" Label="Industry:" />
     <MultiSelectDropdownWithLabelAbove DropdownData="@currentPositionsList" SelectedValues="@currentPositionSelected" Label="Current Position(s):" />
     @* Companies is an example of selecting from a list of objects *@
-    <MultiSelectDropdownWithLabelAbove Label="Companies:" SelectedValues=@companiesSelected DropdownData=@companies ValueProperty="ExampleClassId" DisplayedProperty="ExampleClassName" />
+    <MultiSelectDropdownWithLabelAbove DropdownData="@companies" SelectedValues="@companiesSelected" Label="Company" />
     <MultiSelectDropdownWithLabelAbove DropdownData="@majorsList" SelectedValues="@majorSelected" Label="Major(s):" />
     
     @* Removed Minor selection per Maggie request *@
@@ -23,30 +26,61 @@
     <AutoCompleteWithLabelAbove Label="Search by Mentor Name:" SelectedValue=@SelectedMentorName AutoCompleteData=@mentors DisplayPropertyName="FirstName"/>
 </div>
 
+<RadzenRow>
+    <RadzenButton Style="width:140px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click=@SearchMentors Text="Find Mentors" />
+</RadzenRow>
+
+<div class="row" style="justify-content:center;">
+    @* CascadingValue allows us to pass down the userExample variable to next component to use it there *@
+    @* *@
+    @if (mentorResults != null)
+    {
+        foreach (User user in mentorResults)
+        {
+            <CascadingValue Value="@user">
+                <MentorResultCard />
+            </CascadingValue>
+        }
+    }
+
+</div>
 
 @code {
 
-    //NOTE: MAY HAVE TO ADD VALUE PROPERTY AND TEXT PORPERTY TO NONMULTISELECT DROPDOWNS SO WE CAN GET THE IDs OF THE OBJECTS
+    private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
 
+
+    public List<string> industriesList;
+    public List<string> currentPositionsList;
+    public List<string> majorsList;
+    public List<string> companies;
+
+    public List<User>? mentorResults;
+
+
+    protected override void OnInitialized()
+    {
+        industriesList = _context.Users.Where(u => !string.IsNullOrEmpty(u.Industry)).Select(u => u.Industry).Distinct().ToList();
+        currentPositionsList = _context.Users.Where(u => !string.IsNullOrEmpty(u.CurrentPosition)).Select(u => u.CurrentPosition).Distinct().ToList();
+        majorsList = _context.Users.Where(u => !string.IsNullOrEmpty(u.Major)).Select(u => u.Major).Distinct().ToList();
+        companies = _context.Users.Where(u => !string.IsNullOrEmpty(u.Company)).Select(u => u.Company).Distinct().ToList();
+    }
+
+
+
+    //NOTE: MAY HAVE TO ADD VALUE PROPERTY AND TEXT PORPERTY TO NONMULTISELECT DROPDOWNS SO WE CAN GET THE IDs OF THE OBJECTS
     # region Industry
     public List<string>? industriesSelected;
-    public List<string> industriesList = new List<string> { "IT", "Fashion", "Entertainment", "Retail" };
     #endregion
 
     #region Current Position
     public List<string>? currentPositionSelected;
-    public List<string> currentPositionsList = new List<string> { "Software Developer", "Surgeon", "Manager", "Auctioneer" };
     #endregion
 
     //HAS A DESCRIPTION OF WHAT WE'LL NEED TO HAVE IN FUTUTRE
     # region Major
     // whatever is the current selection will be stored here
     public List<string>? majorSelected;
-
-    // list of majors to populate the dropdown
-    // in the future, we will set majors list to be equal to a method called GetMajors()
-    // or something that will pull from the database
-    public List<string> majorsList = new List<string> { "Computer Science", "Business", "Electrical Engineering", "Marketing" };
     #endregion
 
     // Removed Minor selection per Maggie request
@@ -58,14 +92,6 @@
     //THIS ONE USES A MULTISELECT COMPONENT
     # region Companies
     public List<string>? companiesSelected;
-    /* Make a method here to update value when a click occurs */
-
-    List<ExampleClass>? companies = new List<ExampleClass>
-    {
-        new ExampleClass { ExampleClassId = "1", ExampleClassName = "Mead Johnson"},
-        new ExampleClass { ExampleClassId = "2", ExampleClassName = "Berry Global"},
-        new ExampleClass { ExampleClassId = "3", ExampleClassName = "Deaconess Health"}
-    };
     # endregion
 
     #region Age Range
@@ -100,4 +126,8 @@
 
     #endregion
 
+    public void SearchMentors(MouseEventArgs args)
+    {
+        mentorResults = _context.Users.ToList();
+    }
 }
