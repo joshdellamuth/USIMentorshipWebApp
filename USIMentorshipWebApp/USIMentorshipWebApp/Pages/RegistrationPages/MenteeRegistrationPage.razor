@@ -5,6 +5,11 @@
 @inject DialogService DialogService
 @using USIMentorshipWebApp.Models;
 @using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Data
+@using Radzen
+@using System.Text.Json     
+@* Added using radzen and system.text.json for validator
+ *@
 
 <PageTitle>Mentee Sign Up - USI Mentorship Program</PageTitle>
 
@@ -16,11 +21,17 @@
         <RadzenFormField Text="First Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
             <RadzenTextBox @bind-Value=@inputtedFirstName />
             <RadzenRequiredValidator Component="FirstName" Text="First name is required" Style="position: absolute" />
+            <RadzenTextBox style="display: block" Name="FirstName" @bind-Value=@model.FirstName class="w-100" />
+            <RadzenRequiredValidator Component="FirstName" Text="First name is required" Popup=@popup Style="position: absolute" />
+
         </RadzenFormField>
 
         @* LAST NAME *@
         <RadzenFormField Text="Last Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
             <RadzenTextBox @bind-Value="@inputtedLastName" />
+            <RadzenTextBox style="display: block" Name="LastName" @bind-Value=@model.LastName class="w-100" />
+            <RadzenRequiredValidator Component="LastName" Text="Last name is required" Popup=@popup Style="position: absolute" />
+
         </RadzenFormField>
     </RadzenRow>
 
@@ -90,6 +101,7 @@
 
     <RadzenRow>
         <RadzenButton Style="width:100px; font-size:14px;" ButtonType="ButtonType.Submit" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click=@RegisterUser Text="Register" />
+        <RadzenButton Style="width:100px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click=@GoToNextPage ButtonType="ButtonType.Submit" Text="Register" />
         <RadzenButton Style="width:100px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click=@GoToLogin Text="Back To Login" />
     </RadzenRow>
 </div>
@@ -144,4 +156,29 @@
     {
         NavigationManager.NavigateTo("/");
     }
+    //Code below involved in validator useage
+    class Model
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+    }
+
+    bool popup;
+
+    Model model = new Model();
+
+    //EventConsole console; //not sure what to do with this
+
+    void OnSubmit(Model model)
+        {
+        //console.Log($"Submit: {JsonSerializer.Serialize(model, new JsonSerializerOptions() { WriteIndented = true })}");
+    }
+
+    void OnInvalidSubmit(FormInvalidSubmitEventArgs args)
+        {
+        //console.Log($"InvalidSubmit: {JsonSerializer.Serialize(args, new JsonSerializerOptions() { WriteIndented = true })}");
+    }
+    
+    
+
 }
