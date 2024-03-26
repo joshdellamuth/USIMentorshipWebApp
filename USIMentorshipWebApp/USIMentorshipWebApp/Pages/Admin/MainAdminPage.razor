@@ -22,31 +22,31 @@
 
             @* USER GRID DEFINED *@
             <RadzenDataGrid @ref="usersGrid" AllowAlternatingRows="false" AllowFiltering="true" AllowPaging="true" PageSize="5" AllowSorting="true" EditMode="@editMode"
-                            Data="@users" TItem="User" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow" Sort="@Reset" Page="@Reset" Filter="@Reset" ColumnWidth="200px">
+                            Data="@users" TItem="UserOld" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow" Sort="@Reset" Page="@Reset" Filter="@Reset" ColumnWidth="200px">
                 <Columns>
                     @* USER ID COLUMN *@
-                    <RadzenDataGridColumn TItem="User" Property="UserId" Title="User ID" Width="120px" Frozen="true" />
+                    <RadzenDataGridColumn TItem="UserOld" Property="UserId" Title="User ID" Width="120px" Frozen="true" />
                     
                     @* USER FIRST NAME COLUMN *@
-                    <RadzenDataGridColumn TItem="User" Property="User.FirstName" Title="First Name" Width="280px"/>
+                    <RadzenDataGridColumn TItem="UserOld" Property="User.FirstName" Title="First Name" Width="280px"/>
 
                      @* USER LAST NAME COLUMN *@
-                    <RadzenDataGridColumn TItem="User" Property="User.LastName" Title="Last Name" Width="220px"/>
+                    <RadzenDataGridColumn TItem="UserOld" Property="User.LastName" Title="Last Name" Width="220px"/>
 
                     @* USER CLASS YEAR COLUMN *@
-                    <RadzenDataGridColumn TItem="User" Property="ClassYear" Title="Class Year" Width="200px"/>
+                    <RadzenDataGridColumn TItem="UserOld" Property="ClassYear" Title="Class Year" Width="200px"/>
 
                     @* USER GENDER COLUMN *@
-                    <RadzenDataGridColumn TItem="User" Property="Gender" Title="Gender"/>
+                    <RadzenDataGridColumn TItem="UserOld" Property="Gender" Title="Gender"/>
 
                     @* USER MAJOR COLUMN *@
-                    <RadzenDataGridColumn TItem="User" Property="Major" Title="Major" />
+                    <RadzenDataGridColumn TItem="UserOld" Property="Major" Title="Major" />
 
                     @* USER MINOR COLUMN *@
-                    <RadzenDataGridColumn TItem="User" Property="Minor" Title="Minor"/>
+                    <RadzenDataGridColumn TItem="UserOld" Property="Minor" Title="Minor"/>
 
                     @* USER CURRENT POSITION COLUMN *@
-                    <RadzenDataGridColumn TItem="User" Property="CurrentPosition" Title="Current Position"/>
+                    <RadzenDataGridColumn TItem="UserOld" Property="CurrentPosition" Title="Current Position"/>
                 </Columns>
             </RadzenDataGrid>
         
@@ -66,12 +66,12 @@
 
 @code {
     TabPosition tabPosition = TabPosition.Top;
-    RadzenDataGrid<User> usersGrid;
+    RadzenDataGrid<UserOld> usersGrid;
 
     @* EXAMPLE USER DATA FOR THE TABLE *@
-    IEnumerable<User> users = new List<User>
+    IEnumerable<UserOld> users = new List<UserOld>
     {
-        new User
+        new UserOld
         {
             UserId = "1",
             FirstName = "John",
@@ -88,7 +88,7 @@
             Gender = "Male",
             ProfilePicturePath = null
         },
-        new User
+        new UserOld
         {
             UserId = "2",
             FirstName = "Jane",
@@ -105,7 +105,7 @@
             Gender = "Female",
             ProfilePicturePath = null
         },
-        new User
+        new UserOld
         {
             UserId = "3",
             FirstName = "Bob",
@@ -124,13 +124,13 @@
         }
     };
 
-    IEnumerable<User> users1;
-    IEnumerable<User> users2;
+    IEnumerable<UserOld> users1;
+    IEnumerable<UserOld> users2;
 
     DataGridEditMode editMode = DataGridEditMode.Single;
 
-    List<User> usersToInsert = new List<User>();
-    List<User> usersToUpdate = new List<User>();
+    List<UserOld> usersToInsert = new List<UserOld>();
+    List<UserOld> usersToUpdate = new List<UserOld>();
 
     int selectedIndex = 0;
 
@@ -141,7 +141,7 @@
         usersToUpdate.Clear();
     }
 
-    void Reset(User user)
+    void Reset(UserOld user)
     {
         usersToInsert.Remove(user);
         usersToUpdate.Remove(user);
@@ -157,7 +157,7 @@
         // orders = dbContext.Orders.Include("Customer").Include("Employee");
     }
 
-    async Task EditRow(User user)
+    async Task EditRow(UserOld user)
     {
         if (editMode == DataGridEditMode.Single && usersToInsert.Count() > 0)
         {
@@ -168,7 +168,7 @@
         await usersGrid.EditRow(user);
     }
 
-    void OnUpdateRow(User user)
+    void OnUpdateRow(UserOld user)
     {
         // Reset(order);
 
@@ -177,12 +177,12 @@
         // dbContext.SaveChanges();
     }
 
-    async Task SaveRow(User user)
+    async Task SaveRow(UserOld user)
     {
         await usersGrid.UpdateRow(user);
     }
 
-    void CancelEdit(User user)
+    void CancelEdit(UserOld user)
     {
         Reset(user);
 
@@ -196,7 +196,7 @@
         // }
     }
 
-    async Task DeleteRow(User user)
+    async Task DeleteRow(UserOld user)
     {
         Reset(user);
 
@@ -227,7 +227,7 @@
         // await ordersGrid.InsertRow(order);
     }
 
-    void OnCreateRow(User user)
+    void OnCreateRow(UserOld user)
     {
         // dbContext.Add(order);
 

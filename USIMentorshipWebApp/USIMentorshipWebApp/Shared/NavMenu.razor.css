@@ -7,10 +7,14 @@
     height: 70px;
 }
 
-/* Does not show small logo when width is above 995px */
-/*.logo-small {
+/* Does not show small logo when width is above 330px */
+.logo-small {
     display: none;
-}*/
+}
+
+.logo {
+    display: block;
+}
 
 /* each item for the main top navbar */
 .header-item {
@@ -94,5 +98,16 @@
     /* pushes everything left to the end of the header bar */
     .header-items-container {
         justify-content: flex-end;
+    }
+}
+
+@media (max-width:355px) {
+    /* Do not show big logo when resolution less tha 355px */
+    .logo-small {
+        display: block;
+    }
+
+    .logo {
+        display:none; 
     }
 }

@@ -1,0 +1,47 @@
+﻿@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Shared.FullProfileInfo;
+@using USIMentorshipWebApp.Shared.RequestMentorship;
+
+<RadzenCard Class="rz-p-3 default-margin" Style="max-width: 500px;">
+    @* rz-p-2 applies padding to all sides of an element to radzen stack *@
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
+        @* PROFILE PICTURE AND MENTORSHIP LENGTH *@
+        <RadzenStack Orientation="Orientation.Vertical" Style="max-width:160px;">
+            <RadzenImage Path=@RequestUser.ProfilePicturePath Style="width: 160px; height: 160px; border-radius: 50%;" />
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Mentorship Length</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>6 months</b></RadzenText>
+        </RadzenStack>
+        @* Gap is the size of the gap between the child items of RadzenStack *@
+        <RadzenStack Gap="4">
+            @* rz-display-flex puts the text in a flexible layout*@
+            @* rz-mt-2 applies a margin of value 2 to the top of the text *@
+            @* rz-my-0 applies the vertical ma rgin of 0 to the top and bottom margin (removes the margins on top and bottom) *@
+            @* NAME *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Name</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@(RequestUser.FirstName + " " + RequestUser.LastName)</b></RadzenText>
+
+            @* INDUSTRY *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Industry</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.Industry</b></RadzenText>
+
+            @* CURRENT POSITION *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Current Position</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.CurrentPosition</b></RadzenText>
+
+            @* PREVIOUS MAJOR(S) *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Previous Major(s)</RadzenText>
+            <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@RequestUser.Major</b></RadzenText>
+        </RadzenStack>
+    </RadzenStack>
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="10">
+        <FullProfileButtonRequests/>
+    </RadzenStack>
+</RadzenCard>
+
+@code {
+    [CascadingParameter]
+    public UserOld RequestUser { get; set; }
+
+}

@@ -1,25 +1,13 @@
 ﻿@* MAIN HEADER NAVBAR *@
 <div class="header-bar">
-    <div class="">
-        <a href="/mentor-match">
-            <img src=images/usi_logo.png alt="USI-Logo">
-        </a>
-    </div>
+    <a href="/mentor-match">
+        @* regular logo shows when resolution over 355px *@
+        <img src=images/usi_logo.png class="logo" alt="USI-Logo">
+        @* logo small only shows when smaller than 355px *@
+        <img src=images/usi-logo-small.png class="logo-small" alt="USI-Logo-Small">
+    </a>
 
     <div class="header-items-container">
-        @* Hamburger Icon now shows always *@
-        <div @onclick="ToggleNavMenu">
-            @* Control the icon that pulls the navbar *@
-            @if (IsCollapsed)
-            {
-                <span class="oi oi-menu hamburger-icon"></span>
-            }
-            else
-            {
-                <span class="oi oi-collapse-left hamburger-icon"></span>
-            }
-        </div>
-
         @* MENTOR MATCH *@
         <a class="header-item" href="/mentor-match">
             <span class="oi oi-people" />
@@ -60,6 +48,19 @@
             </div>
         </a>
 
+        @* Hamburger Icon now shows always *@
+        <div @onclick="ToggleNavMenu">
+            @* Control the icon that pulls the navbar *@
+            @if (IsCollapsed)
+            {
+                <span class="oi oi-menu hamburger-icon"></span>
+            }
+            else
+            {
+                <span class="oi oi-collapse-left hamburger-icon "></span>
+            }
+        </div>
+
     </div>
 </div>
 
@@ -68,7 +69,10 @@
     @* LOGO FOR SIDEBAR *@
     <div class="logo-header-bar-for-sidebar">
         <a href="/mentor-match">
-            <img src=images/usi_logo.png alt="USI-Logo">
+            @* regular logo shows when resolution over 355px *@
+            <img src=images/usi_logo.png class="logo" alt="USI-Logo">
+            @* logo small only shows when smaller than 355px *@
+            <img src=images/usi-logo-small.png class="logo-small" alt="USI-Logo-Small">
         </a>
     </div>
 

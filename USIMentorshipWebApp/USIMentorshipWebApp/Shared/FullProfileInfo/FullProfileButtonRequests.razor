@@ -1,0 +1,28 @@
+﻿@using USIMentorshipWebApp.Data
+@inject DialogService DialogService
+
+<RadzenButton Shade="Shade.Dark" ButtonStyle="ButtonStyle.Info" Style="font-size:12px" Text="Full Profile" Click=@ShowFullProfile />
+
+@code {
+    [CascadingParameter]
+    //must have this property for the cascading dropdown
+    public UserOld userRequest { get; set; }
+
+    public async Task ShowFullProfile()
+    {
+        if (userRequest.Role == "Mentor")
+        {
+            await DialogService.OpenAsync<FullProfileDialogRequests2>($"Mentor {userRequest.FirstName} {userRequest.LastName}",
+                   new Dictionary<string, object>() { { "Mentor", userRequest } },
+                   // can configure the dropdown to be resizable and dragable (commented out)
+                   new DialogOptions() { Width = "700px", Height = "550px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
+        }
+        else
+        {
+            await DialogService.OpenAsync<FullProfileDialogRequests>($"Mentee {userRequest.FirstName} {userRequest.LastName}",
+                   new Dictionary<string, object>() { { "Mentee", userRequest } },
+                   // can configure the dropdown to be resizable and dragable (commented out)
+                   new DialogOptions() { Width = "700px", Height = "550px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
+        }
+    }
+}

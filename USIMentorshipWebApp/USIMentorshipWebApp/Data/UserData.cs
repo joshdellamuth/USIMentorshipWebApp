@@ -1,10 +1,12 @@
-﻿namespace USIMentorshipWebApp.Data;
+﻿using USIMentorshipWebApp.Pages.RegistrationPages;
+
+namespace USIMentorshipWebApp.Data;
 
     public class UserData
     {
-        public static List<User> users = new List<User>()
+    public static List<UserOld> users = new List<UserOld>()
         {
-            new User
+            new UserOld
             {
                 UserId = "U1",
                 FirstName = "John",
@@ -22,10 +24,11 @@
                 BusinessCity = "San Francisco",
                 ClassYear = "2022",
                 Gender = "Male",
-                ProfilePicturePath = "images/john-doe-profile-picture.png"
+                ProfilePicturePath = "images/john-doe-profile-picture.png",
+                Role = "Mentor"
             },
 
-            new User
+            new UserOld
             {
                 UserId = "U2",
                 FirstName = "Jane",
@@ -43,12 +46,13 @@
                 BusinessCity = "Indiana",
                 ClassYear = "2007",
                 Gender = "Female",
-                ProfilePicturePath = "images/jane-doe-profile-picture.png"
+                ProfilePicturePath = "images/jane-doe-profile-picture.png",
+                Role = "Mentee"
             },
 
 
 
-            new User
+            new UserOld
             {
                 UserId = "U3",
                 FirstName = "Shawn",
@@ -69,7 +73,7 @@
                 ProfilePicturePath = "images/shawn-smith-profile-picture.png"
             },
 
-            new User
+            new UserOld
             {
                 UserId = "U4",
                 FirstName = "Alissa",
@@ -90,7 +94,7 @@
                 ProfilePicturePath = "images/jane-doe-profile-picture.png"
             },
 
-            new User
+            new UserOld
             {
                 UserId = "U5",
                 FirstName = "James",
@@ -111,7 +115,7 @@
                 ProfilePicturePath = "images/blank-profile-1.png"
             },
 
-            new User
+            new UserOld
             {
                 UserId = "U6",
                 FirstName = "John",

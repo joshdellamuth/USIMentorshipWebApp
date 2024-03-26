@@ -4,7 +4,10 @@
 @inject NavigationManager NavigationManager
 @inject DialogService DialogService
 @using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Models;
 @using USIMentorshipWebApp.Shared.Dropdowns;
+
+<PageTitle>Mentor Sign Up - USI Mentorship Program</PageTitle>
 
 <div class="default-margin">
     <h1>Sign up as a Mentor</h1>
@@ -12,31 +15,31 @@
     <RadzenRow class="mb-4 mt-4" Gap="25">
         @* FIRST NAME *@
         <RadzenFormField Text="First Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
-            <RadzenTextBox @bind-Value=@FirstName />
+            <RadzenTextBox @bind-Value=@inputtedFirstName />
         </RadzenFormField>
 
         @* LAST NAME *@
         <RadzenFormField Text="Last Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
-            <RadzenTextBox @bind-Value="@LastName" />
+            <RadzenTextBox @bind-Value="@inputtedLastName" />
         </RadzenFormField>
     </RadzenRow>
 
     <RadzenRow class="mb-4" Gap="25">
         @* EMAIL *@
         <RadzenFormField Text="Email:" AllowFloatingLabel="false" Variant=Variant.Flat>
-            <RadzenTextBox @bind-Value="@Email" />
+            <RadzenTextBox @bind-Value="@inputtedEmail" />
         </RadzenFormField>
 
         @* PHONE NUMBER *@
         <RadzenFormField Text="Phone Number:" AllowFloatingLabel="false" Variant=Variant.Flat>
-            <RadzenTextBox @bind-Value="@PhoneNumber" />
+            <RadzenTextBox @bind-Value="@inputtedPhoneNumber" />
         </RadzenFormField>
     </RadzenRow>
 
     <RadzenRow class="mb-4" Gap="25">
         @* LINKEDIN *@
         <RadzenFormField Text="LinkedIn Profile URL:" AllowFloatingLabel="false" Variant=Variant.Flat>
-            <RadzenTextBox @bind-Value="@LinkedInProfileURL" />
+            <RadzenTextBox @bind-Value="@inputtedLinkedInProfileURL" />
         </RadzenFormField>
     </RadzenRow>
 
@@ -46,35 +49,47 @@
         @* BIRTHDATE *@
         <div class="our-column">
             <RadzenLabel Text="Birthdate:" Style="margin-right: 4px; vertical-align: middle;" />
-            <RadzenDatePicker @bind-Value=@Birthdate ShowCalendarWeek />
+            <RadzenDatePicker @bind-Value=@inputtedBirthdate ShowCalendarWeek />
         </div>
 
         @* COMPANY *@
         <RadzenFormField Text="Company:" AllowFloatingLabel="false" Variant=Variant.Flat>
-            <RadzenTextBox @bind-Value="@Company" />
+             <RadzenTextBox @bind-Value="@inputtedCompany" />
         </RadzenFormField>
 
         @* INDUSTRY *@
-        <DropdownWithLabelAbove SelectedValue="@Industry" DropdownData="@industriesList" Label="Industry:" />
+         <DropdownWithLabelAbove SelectedValue="@inputtedIndustry" DropdownData="@industriesList" Label="Industry:" />
     </RadzenRow>
 
     <RadzenRow class="mb-4 mt-4" Gap="25">
         @* COMPANY WEBSITE *@
         <RadzenFormField Text="Company Website:" AllowFloatingLabel="false" Variant=Variant.Flat>
-            <RadzenTextBox @bind-Value="@CompanyWebsite" />
+             <RadzenTextBox @bind-Value="@inputtedCompanyWebsite" />
         </RadzenFormField>
 
         @* MENTEES PER SEMESTER *@
-        <DropdownWithLabelAbove SelectedValue="@MenteesPerSemester" DropdownData="@MenteesPerSemesterOptions" Label="Mentees Per Semester:" />
+         <DropdownWithLabelAbove SelectedValue="@inputtedMenteesPerSemester" DropdownData="@MenteesPerSemesterOptions" Label="Mentees Per Semester:" />
     </RadzenRow>
 
     <RadzenRow class="mb-4 mt-4" Gap="25">
         @* SELF-INTRODUCTION *@
         <div class="our-column">
             <label>Self-Introduction</label>
-            <RadzenTextArea @bind-Value=@SelfIntroduction Cols="80" Rows="6" aria-label=Self-Introduction: />
+             <RadzenTextArea @bind-Value=@inputtedSelfIntroduction Cols="80" Rows="6" aria-label=Self-Introduction: />
         </div>
     </RadzenRow>
+
+     <RadzenRow class="mb-4 mt-4" Gap="25">
+         @* MAJOR *@
+         <RadzenFormField Text="Major:" AllowFloatingLabel="false" Variant=Variant.Flat>
+             <RadzenTextBox @bind-Value=@inputtedMajor />
+         </RadzenFormField>
+
+         @* MINOR *@
+         <RadzenFormField Text="Minor:" AllowFloatingLabel="false" Variant=Variant.Flat>
+             <RadzenTextBox @bind-Value="@inputtedMinor" />
+         </RadzenFormField>
+     </RadzenRow>
 
     <RadzenRow class="mb-4">
         @* UPLOAD PROFILE PICTURE *@
@@ -85,12 +100,12 @@
     <RadzenRow class="mb-4 mt-4" Gap="25">
         @* PASSWORD *@
         <RadzenFormField Text="Password" AllowFloatingLabel="false" Variant=Variant.Flat>
-            <RadzenTextBox @bind-Value="@Password" />
+             <RadzenTextBox @bind-Value="@inputtedPassword" />
         </RadzenFormField>
 
         @* CONFIRM PASSWORD *@
         <RadzenFormField Text="Confirm Password" AllowFloatingLabel="false" Variant=Variant.Flat>
-            <RadzenTextBox @bind-Value="@Password" />
+             <RadzenTextBox @bind-Value="@inputtedPassword" />
         </RadzenFormField>
     </RadzenRow>
 
@@ -100,21 +115,57 @@
     </RadzenRow>
 </div>
 
-@code {
-    string FirstName = "";
-    string LastName = "";
-    string Email = "";
-    string Password = "";
-    string PhoneNumber = "";
-    string StudentIdNumber = "";
-    string LinkedInProfileURL = "";
-    string MenteesPerSemester = "";
-    string Birthdate = "";
-    string Company = "";
-    string Industry = "";
-    string BusinessLocation = "";
-    string CompanyWebsite = "";
-    string SelfIntroduction = "";
+ @code {
+    string inputtedFirstName = "";
+    string inputtedLastName = "";
+    string inputtedEmail = "";
+    string inputtedMajor = "";
+    string inputtedMinor = "";
+    string inputtedPassword = "";
+    string inputtedPhoneNumber = "";
+    string inputtedStudentIdNumber = "";
+    string inputtedLinkedInProfileURL = "";
+    string inputtedMenteesPerSemester = "";
+    string inputtedBirthdate = "";
+    string inputtedCurrentPosition = "";
+    string inputtedCompany = "";
+    string inputtedIndustry = "";
+    string inputtedBusinessLocation = "";
+    string inputtedCompanyWebsite = "";
+    string inputtedSelfIntroduction = "";
+
+    private UserService _userService = new UserService();
+
+    void RegisterUser(MouseEventArgs args)
+    {
+        User user = new User
+        {
+            FirstName = inputtedFirstName,
+            LastName = inputtedLastName,
+            PhoneNumber = inputtedPhoneNumber,
+            EmailAddress = inputtedEmail,
+            Password = inputtedPassword,
+            ProfilePicutre = "profilePic.jpg",
+            LinkedInLink = inputtedLinkedInProfileURL,
+            Bio = inputtedSelfIntroduction,
+            Status = "Active",
+            Major = inputtedMajor,
+            Minor = inputtedMinor,
+            Industry = inputtedIndustry,
+            Company = inputtedCompany,
+            CurrentPosition = inputtedCurrentPosition,
+            DateOfBirth = "1990-01-01",
+            GraduationYear = "2012",
+            BusinessCountry = inputtedBusinessLocation,
+            BusinessState = inputtedBusinessLocation,
+            BusinessCity = inputtedBusinessLocation,
+            Gender = "Male"
+        };
+
+        _userService.AddUser(user);
+
+    }
+
 
     public List<string> industriesList = new List<string> { "IT", "Fashion", "Entertainment", "Retail" };
 

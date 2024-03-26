@@ -66,7 +66,7 @@
     // CascadingParameter attribute maps it to the parameter from the CascadingParameter in MentorMatch (does this by type)
     [CascadingParameter]
     //must have this property for the cascading dropdown
-    public User userProfile { get; set; }
+    public UserOld userProfile { get; set; }
     RadzenTextBox rztxtbxMajor,rztxtbxMinor,rztxtbxCurPos,rztxtbxClassYear,rztxtbxStudentID,rztxtbxEmail;
     RadzenRadioButtonList<int> rzrdbtnlstRole;
 
@@ -78,7 +78,7 @@
     void Save(MouseEventArgs args)
     {
         NavigationManager.NavigateTo("/profile");
-        foreach (User user in UserData.users)
+        foreach (UserOld user in UserData.users)
         {
             if (user.UserId == "U1")
             {
