@@ -1,4 +1,5 @@
 ﻿@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
 @inject DialogService DialogService
 
 <RadzenButton Variant="Variant.Outlined" Click=@ShowRequestMentorshipDialog Style="font-size:12px" Text="Request Mentorship" />
@@ -6,7 +7,7 @@
 @code {
     [CascadingParameter]
     //must have this property for the cascading dropdown
-    public UserOld Mentor { get; set; }
+    public User Mentor { get; set; }
 
     public async Task ShowRequestMentorshipDialog()
     {

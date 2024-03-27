@@ -41,11 +41,6 @@
         <RadzenFormField Text="Paste LinkedIn Profile URL:" AllowFloatingLabel="false" Variant=Variant.Flat>
             <RadzenTextBox @bind-Value="@inputtedLinkedInProfileURL" />
         </RadzenFormField>
-
-        @* STUDENT ID *@
-        @* <RadzenFormField Text="Student ID #:" AllowFloatingLabel="false" Variant=Variant.Flat>
-            <RadzenTextBox @bind-Value="@StudentIdNumber" />
-        </RadzenFormField> *@
     </RadzenRow>
 
     <RadzenRow class="mb-4">
@@ -53,9 +48,9 @@
         <RadzenUpload Url="upload/single" ChooseText="Upload Profile Picture" Style="width:180px; text-align:center;" Accept="image/*"></RadzenUpload>
     </RadzenRow>
 
-    <h3>Add to your profile:</h3>
-    <h6>Addtional information may lead to more connections with mentors</h6>
-    <RadzenRow class="mb-4 mt-4" Gap="25">
+    <h3>Further Profile Info</h3>
+    <h6>Additional information may lead to more connections with mentors</h6>
+    <RadzenRow class="mb-4 mt-4" Gap="25" AlignItems="AlignItems.Center">
         @* SELF-INTRODUCTION *@
         <div class="our-column">
             <label>Self-Introduction</label>
@@ -98,13 +93,14 @@
     string inputtedFirstName = "";
     string inputtedLastName = "";
     string inputtedEmail = "";
-    string inputtedMajor = "";
-    string inputtedMinor = "";
+    string? inputtedMajor;
+    string? inputtedMinor;
     string inputtedPassword = "";
     string inputtedPasswordConfirmed = "";
-    string inputtedPhoneNumber = "";
+    string? inputtedPhoneNumber;
     string inputtedLinkedInProfileURL = "";
     string inputtedSelfIntroduction = "";
+    string inputtedGender = "";
 
     private UserService _userService = new UserService();
 
@@ -117,27 +113,22 @@
         {
             FirstName = inputtedFirstName,
             LastName = inputtedLastName,
-            //PhoneNumber = "123-456-7890",
             EmailAddress = inputtedEmail,
             Password = inputtedPassword,
             ProfilePicutre = "profilePic.jpg",
             LinkedInLink = inputtedLinkedInProfileURL,
             Bio = inputtedSelfIntroduction,
             Status = "Active",
-            //Major = "Computer Science",
-            //Minor = "Mathematics",
-            //Industry = "Software",
-            //Company = "Tech Corp",
-            //CurrentPosition = "Software Developer",
-            //DateOfBirth = "1990-01-01",
-            //GraduationYear = "2012",
-            //BusinessCountry = "USA",
-            //BusinessState = "California",
-            //BusinessCity = "San Francisco",
-            Gender = "Male"
+            Major = inputtedMajor,
+            Minor = inputtedMinor,
+            Gender = inputtedGender
         };
 
+        // add the user
         _userService.AddUser(user);
+
+        // go to the next page after making the user
+        NavigationManager.NavigateTo("/mentor-match");
     }
 
     void GoToLogin(MouseEventArgs args)
