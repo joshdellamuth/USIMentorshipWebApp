@@ -150,6 +150,10 @@
 
     void RegisterUser(MouseEventArgs args)
     {
+
+        // Hash the password
+        string hashedPassword = _userService.HashPassword(inputtedPassword);
+
         User user = new User
         {
             FirstName = inputtedFirstName,
