@@ -108,6 +108,10 @@
     {
         // needs to make the user account by populating
 
+
+        // Hash the password
+        string hashedPassword = _userService.HashPassword(inputtedPassword);
+
         //NavigationManager.NavigateTo("/mentor-match");
         User user = new User
         {
