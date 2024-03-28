@@ -186,45 +186,41 @@
                 .Where(user => industriesSelected.Contains(user.Industry))
                 .ToList();
         }
-        else if (currentPositionsSelected.Count != 0)
+        if (currentPositionsSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => currentPositionsSelected.Contains(user.CurrentPosition))
                 .ToList();
         }
-        else if (companiesSelected.Count != 0)
+        if (companiesSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => companiesSelected.Contains(user.Company))
                 .ToList();
         }
-        else if (majorsSelected.Count != 0)
+        if (majorsSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => majorsSelected.Contains(user.Major))
                 .ToList();
         }
-        else if (businessCountriesSelected.Count != 0)
+        if (businessCountriesSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => businessCountriesSelected.Contains(user.BusinessCountry))
                 .ToList();
         }
-        else if (businessStatesSelected.Count != 0)
+        if (businessStatesSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => businessStatesSelected.Contains(user.BusinessState))
                 .ToList();
         }
-        else if (businessCitiesSelected.Count != 0)
+        if (businessCitiesSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => businessCitiesSelected.Contains(user.BusinessCity))
                 .ToList();
-        }
-        else
-        {
-            
         }
 
         if (mentorResults.Count == 0)
