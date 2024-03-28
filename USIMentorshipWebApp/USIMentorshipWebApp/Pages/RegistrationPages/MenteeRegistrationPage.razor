@@ -35,11 +35,14 @@
         @* EMAIL *@
         <RadzenFormField Text="Email:" AllowFloatingLabel="false" Variant=Variant.Flat>
             <RadzenTextBox @bind-Value="@inputtedEmail" />
+            <RadzenEmailValidator Component="Email" Text="Provide a valid email address" Style="position: absolute" />
         </RadzenFormField>
 
         @* PHONE NUMBER *@
         <RadzenFormField Text="Phone Number:" AllowFloatingLabel="false" Variant=Variant.Flat>
             <RadzenTextBox @bind-Value="@inputtedPhoneNumber" />
+            <RadzenRequiredValidator Component="PhoneNumber" Text="Phone number is required" Style="position: absolute" />
+            <RadzenRegexValidator Component="PhoneNumber" Text="10 digit phone number with area code" Pattern="\d{10}" Style="position: absolute" />
         </RadzenFormField>
     </RadzenRow>
 
@@ -47,6 +50,8 @@
         @* LINKEDIN *@
         <RadzenFormField Text="Paste LinkedIn Profile URL:" AllowFloatingLabel="false" Variant=Variant.Flat>
             <RadzenTextBox @bind-Value="@inputtedLinkedInProfileURL" />
+            <RadzenRegexValidator Component="PhoneNumber" Text="10 digit phone number with area code" Pattern="\d{10}" Style="position: absolute" />
+            @* need to discuss approaches with this hyperlink validator *@
         </RadzenFormField>
 
         @* STUDENT ID *@
@@ -58,6 +63,7 @@
     <RadzenRow class="mb-4">
         @* UPLOAD PROFILE PICTURE *@
         <RadzenUpload Url="upload/single" ChooseText="Upload Profile Picture" Style="width:180px; text-align:center;" Accept="image/*"></RadzenUpload>
+        <RadzenRequiredValidator Component="HeadshotImg" Text="Headshot JPG or PNG required for registration" Style="position: absolute" />
     </RadzenRow>
 
     <h3>Add to your profile:</h3>
@@ -67,6 +73,7 @@
         <div class="our-column">
             <label>Self-Introduction</label>
             <RadzenTextArea @bind-Value=@inputtedSelfIntroduction Cols="80" Rows="6" aria-label=Self-Introduction: />
+            <RadzenLengthValidator Component="SelfIntro" Max="300" Text="Self-Introduction should be maximum 300 characters" />
         </div>
     </RadzenRow>
 
@@ -74,11 +81,13 @@
         @* MAJOR *@
         <RadzenFormField Text="Major:" AllowFloatingLabel="false" Variant=Variant.Flat>
             <RadzenTextBox @bind-Value=@inputtedMajor />
+            <RadzenRequiredValidator Component="MajorInput" Text="Major is required" Style="position: absolute" />
         </RadzenFormField>
 
         @* MINOR *@
         <RadzenFormField Text="Minor:" AllowFloatingLabel="false" Variant=Variant.Flat>
             <RadzenTextBox @bind-Value="@inputtedMinor" />
+            @* only if applicable or make it required with an N/A value available for selection? *@
         </RadzenFormField>
     </RadzenRow>
 
@@ -86,12 +95,16 @@
     <RadzenRow class="mb-4 mt-4" Gap="25">
         @* PASSWORD *@
         <RadzenFormField Text="Password:" AllowFloatingLabel="false" Variant=Variant.Flat>
-            <RadzenPassword @bind-Value="@inputtedPassword" />
+            <RadzenPassword Name="Password" @bind-Value="@inputtedPassword" />
+            <RadzenRequiredValidator Component="Password" Style="position:absolute"/>
         </RadzenFormField>
 
         @* CONFIRM PASSWORD *@
         <RadzenFormField Text="Confirm Password:" AllowFloatingLabel="false" Variant=Variant.Flat>
-            <RadzenPassword @bind-Value="@inputtedPassword" />
+            <RadzenPassword Name="ConfirmPassword" @bind-Value="@inputtedPassword" />
+            <RadzenRequiredValidator Component="ConfirmPassword" Text="Repeat your password" Style="position: absolute" />
+            @* <RadzenCompareValidator Visible=@(!string.IsNullOrEmpty(ConfirmPassword)) Value=@inputtedPassword Component="RepeatPassword" Text="Passwords should be the same" Style="position: absolute" /> *@
+
         </RadzenFormField>
     </RadzenRow>
 
