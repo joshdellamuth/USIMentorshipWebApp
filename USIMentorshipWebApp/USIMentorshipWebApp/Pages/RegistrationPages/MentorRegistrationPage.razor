@@ -58,7 +58,10 @@
         </div>
 
          @* INDUSTRY *@
-         <DropdownWithLabelAbove SelectedValue="@inputtedIndustry" DropdownData="@industriesList" Label="Industry:" />
+        <div class="our-column mb-2">
+            <label>Industry:</label>
+            <RadzenDropDown @bind-Value=@inputtedIndustry Data=@industriesList Style="max-width:160px;" />
+        </div>
 
          @* CURRENT POSITION *@
          <RadzenFormField Text="Current Position:" AllowFloatingLabel="false" Variant=Variant.Flat>
@@ -78,7 +81,10 @@
         </RadzenFormField>
 
         @* MENTEES PER SEMESTER *@
-         <DropdownWithLabelAbove SelectedValue="@inputtedMenteesPerSemester" DropdownData="@MenteesPerSemesterOptions" Label="Mentees Per Semester:" />
+        <div class="our-column mb-2">
+            <label>Mentees Per Semester:</label>
+            <RadzenDropDown @bind-Value=@inputtedMenteesPerSemester Data=@MenteesPerSemesterOptions Style="max-width:160px;" />
+        </div>
     </RadzenRow>
 
     <RadzenRow class="mb-4 mt-4" Gap="25">

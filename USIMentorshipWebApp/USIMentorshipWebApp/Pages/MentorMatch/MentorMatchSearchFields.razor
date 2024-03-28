@@ -3,36 +3,76 @@
 @using USIMentorshipWebApp.Models;
 @using System.Linq;
 
-
-@* COULD EVENTUALLY CHANGE THESE TO CASCADING DROPDOWN COMPONENT IN RADZEN *@
-
 <br />
 <div class="row">
-    <MultiSelectDropdownWithLabelAbove DropdownData="@industriesList" SelectedValues="@industriesSelected" Label="Industry:" />
-    <MultiSelectDropdownWithLabelAbove DropdownData="@currentPositionsList" SelectedValues="@currentPositionSelected" Label="Current Position(s):" />
-    @* Companies is an example of selecting from a list of objects *@
-    <MultiSelectDropdownWithLabelAbove DropdownData="@companies" SelectedValues="@companiesSelected" Label="Company" />
-    <MultiSelectDropdownWithLabelAbove DropdownData="@majorsList" SelectedValues="@majorSelected" Label="Major(s):" />
+    @* INDUSTRIES *@
+    <div class="our-column mb-2">
+        <label>Industries:</label>
+        <RadzenDropDown @bind-Value=@industriesSelected Data=@industries Multiple="true" Chips=true Style="max-width:160px;" />
+    </div>
     
-    @* Removed Minor selection per Maggie request *@
-    @* <MultiSelectDropdownWithLabelAbove DropdownData="@minorsList" SelectedValues="@minorSelected" Label="Minor(s):" /> *@
-    <MultiSelectDropdownWithLabelAbove DropdownData="@businessCountriesList" SelectedValues="@businessCountriesSelected" Label="Business Countries:" />
-    <MultiSelectDropdownWithLabelAbove DropdownData="@ageRangeList" SelectedValues=@ageRangesSelected Label="Age Preference(s):" />
-    <MultiSelectDropdownWithLabelAbove DropdownData="@genderPreferencesList" SelectedValues="@genderPreferencesSelected" Label="Gender Preference:" />
-    <MultiSelectDropdownWithLabelAbove DropdownData="@businessCitiesList" SelectedValues="@businessCitiesSelected" Label="Business City:" />
-    <MultiSelectDropdownWithLabelAbove DropdownData="@businessStatesList" SelectedValues="@businessStatesSelected" Label="Business State:" />
+    @* CURRENT POSITIONS *@
+    <div class="our-column mb-2">
+        <label>Current Position(s):</label>
+        <RadzenDropDown @bind-Value=@currentPositionsSelected Data=@currentPositions Multiple="true" Chips=true Style="max-width:160px;" />
+    </div>
 
-    @* AutoComplete for Searching for a Mentor by Name *@
-    <AutoCompleteWithLabelAbove Label="Search by Mentor Name:" SelectedValue=@SelectedMentorName AutoCompleteData=@mentors DisplayPropertyName="FirstName"/>
+    @* COMPANIES *@
+    <div class="our-column mb-2">
+        <label>Companies:</label>
+        <RadzenDropDown @bind-Value=@companiesSelected Data=@companies Multiple="true" Chips=true Style="max-width:160px;" />
+    </div>
+
+    @* MAJOR *@
+    <div class="our-column mb-2">
+        <label>Major(s):</label>
+        <RadzenDropDown @bind-Value=@majorsSelected Data=@majorsList Multiple="true" Chips=true Style="max-width:160px;" />
+    </div>
+
+    @* AGE RANGE *@
+    <div class="our-column mb-2">
+        <label>Preferred Age Range(s):</label>
+        <RadzenDropDown @bind-Value=@ageRangesSelected Data=@ageRanges Multiple="true" Chips=true Style="max-width:160px;" />
+    </div>
+
+    @* GENDER PREFERENCES *@
+    <div class="our-column mb-2">
+        <label>Gender Preference:</label>
+        <RadzenDropDown @bind-Value=@genderPreferencesSelected Data=@genderPreferences Multiple="true" Chips=true Style="max-width:160px;" />
+    </div>
+
+    @* BUSINESS COUNTRIES *@
+    <div class="our-column mb-2">
+        <label>Business Countries:</label>
+        <RadzenDropDown @bind-Value=@businessCountriesSelected Data=@businessCountries Multiple="true" Chips=true Style="max-width:160px;" />
+    </div>
+
+    @* BUSINESS STATES *@
+    <div class="our-column mb-2">
+        <label>Business States:</label>
+        <RadzenDropDown @bind-Value=@businessStatesSelected Data=@businessStates Multiple="true" Chips=true Style="max-width:160px;" />
+    </div>
+
+    @* BUSINESS CITIES *@
+    <div class="our-column mb-2">
+        <label>Business Cities:</label>
+        <RadzenDropDown @bind-Value=@businessCitiesSelected Data=@businessCities Multiple="true" Chips=true Style="max-width:160px;" />
+    </div>
+
+    @* MENTOR NAME SEARCH *@
+    <div class="our-column mb-2">
+        <label>Search by Mentor Name:</label>
+        <RadzenAutoComplete @bind-Value=@MentorNameSelected Data=@mentors TextProperty=FullName FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Style="max-width:200px;" />
+    </div>
 </div>
 
+@* FIND MENTORS BUTTON *@
 <RadzenRow>
     <RadzenButton Style="width:140px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click=@SearchMentors Text="Find Mentors" />
 </RadzenRow>
 
 <div class="row" style="justify-content:center;">
-    @* CascadingValue allows us to pass down the userExample variable to next component to use it there *@
-    @* *@
+    @* CascadingValue allows us to pass down the user variable to next component to use it there *@
     @if (mentorResults != null)
     {
         foreach (User user in mentorResults)
@@ -42,92 +82,155 @@
             </CascadingValue>
         }
     }
-
 </div>
 
 @code {
-
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
 
-
-    public List<string> industriesList;
-    public List<string> currentPositionsList;
-    public List<string> majorsList;
-    public List<string> companies;
-
-    public List<User>? mentorResults;
-
-
-    protected override void OnInitialized()
-    {
-        industriesList = _context.Users.Where(u => !string.IsNullOrEmpty(u.Industry)).Select(u => u.Industry).Distinct().ToList();
-        currentPositionsList = _context.Users.Where(u => !string.IsNullOrEmpty(u.CurrentPosition)).Select(u => u.CurrentPosition).Distinct().ToList();
-        majorsList = _context.Users.Where(u => !string.IsNullOrEmpty(u.Major)).Select(u => u.Major).Distinct().ToList();
-        companies = _context.Users.Where(u => !string.IsNullOrEmpty(u.Company)).Select(u => u.Company).Distinct().ToList();
-    }
-
-
-
-    //NOTE: MAY HAVE TO ADD VALUE PROPERTY AND TEXT PORPERTY TO NONMULTISELECT DROPDOWNS SO WE CAN GET THE IDs OF THE OBJECTS
     # region Industry
-    public List<string>? industriesSelected;
+    public List<string> industries;
+    public List<string>? industriesSelected = new List<string>() { };
     #endregion
 
     #region Current Position
-    public List<string>? currentPositionSelected;
+    public List<string> currentPositions;
+    public List<string>? currentPositionsSelected = new List<string>() { };
     #endregion
 
-    //HAS A DESCRIPTION OF WHAT WE'LL NEED TO HAVE IN FUTUTRE
-    # region Major
-    // whatever is the current selection will be stored here
-    public List<string>? majorSelected;
+    #region Major
+    public List<string> majorsList;
+    public List<string> majorsSelected = new List<string>() {  };
     #endregion
 
-    // Removed Minor selection per Maggie request
-    // #region Minor
-    // public string? minorSelected;
-    // public List<string> minorsList = new List<string> { "Computer Science", "Business", "Electrical Engineering", "Marketing" };
-    // #endregion
-
-    //THIS ONE USES A MULTISELECT COMPONENT
     # region Companies
-    public List<string>? companiesSelected;
+    public List<string> companies;
+    public List<string>? companiesSelected = new List<string>() { };
     # endregion
 
     #region Age Range
     public List<string> ageRangesSelected;
-    public List<string> ageRangeList = new List<string> { "20-30", "30-40", "50-60", "60-70", "70-80", "80+" };
-    #endregion
-
-    #region Business City
-    public List<string>? businessCitiesSelected;
-    public List<string> businessCitiesList = new List<string> { "Evansville", "Henderson", "Louisville", "Owensboro" };
-    #endregion
-
-    #region Business State
-    public List<string>? businessStatesSelected;
-    public List<string> businessStatesList = new List<string> { "Indiana", "Illinois", "Kentucky", "Ohio" };
+    public List<string> ageRanges = new List<string> { "20-30", "30-40", "50-60", "60-70", "70-80", "80+" };
     #endregion
 
     #region Business Country
-    public List<string>? businessCountriesSelected;
-    public List<string> businessCountriesList = new List<string> { "USA", "Mexico", "Canada", "India" };
+    public List<string>? businessCountriesSelected = new List<string>() { };
+    public List<string> businessCountries;
+    #endregion
+
+    #region Business State
+    public List<string>? businessStatesSelected = new List<string>() { };
+    public List<string> businessStates;
+    #endregion
+
+    #region Business City
+    public List<string>? businessCitiesSelected = new List<string>() { };
+    public List<string> businessCities;
     #endregion
 
     #region Gender Preference
-    public List<string>? genderPreferencesSelected;
-    public List<string> genderPreferencesList = new List<string> { "Male", "Female" };
+    public List<string>? genderPreferencesSelected = new List<string>() { };
+    public List<string> genderPreferences = new List<string> { "Male", "Female", "Other" };
     #endregion
 
     #region Search by Name Variables
     //define the value of the data that is selected
-    public string SelectedMentorName;
-    public List<UserOld> mentors = UserData.users;
-
+    public string MentorNameSelected;
+    public List<User> mentors = new List<User>() { };
     #endregion
+
+    #region Mentor Results Variables 
+    public List<User> mentorResults;
+    public List<User> allMentors;
+    #endregion
+
+    protected override void OnInitialized()
+    {
+        // allMentors will be used in the base query and for dropdown data
+        allMentors = _context.Users
+            .Join(
+                _context.UserRoles,
+                user => user.UserId,
+                userRole => userRole.UserId,
+                (user, userRole) => new { User = user, UserRole = userRole }
+            )
+            .Join(
+                _context.Roles,
+                combined => combined.UserRole.RoleId,
+                role => role.RoleId,
+                (combined, role) => new { User = combined.User, Role = role }
+            )
+            .Where(combined => combined.Role.RoleName == "Mentor")
+            .Select(combined => combined.User)
+            .ToList();
+
+        // setting the dropdown data based on the database when the page loads
+        industries = allMentors.Where(u => !string.IsNullOrEmpty(u.Industry)).Select(u => u.Industry).Distinct().ToList();
+        currentPositions = allMentors.Where(u => !string.IsNullOrEmpty(u.CurrentPosition)).Select(u => u.CurrentPosition).Distinct().ToList();
+        majorsList = allMentors.Where(u => !string.IsNullOrEmpty(u.Major)).Select(u => u.Major).Distinct().ToList();
+        companies = allMentors.Where(u => !string.IsNullOrEmpty(u.Company)).Select(u => u.Company).Distinct().ToList();
+        businessCountries = allMentors.Where(u => !string.IsNullOrEmpty(u.BusinessCountry)).Select(u => u.BusinessCountry).Distinct().ToList();
+        businessStates = allMentors.Where(u => !string.IsNullOrEmpty(u.BusinessState)).Select(u => u.BusinessState).Distinct().ToList();
+        businessCities = allMentors.Where(u => !string.IsNullOrEmpty(u.BusinessCity)).Select(u => u.BusinessCity).Distinct().ToList();
+
+        //mentors is used for the autocomplete field
+        mentors = allMentors;
+    }
 
     public void SearchMentors(MouseEventArgs args)
     {
-        mentorResults = _context.Users.ToList();
+        // sets results to all mentors when nothing is filled out
+        mentorResults = allMentors;
+
+        if (industriesSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => industriesSelected.Contains(user.Industry))
+                .ToList();
+        }
+        else if (currentPositionsSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => currentPositionsSelected.Contains(user.CurrentPosition))
+                .ToList();
+        }
+        else if (companiesSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => companiesSelected.Contains(user.Company))
+                .ToList();
+        }
+        else if (majorsSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => majorsSelected.Contains(user.Major))
+                .ToList();
+        }
+        else if (businessCountriesSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => businessCountriesSelected.Contains(user.BusinessCountry))
+                .ToList();
+        }
+        else if (businessStatesSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => businessStatesSelected.Contains(user.BusinessState))
+                .ToList();
+        }
+        else if (businessCitiesSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => businessCitiesSelected.Contains(user.BusinessCity))
+                .ToList();
+        }
+        else
+        {
+            
+        }
+
+        if (mentorResults.Count == 0)
+        {
+            mentorResults = new List<User>();
+        }
     }
 }

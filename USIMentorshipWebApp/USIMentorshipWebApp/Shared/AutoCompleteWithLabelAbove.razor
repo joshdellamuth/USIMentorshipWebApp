@@ -2,7 +2,7 @@
 
 <div class="our-column mb-2">
     <label>@Label</label>
-    <RadzenAutoComplete @bind-Value=@SelectedValue Data=@AutoCompleteData TextProperty=@DisplayPropertyName Style="max-width:200px;" />
+    <RadzenAutoComplete @bind-Value=@SelectedValue Data=@AutoCompleteData TextProperty=@DisplayPropertyName FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"  Style="max-width:200px;" />
 </div>
 
 @code {

@@ -5,7 +5,10 @@
 @* Align Items centered the elements in the middle of the popup *@
 <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center">
     <RadzenImage Path=@Mentor.ProfilePicutre Style="width: 180px; height: 180px; border-radius: 50%;" />
-    <DropdownWithLabelAbove SelectedValue=@selectedMentorshipLength DropdownData=@mentorshipLengths Label="Mentorship Length:"/>
+    <div class="our-column mb-2">
+        <label>Mentorship Length:</label>
+        <RadzenDropDown @bind-Value=@selectedMentorshipLength Data=@mentorshipLengths Style="max-width:160px;" />
+    </div>
     <RadzenButton Click="@((args) => DialogService.Close(true))" Variant="Variant.Outlined" Text="Send Request" Style="width: 120px" />
 </RadzenStack>
 

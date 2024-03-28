@@ -1,0 +1,35 @@
+﻿@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Shared.Dropdowns
+
+@page "/testing"
+@layout MainLayout
+
+<PageTitle>Testing - USI Mentorship Program</PageTitle>
+
+<h1>Testing Page</h1>
+<h5>Put code in here that you need to test. Sandbox basically. Thanks! - Josh D</h5>
+
+<RadzenDropDown @bind-Value=@values Data=@companyNames Multiple="true" Style="width: 100%; max-width: 400px;" Name="DropDownBindValue" />
+
+@if (values.Contains("Google"))
+{
+    labelValue = "Value now contains Google";
+}
+else
+{
+    labelValue = "Value does not contain Google";
+
+}
+<RadzenLabel Text="@labelValue" Component="DropDownBindValue" Style="margin-right: 8px; vertical-align: middle;" />
+
+@code {
+    List<string> values = new List<string>() {  };
+    List<string> companyNames;
+    string labelValue = "Dogs";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        companyNames = new List<string> { "Apple", "Facebook", "Google", "Netflix" };
+    }
+}

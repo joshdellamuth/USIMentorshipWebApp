@@ -10,6 +10,9 @@ public partial class User
     public string? FirstName { get; set; }
 
     public string? LastName { get; set; }
+    
+    // this will be used to show the full name of a user
+    public string FullName => $"{FirstName} {LastName}";
 
     public string? PhoneNumber { get; set; }
 
