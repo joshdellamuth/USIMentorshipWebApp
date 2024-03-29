@@ -37,7 +37,7 @@
     @* GENDER PREFERENCES *@
     <div class="our-column mb-2">
         <label>Gender Preference:</label>
-        <RadzenDropDown @bind-Value=@genderPreferencesSelected Data=@genderPreferences Multiple="true" Chips=true Style="max-width:160px;" />
+        <RadzenDropDown @bind-Value=@gendersSelected Data=@genders Multiple="true" Chips=true Style="max-width:160px;" />
     </div>
 
     @* BUSINESS COUNTRIES *@
@@ -127,8 +127,8 @@
     #endregion
 
     #region Gender Preference
-    public List<string>? genderPreferencesSelected = new List<string>() { };
-    public List<string> genderPreferences = new List<string> { "Male", "Female", "Other" };
+    public List<string>? gendersSelected = new List<string>() { };
+    public List<string> genders = new List<string> { "Male", "Female", "Other" };
     #endregion
 
     #region Search by Name Variables
@@ -202,6 +202,12 @@
         {
             mentorResults = mentorResults
                 .Where(user => majorsSelected.Contains(user.Major))
+                .ToList();
+        }
+        if (gendersSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => gendersSelected.Contains(user.Gender))
                 .ToList();
         }
         if (businessCountriesSelected.Count != 0)
