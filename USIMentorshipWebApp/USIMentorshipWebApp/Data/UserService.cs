@@ -1,4 +1,7 @@
 ﻿using USIMentorshipWebApp.Models;
+using System;
+using System.Linq;
+using BCrypt.Net;
 
 namespace USIMentorshipWebApp.Data
 {
@@ -7,6 +10,11 @@ namespace USIMentorshipWebApp.Data
         public void AddUser(User user)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+
+            // Determine the next UserId
+            int nextUserId = userContext.Users.Any() ? userContext.Users.Max(u => u.UserId) + 1 : 1;
+            user.UserId = nextUserId;
+
             userContext.Add(user);
             userContext.SaveChanges();
         }
@@ -17,6 +25,19 @@ namespace USIMentorshipWebApp.Data
             string salt = BCrypt.Net.BCrypt.GenerateSalt();
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, salt);
             return hashedPassword;
+        }
+
+        public User GetUserByEmail(string emailAddress)
+        {
+            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+            // Retrieve the user by email address
+            return userContext.Users.FirstOrDefault(u => u.EmailAddress == emailAddress);
+        }
+
+        public bool VerifyPassword(User user, string password)
+        {
+            // Verify the password using Bcrypt
+            return BCrypt.Net.BCrypt.Verify(password, user.Password);
         }
     }
 }
