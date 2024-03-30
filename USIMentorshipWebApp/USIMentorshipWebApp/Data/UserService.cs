@@ -18,5 +18,12 @@ namespace USIMentorshipWebApp.Data
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, salt);
             return hashedPassword;
         }
+
+        public void UpdateUser(User user)
+        {
+            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+            userContext.Update(user);
+            userContext.SaveChanges();
+        }
     }
 }

@@ -3,49 +3,65 @@
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Shared.FullProfileInfo;
 @using USIMentorshipWebApp.Shared.RequestMentorship;
+@using USIMentorshipWebApp.Models;
+@using Radzen
+@using System.Text.Json
 
 <div class="container-fluid">
     <div class="row px-3">
         <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Email</RadzenText>
+                <RadzenTextBox @bind-Value=@userProfile.EmailAddress class="w-100" />
+            </RadzenCard>
+        </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Phone Number</RadzenText>
+                <RadzenTextBox class="w-100" Value="PhoneNumberHere" /> @*@userProfile.PhoneNumber.ToString()*@
+            </RadzenCard>
+        </div>
+        <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard Style="width:100">
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Major</RadzenText>
-                <RadzenTextBox @ref="rztxtbxMajor" class="w-100" Value="@userProfile.Major" onkeyup="@SaveChange"/>
+                <RadzenTextBox class="w-100" @bind-Value="@userProfile.Major" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard Style="width:100">
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Minor</RadzenText>
-                <RadzenTextBox @ref="rztxtbxMinor" class="w-100" Value="@userProfile.Minor" />
+                <RadzenTextBox class="w-100" @bind-Value="@userProfile.Minor" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Current Position</RadzenText>
-                <RadzenTextBox @ref="rztxtbxCurPos" class="w-100" Value="@userProfile.CurrentPosition" />
+                <RadzenTextBox class="w-100" @bind-Value="@userProfile.CurrentPosition" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Class Year</RadzenText>
-                <RadzenTextBox @ref="rztxtbxClassYear" class="w-100" MaxLength="4" Value="@userProfile.ClassYear" />
+                <RadzenTextBox class="w-100" MaxLength="4" @bind-Value="@userProfile.GraduationYear" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Student ID</RadzenText>
-                <RadzenTextBox @ref="rztxtbxStudentID" Disabled="true" class="w-100" Value="1234567890" /> @*Will need to add field for student id, even if it is null*@
+                <RadzenTextBox Disabled="true" class="w-100" Value="1234567890" /> @*Will need to add field for student id, even if it is null*@
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
-                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Email</RadzenText>
-                <RadzenTextBox @ref="rztxtbxEmail" class="w-100" Value="@userProfile.Email" />
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Gender</RadzenText>
+                <RadzenTextBox Disabled="true" class="w-100" MaxLength="4" @bind-Value="@userProfile.Gender" />
             </RadzenCard>
         </div>
+        
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Role</RadzenText>
-                <RadzenRadioButtonList @ref="rzrdbtnlstRole" Value="2" TValue="int">
+                <RadzenRadioButtonList Disabled="true" Value="2" TValue="int">  @*NEED TO COME BACK AND LOOK AT THIS*@
                     <Items>
                         <RadzenRadioButtonListItem Text="Mentee" Value="1"/>
                         <RadzenRadioButtonListItem Text="Mentor" Value="2" />
@@ -56,7 +72,7 @@
     </div>
 </div>
 <center>
-    <RadzenButton Class="rz-mx-auto; rz-my-auto" Click=@Save Text="Save Changes" ButtonStyle="ButtonStyle.Success" />
+    <RadzenButton Class="rz-mx-auto; rz-my-auto" Click=@SaveChanges Text="Save Changes" ButtonStyle="ButtonStyle.Success" />
     <RadzenButton Class="rz-mx-auto; rz-my-auto" Click=@SignOut Text="Sign Out" ButtonStyle="ButtonStyle.Danger" />
 </center>
 
@@ -65,34 +81,24 @@
     // CascadingParameter attribute maps it to the parameter from the CascadingParameter in MentorMatch (does this by type)
     [CascadingParameter]
     //must have this property for the cascading dropdown
-    public UserOld userProfile { get; set; }
-    RadzenTextBox rztxtbxMajor,rztxtbxMinor,rztxtbxCurPos,rztxtbxClassYear,rztxtbxStudentID,rztxtbxEmail;
-    RadzenRadioButtonList<int> rzrdbtnlstRole;
+    public User userProfile { get; set; }
+    public string email;
+
+    protected override void OnInitialized() //On Page Load
+    {
+        email = userProfile.EmailAddress;
+        // string phoneNum = userProfile.PhoneNumber.ToString();
+    }
+
+    private UserService _userService = new UserService();
 
     void SignOut(MouseEventArgs args)
     {
         NavigationManager.NavigateTo("/");
     }
 
-    void Save(MouseEventArgs args)
+    void SaveChanges()
     {
-        NavigationManager.NavigateTo("/profile");
-        foreach (UserOld user in UserData.users)
-        {
-            if (user.UserId == "U1")
-            {
-                //here will be the updates for each textbox text
-                //it will update each entry of the user's profile
-            }
-        }
-    }
-
-    void SaveChange(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter")
-        {
-            
-        }
-
+        _userService.UpdateUser(userProfile);
     }
 }
