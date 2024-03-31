@@ -2,34 +2,24 @@
 @layout MainLayout
 @inject NavigationManager NavigationManager
 @using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
+@using System.Linq;
 <PageTitle>Profile - USI Mentorship Program</PageTitle>
 
 @*This is for layout of page*@     
 <body>
     <div class="container">
         <div class="fixed-column; justify-content-center">
-            <center><h2>John Smith</h2></center>
-            @foreach (UserOld user in UserData.users)
-            {
-                if (user.UserId == "U1")
-                {
-                    <CascadingValue Value="@user">
-                    <RadzenImage Path="@user.ProfilePicturePath" width="180" height="180" />
-                    </CascadingValue>
-                }
-            }
+            <center><h2>@userProfile.FullName</h2></center>
+                <CascadingValue Value="@userProfile">
+                <RadzenImage Path="@userProfile.ProfilePicutre" width="180" height="180" />
+                </CascadingValue>
             <RadzenUpload Url="upload/single" ChooseText="Change Profile Picture" Style="width:180px; text-align:center;" Accept="image/*"></RadzenUpload>
         </div>
         <div class="flex-column">
-            @foreach (UserOld user in UserData.users)
-            {
-                if (user.UserId == "U1")
-                {
-                    <CascadingValue Value="@user">
-                        <ProfileInfo />
-                    </CascadingValue>
-                }
-            }
+            <CascadingValue Value="@userProfile">
+                <ProfileInfo />
+            </CascadingValue>
         </div>
     </div>
     @* Go to admin page *@
@@ -38,6 +28,25 @@
 
 
 @code {
+    private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
+    User userProfile = new User();
+    public List<User> userList;
+
+    protected override void OnInitialized() //On Page Load
+    {
+        userProfile.UserId = 1;
+        userList = _context.Users.ToList();
+        foreach (User user in userList)
+        {
+            if (user.UserId == userProfile.UserId)
+            {
+                userProfile = user;
+            }
+
+        }
+    }
+
+
     RadzenUpload radzenUpload;
 
     void SignOut(MouseEventArgs args)
