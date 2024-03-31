@@ -13,6 +13,8 @@ public partial class UserRole
 
     public DateTime? EndDate { get; set; }
 
+    public int UserRolesId { get; set; }
+
     public virtual Role? Role { get; set; }
 
     public virtual User? User { get; set; }

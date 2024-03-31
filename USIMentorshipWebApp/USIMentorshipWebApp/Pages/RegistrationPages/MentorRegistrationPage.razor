@@ -160,7 +160,7 @@
             LastName = inputtedLastName,
             PhoneNumber = inputtedPhoneNumber,
             EmailAddress = inputtedEmail,
-            Password = hashedPassword,
+                Password = inputtedPassword,
             ProfilePicutre = "profilePic.jpg",
             LinkedInLink = inputtedLinkedInProfileURL,
             Bio = inputtedSelfIntroduction,
@@ -178,8 +178,8 @@
             Gender = inputtedGender
         };
 
-        // add the user
-        _userService.AddUser(user);
+        // add the user by specifying the user to add and the role to give them
+        _userService.AddUser(user, "Mentor");
 
         // go to the next page after making the user
         NavigationManager.NavigateTo("/mentor-match");

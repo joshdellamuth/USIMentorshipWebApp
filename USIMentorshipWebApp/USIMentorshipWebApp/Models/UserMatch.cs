@@ -9,6 +9,8 @@ public partial class UserMatch
 
     public int? MatchId { get; set; }
 
+    public int UserMatchesId { get; set; }
+
     public virtual Match? Match { get; set; }
 
     public virtual User? User { get; set; }

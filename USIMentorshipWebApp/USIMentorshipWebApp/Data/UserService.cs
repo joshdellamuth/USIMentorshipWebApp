@@ -7,12 +7,30 @@ namespace USIMentorshipWebApp.Data
 {
     public class UserService
     {
-        public void AddUser(User user)
+        // add user must take in the name of a role also to make the new user. Every new user must have a role. 
+        public void AddUser(User user, string roleName)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
+            // add the user and save the changes
             userContext.Add(user);
             userContext.SaveChanges();
+
+            // query the roles table to return the item with the RoleName of "Mentor" or "Mentee"
+            var mentorRole = userContext.Roles.FirstOrDefault(r => r.RoleName == roleName);
+
+            if (mentorRole != null)
+            {
+                // grab the current date time so it can be added to the start date
+                DateTime currentDateTime = DateTime.Now;
+
+                // Create a new UserRole with the UserId of the added user and the RoleId of the "Mentor" role
+                var userRole = new UserRole { UserId = user.UserId, RoleId = mentorRole.RoleId, StartDate = currentDateTime };
+
+                // Add the UserRole to the UserRoles table and save changes
+                userContext.UserRoles.Add(userRole);
+                userContext.SaveChanges();
+            }
         }
 
         public string HashPassword(string password)

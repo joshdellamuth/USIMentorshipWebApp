@@ -152,7 +152,7 @@ public partial class UsiMentorshipApplicationContext : DbContext
                 .HasMaxLength(45)
                 .IsUnicode(false);
             entity.Property(e => e.Password)
-                .HasMaxLength(45)
+                .HasMaxLength(60)
                 .IsUnicode(false);
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(45)
@@ -184,29 +184,29 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
         modelBuilder.Entity<UserMatch>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.UserMatchesId).HasName("PK__UserMatc__B6D9FCF4D7952B0E");
 
-            entity.HasOne(d => d.Match).WithMany()
+            entity.HasOne(d => d.Match).WithMany(p => p.UserMatches)
                 .HasForeignKey(d => d.MatchId)
                 .HasConstraintName("FK__UserMatch__Match__5535A963");
 
-            entity.HasOne(d => d.User).WithMany()
+            entity.HasOne(d => d.User).WithMany(p => p.UserMatches)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK__UserMatch__UserI__5441852A");
         });
 
         modelBuilder.Entity<UserRole>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.UserRolesId).HasName("PK__UserRole__43D8BF2D0EF6A025");
 
             entity.Property(e => e.EndDate).HasColumnType("datetime");
             entity.Property(e => e.StartDate).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Role).WithMany()
+            entity.HasOne(d => d.Role).WithMany(p => p.UserRoles)
                 .HasForeignKey(d => d.RoleId)
                 .HasConstraintName("FK__UserRoles__RoleI__5070F446");
 
-            entity.HasOne(d => d.User).WithMany()
+            entity.HasOne(d => d.User).WithMany(p => p.UserRoles)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK__UserRoles__UserI__4F7CD00D");
         });

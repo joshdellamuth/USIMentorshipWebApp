@@ -10,7 +10,7 @@ public partial class User
     public string? FirstName { get; set; }
 
     public string? LastName { get; set; }
-    
+
     // this will be used to show the full name of a user
     public string FullName => $"{FirstName} {LastName}";
 
@@ -53,4 +53,8 @@ public partial class User
     public virtual ICollection<MatchCommunicationDetail> MatchCommunicationDetails { get; set; } = new List<MatchCommunicationDetail>();
 
     public virtual ICollection<UserDetail> UserDetails { get; set; } = new List<UserDetail>();
+
+    public virtual ICollection<UserMatch> UserMatches { get; set; } = new List<UserMatch>();
+
+    public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
 }
