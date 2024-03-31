@@ -17,6 +17,7 @@
         <h1 class="default-margin">Login</h1>
         <div class="login-column">
                 <EditForm Model="@loginModel" OnValidSubmit="@OnLogin">
+                <img src="images/usi-logo-mentorship-program.png" alt="Student and Mentor looking at taxes">
                     <div class="form-group">
                         <label for="email">Email</label>
                         <InputText id="email" class="form-control" @bind-Value="@loginModel.Email" />
@@ -26,8 +27,8 @@
                         <InputText id="password" class="form-control" @bind-Value="@loginModel.Password" />
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>
+                <a href="/mentor-match">Click here to go to mentor match.</a>
                 </EditForm>
-
         </div>
     </div>
 </div>
