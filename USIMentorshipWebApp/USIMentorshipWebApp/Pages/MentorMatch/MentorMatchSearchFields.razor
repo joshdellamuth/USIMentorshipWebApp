@@ -7,7 +7,7 @@
     @* INDUSTRIES *@
     <div class="our-column mb-2">
         <label>Industries:</label>
-        <RadzenDropDown @bind-Value=@industriesSelected Data=@industries Multiple="true" Chips=true Style="max-width:160px;" />
+        <RadzenDropDown @bind-SearchText=@industriesSearchText @bind-Value=@industriesSelected Multiple="true" Chips=true AllowFiltering ="true" Data=@industries AllowClear="true" Style="max-width:160px;" />
     </div>
     
     @* CURRENT POSITIONS *@
@@ -89,21 +89,25 @@
     # region Industry
     public List<string> industries;
     public List<string>? industriesSelected = new List<string>() { };
+    public string industriesSearchText;
     #endregion
 
     #region Current Position
     public List<string> currentPositions;
     public List<string>? currentPositionsSelected = new List<string>() { };
+    public string currentPositionsSearchText;
     #endregion
 
     #region Major
     public List<string> majorsList;
     public List<string> majorsSelected = new List<string>() {  };
+    public string majorsSearchText;
     #endregion
 
     # region Companies
     public List<string> companies;
     public List<string>? companiesSelected = new List<string>() { };
+    public string companiesSearchText;
     # endregion
 
     #region Age Range
@@ -114,16 +118,19 @@
     #region Business Country
     public List<string>? businessCountriesSelected = new List<string>() { };
     public List<string> businessCountries;
+    public string businessCountriesSearchText;
     #endregion
 
     #region Business State
     public List<string>? businessStatesSelected = new List<string>() { };
     public List<string> businessStates;
+    public string businessStatesSearchText;
     #endregion
 
     #region Business City
     public List<string>? businessCitiesSelected = new List<string>() { };
     public List<string> businessCities;
+    public string businessCitiesSearchText;
     #endregion
 
     #region Gender Preference
@@ -180,7 +187,7 @@
         // sets results to all mentors when nothing is filled out
         mentorResults = allMentors;
 
-        if (industriesSelected.Count != 0)
+        if (industriesSelected != null)
         {
             mentorResults = mentorResults
                 .Where(user => industriesSelected.Contains(user.Industry))
@@ -228,6 +235,13 @@
                 .Where(user => businessCitiesSelected.Contains(user.BusinessCity))
                 .ToList();
         }
+        if ((MentorNameSelected != null) & (MentorNameSelected != ""))
+        {
+            mentorResults = mentorResults
+                .Where(user => MentorNameSelected.Equals(user.FirstName + " " + user.LastName))
+                .ToList();
+        }
+        
 
         if (mentorResults.Count == 0)
         {
