@@ -11,10 +11,6 @@ namespace USIMentorshipWebApp.Data
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
-            // Determine the next UserId
-            int nextUserId = userContext.Users.Any() ? userContext.Users.Max(u => u.UserId) + 1 : 1;
-            user.UserId = nextUserId;
-
             userContext.Add(user);
             userContext.SaveChanges();
         }

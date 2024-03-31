@@ -12,6 +12,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<UserService>();
 
 // GetConnectionString pulls the connection string from appsettings.json
 builder.Services.AddDbContext<UsiMentorshipApplicationContext>(options =>
