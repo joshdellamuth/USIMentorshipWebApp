@@ -10,7 +10,7 @@ public partial class User
     public string? FirstName { get; set; }
 
     public string? LastName { get; set; }
-
+    
     // this will be used to show the full name of a user
     public string FullName => $"{FirstName} {LastName}";
 
@@ -38,9 +38,9 @@ public partial class User
 
     public string? CurrentPosition { get; set; }
 
-    public string? DateOfBirth { get; set; }
+    public DateTime? DateOfBirth { get; set; }
 
-    public string? GraduationYear { get; set; }
+    public DateTime? GraduationYear { get; set; }
 
     public string? BusinessCountry { get; set; }
 
@@ -49,6 +49,10 @@ public partial class User
     public string? BusinessCity { get; set; }
 
     public string? Gender { get; set; }
+
+    public string? School { get; set; }
+
+    public int? MenteesPerSemester { get; set; }
 
     public virtual ICollection<MatchCommunicationDetail> MatchCommunicationDetails { get; set; } = new List<MatchCommunicationDetail>();
 

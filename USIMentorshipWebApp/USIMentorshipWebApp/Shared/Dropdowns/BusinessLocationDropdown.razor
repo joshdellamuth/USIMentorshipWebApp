@@ -1,0 +1,46 @@
+﻿@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models;
+
+@* STATE DROPDOWN *@
+<div class="our-column mb-2">
+    <label>Business State:</label>
+    <RadzenDropDown @bind-SearchText=@stateSearchText FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
+                    Data=@states TextProperty="StateName" Change="@(args => StateChanged(args))" ValueProperty="StateCode" AllowClear="true" @bind-Value=@stateSelected Style="width: 100%; max-width: 220px;" />
+</div>
+
+@* CITY DROPDOWN *@
+<div class="our-column mb-2">
+    <label>Business City:</label>
+    <RadzenDropDown @bind-SearchText=@citySearchText FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
+                    Data=@citiesInState Disabled=@cityDropdownDisabled TextProperty="CityName" ValueProperty="CityId" AllowClear="true" @bind-Value=@citySelected Style="width: 100%; max-width: 220px;" />
+</div>
+
+@code {
+    private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
+
+    public string stateSelected;
+    public int citySelected;
+    public List<State> states;
+
+    public List<City> citiesInState;
+
+    public string stateSearchText;
+    public string citySearchText;
+
+    public bool cityDropdownDisabled = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        states = _context.States.ToList();
+    }
+
+    // this is triggered when the selected value changes and args is the newly selected value
+    void StateChanged(object value)
+    {
+        stateSelected = (string)value;
+        citiesInState = _context.Cities.Where(c => c.StateCode == stateSelected).ToList();
+        // .Any() returns if there are any cities in the collection, returns true if so
+        cityDropdownDisabled = !citiesInState.Any();
+    }
+}

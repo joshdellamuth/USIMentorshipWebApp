@@ -42,7 +42,7 @@
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Class Year</RadzenText>
-                <RadzenTextBox class="w-100" MaxLength="4" @bind-Value="@userProfile.GraduationYear" />
+                <RadzenTextBox class="w-100" MaxLength="4" @bind-Value="@exampleGraduationYear" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
@@ -84,10 +84,13 @@
     public User userProfile { get; set; }
     public string email;
 
+    public string exampleGraduationYear;  
+
     protected override void OnInitialized() //On Page Load
     {
         email = userProfile.EmailAddress;
         // string phoneNum = userProfile.PhoneNumber.ToString();
+        exampleGraduationYear = userProfile.GraduationYear.ToString();
     }
 
     private UserService _userService = new UserService();

@@ -1,4 +1,6 @@
 ﻿@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models;
+@using USIMentorshipWebApp.Data;
 
 @page "/testing"
 @layout MainLayout
@@ -8,27 +10,38 @@
 <h1>Testing Page</h1>
 <h5>Put code in here that you need to test. Sandbox basically. Thanks! - Josh D</h5>
 
-<RadzenDropDown @bind-Value=@values Data=@companyNames Multiple="true" Style="width: 100%; max-width: 400px;" Name="DropDownBindValue" />
+<RadzenDropDown @bind-SearchText=@stateSearchText FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
+                Data=@states TextProperty="StateName" Change="@(args => StateChanged(args))" ValueProperty="StateCode" AllowClear="true" @bind-Value=@stateSelected Style="width: 100%; max-width: 160px;" />
 
-@if (values.Contains("Google"))
-{
-    labelValue = "Value now contains Google";
-}
-else
-{
-    labelValue = "Value does not contain Google";
-
-}
-<RadzenLabel Text="@labelValue" Component="DropDownBindValue" Style="margin-right: 8px; vertical-align: middle;" />
+<RadzenDropDown @bind-SearchText=@citySearchText FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
+                Data=@citiesInState Disabled=@cityDropdownDisabled TextProperty="CityName" ValueProperty="CityId" AllowClear="true" @bind-Value=@citySelected Style="width: 100%; max-width: 160px;" />
 
 @code {
-    List<string> values = new List<string>() {  };
-    List<string> companyNames;
-    string labelValue = "Dogs";
+    private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
+
+    public string stateSelected;
+    public int citySelected;
+    public List<State> states;
+
+    public List<City> citiesInState;
+
+    public string stateSearchText;
+    public string citySearchText;
+
+    public bool cityDropdownDisabled = true;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        companyNames = new List<string> { "Apple", "Facebook", "Google", "Netflix" };
+        states = _context.States.ToList();
+    }
+
+    // this is triggered when the selected value changes and args is the newly selected value
+    void StateChanged(object value)
+    {
+        stateSelected = (string)value;
+        citiesInState = _context.Cities.Where(c => c.StateCode == stateSelected).ToList();
+        // .Any() returns if there are any cities in the collection, returns true if so
+        cityDropdownDisabled = !citiesInState.Any();
     }
 }

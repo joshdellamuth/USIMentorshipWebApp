@@ -8,28 +8,32 @@
     <div class="our-column mb-2">
         <label>Industries:</label>
         <RadzenDropDown @bind-SearchText=@industriesSearchText @bind-Value=@industriesSelected Multiple="true" 
-                        Chips=true AllowFiltering ="true" Data=@industries AllowClear="true" Style="max-width:160px;" />
+                        Chips=true AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                        Data=@industries AllowClear="true" Style="max-width:160px;" />
     </div>
     
     @* CURRENT POSITIONS *@
     <div class="our-column mb-2">
         <label>Current Position(s):</label>
         <RadzenDropDown @bind-SearchText=@currentPositionsSearchText @bind-Value=@currentPositionsSelected Multiple="true"
-                        Chips=true AllowFiltering="true" Data=@currentPositions AllowClear="true" Style="max-width:160px;" />
+                        Chips=true AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                        Data=@currentPositions AllowClear="true" Style="max-width:160px;" />
     </div>
 
     @* COMPANIES *@
     <div class="our-column mb-2">
         <label>Companies:</label>
         <RadzenDropDown @bind-SearchText=@companiesSearchText @bind-Value=@companiesSelected Multiple="true"
-                        Chips=true AllowFiltering="true" Data=@companies AllowClear="true" Style="max-width:160px;" />
+                        Chips=true AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                        Data=@companies AllowClear="true" Style="max-width:160px;" />
     </div>
 
     @* MAJOR *@
     <div class="our-column mb-2">
         <label>Major(s):</label>
         <RadzenDropDown @bind-SearchText=@majorsSearchText @bind-Value=@majorsSelected Multiple="true"
-                        Chips=true AllowFiltering="true" Data=@majorsList AllowClear="true" Style="max-width:160px;" />
+                        Chips=true AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                        Data=@majorsList AllowClear="true" Style="max-width:160px;" />
     </div>
 
     @* AGE RANGE *@
@@ -41,7 +45,7 @@
     @* GENDER PREFERENCES *@
     <div class="our-column mb-2">
         <label>Gender Preference:</label>
-        <RadzenDropDown @bind-Value=@gendersSelected Data=@genders Multiple="true" Chips=true Style="max-width:160px;" />
+        <RadzenDropDown @bind-Value=@gendersSelected Data=@genders Style="max-width:160px;" />
     </div>
 
     @* Maybe not have business countries??? *@
@@ -54,15 +58,17 @@
     @* BUSINESS STATES *@
     <div class="our-column mb-2">
         <label>Business States:</label>
-        <RadzenDropDown @bind-SearchText=@businessStatesSearchText @bind-Value=@businessStatesSelected Multiple="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                        Chips=true AllowFiltering="true" Data=@businessStates AllowClear="true" Style="max-width:160px;" />
+        <RadzenDropDown @bind-SearchText=@businessStatesSearchText @bind-Value=@businessStatesSelected Multiple="true" 
+                        Chips=true AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                        Data=@businessStates AllowClear="true" Style="max-width:160px;" />
     </div>
 
     @* BUSINESS CITIES *@
     <div class="our-column mb-2">
         <label>Business Cities:</label>
-        <RadzenDropDown @bind-SearchText=@businessCitiesSearchText @bind-Value=@businessCitiesSelected Multiple="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                        Chips=true AllowFiltering="true" Data=@businessCities AllowClear="true" Style="max-width:160px;" />
+        <RadzenDropDown @bind-SearchText=@businessCitiesSearchText @bind-Value=@businessCitiesSelected Multiple="true"
+                        Chips=true AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                        Data=@businessCities AllowClear="true" Style="max-width:160px;" />
     </div>
 
     @* MENTOR NAME SEARCH *@
