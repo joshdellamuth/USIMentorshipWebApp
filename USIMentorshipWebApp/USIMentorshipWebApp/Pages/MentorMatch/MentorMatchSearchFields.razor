@@ -7,25 +7,29 @@
     @* INDUSTRIES *@
     <div class="our-column mb-2">
         <label>Industries:</label>
-        <RadzenDropDown @bind-SearchText=@industriesSearchText @bind-Value=@industriesSelected Multiple="true" Chips=true AllowFiltering ="true" Data=@industries AllowClear="true" Style="max-width:160px;" />
+        <RadzenDropDown @bind-SearchText=@industriesSearchText @bind-Value=@industriesSelected Multiple="true" 
+                        Chips=true AllowFiltering ="true" Data=@industries AllowClear="true" Style="max-width:160px;" />
     </div>
     
     @* CURRENT POSITIONS *@
     <div class="our-column mb-2">
         <label>Current Position(s):</label>
-        <RadzenDropDown @bind-Value=@currentPositionsSelected Data=@currentPositions Multiple="true" Chips=true Style="max-width:160px;" />
+        <RadzenDropDown @bind-SearchText=@currentPositionsSearchText @bind-Value=@currentPositionsSelected Multiple="true"
+                        Chips=true AllowFiltering="true" Data=@currentPositions AllowClear="true" Style="max-width:160px;" />
     </div>
 
     @* COMPANIES *@
     <div class="our-column mb-2">
         <label>Companies:</label>
-        <RadzenDropDown @bind-Value=@companiesSelected Data=@companies Multiple="true" Chips=true Style="max-width:160px;" />
+        <RadzenDropDown @bind-SearchText=@companiesSearchText @bind-Value=@companiesSelected Multiple="true"
+                        Chips=true AllowFiltering="true" Data=@companies AllowClear="true" Style="max-width:160px;" />
     </div>
 
     @* MAJOR *@
     <div class="our-column mb-2">
         <label>Major(s):</label>
-        <RadzenDropDown @bind-Value=@majorsSelected Data=@majorsList Multiple="true" Chips=true Style="max-width:160px;" />
+        <RadzenDropDown @bind-SearchText=@majorsSearchText @bind-Value=@majorsSelected Multiple="true"
+                        Chips=true AllowFiltering="true" Data=@majorsList AllowClear="true" Style="max-width:160px;" />
     </div>
 
     @* AGE RANGE *@
@@ -40,6 +44,7 @@
         <RadzenDropDown @bind-Value=@gendersSelected Data=@genders Multiple="true" Chips=true Style="max-width:160px;" />
     </div>
 
+    @* Maybe not have business countries??? *@
     @* BUSINESS COUNTRIES *@
     <div class="our-column mb-2">
         <label>Business Countries:</label>
@@ -49,13 +54,15 @@
     @* BUSINESS STATES *@
     <div class="our-column mb-2">
         <label>Business States:</label>
-        <RadzenDropDown @bind-Value=@businessStatesSelected Data=@businessStates Multiple="true" Chips=true Style="max-width:160px;" />
+        <RadzenDropDown @bind-SearchText=@businessStatesSearchText @bind-Value=@businessStatesSelected Multiple="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                        Chips=true AllowFiltering="true" Data=@businessStates AllowClear="true" Style="max-width:160px;" />
     </div>
 
     @* BUSINESS CITIES *@
     <div class="our-column mb-2">
         <label>Business Cities:</label>
-        <RadzenDropDown @bind-Value=@businessCitiesSelected Data=@businessCities Multiple="true" Chips=true Style="max-width:160px;" />
+        <RadzenDropDown @bind-SearchText=@businessCitiesSearchText @bind-Value=@businessCitiesSelected Multiple="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                        Chips=true AllowFiltering="true" Data=@businessCities AllowClear="true" Style="max-width:160px;" />
     </div>
 
     @* MENTOR NAME SEARCH *@
@@ -88,25 +95,25 @@
 
     # region Industry
     public List<string> industries;
-    public List<string>? industriesSelected = new List<string>() { };
+    public List<string>? industriesSelected;
     public string industriesSearchText;
     #endregion
 
     #region Current Position
     public List<string> currentPositions;
-    public List<string>? currentPositionsSelected = new List<string>() { };
+    public List<string>? currentPositionsSelected;
     public string currentPositionsSearchText;
     #endregion
 
     #region Major
     public List<string> majorsList;
-    public List<string> majorsSelected = new List<string>() {  };
+    public List<string> majorsSelected;
     public string majorsSearchText;
     #endregion
 
     # region Companies
     public List<string> companies;
-    public List<string>? companiesSelected = new List<string>() { };
+    public List<string>? companiesSelected;
     public string companiesSearchText;
     # endregion
 
@@ -116,25 +123,25 @@
     #endregion
 
     #region Business Country
-    public List<string>? businessCountriesSelected = new List<string>() { };
+    public List<string>? businessCountriesSelected;
     public List<string> businessCountries;
     public string businessCountriesSearchText;
     #endregion
 
     #region Business State
-    public List<string>? businessStatesSelected = new List<string>() { };
+    public List<string>? businessStatesSelected;
     public List<string> businessStates;
     public string businessStatesSearchText;
     #endregion
 
     #region Business City
-    public List<string>? businessCitiesSelected = new List<string>() { };
+    public List<string>? businessCitiesSelected;
     public List<string> businessCities;
     public string businessCitiesSearchText;
     #endregion
 
     #region Gender Preference
-    public List<string>? gendersSelected = new List<string>() { };
+    public List<string>? gendersSelected;
     public List<string> genders = new List<string> { "Male", "Female", "Other" };
     #endregion
 
@@ -187,62 +194,69 @@
         // sets results to all mentors when nothing is filled out
         mentorResults = allMentors;
 
-        if (industriesSelected != null)
+        if (industriesSelected != null && industriesSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => industriesSelected.Contains(user.Industry))
                 .ToList();
         }
-        if (currentPositionsSelected.Count != 0)
+        
+        if (currentPositionsSelected != null && currentPositionsSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => currentPositionsSelected.Contains(user.CurrentPosition))
                 .ToList();
         }
-        if (companiesSelected.Count != 0)
+
+        if (companiesSelected != null && companiesSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => companiesSelected.Contains(user.Company))
                 .ToList();
         }
-        if (majorsSelected.Count != 0)
+
+        if (majorsSelected != null && majorsSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => majorsSelected.Contains(user.Major))
                 .ToList();
         }
-        if (gendersSelected.Count != 0)
+
+        if (gendersSelected != null && gendersSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => gendersSelected.Contains(user.Gender))
                 .ToList();
         }
-        if (businessCountriesSelected.Count != 0)
+
+        if (businessCountriesSelected != null && businessCountriesSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => businessCountriesSelected.Contains(user.BusinessCountry))
                 .ToList();
         }
-        if (businessStatesSelected.Count != 0)
+
+        if (businessStatesSelected != null && businessStatesSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => businessStatesSelected.Contains(user.BusinessState))
                 .ToList();
         }
-        if (businessCitiesSelected.Count != 0)
+
+        if (businessCitiesSelected != null && businessCitiesSelected.Count != 0)
         {
             mentorResults = mentorResults
                 .Where(user => businessCitiesSelected.Contains(user.BusinessCity))
                 .ToList();
         }
-        if ((MentorNameSelected != null) & (MentorNameSelected != ""))
+
+        if (MentorNameSelected != null && MentorNameSelected != "")
         {
             mentorResults = mentorResults
                 .Where(user => MentorNameSelected.Equals(user.FirstName + " " + user.LastName))
                 .ToList();
         }
         
-
         if (mentorResults.Count == 0)
         {
             mentorResults = new List<User>();
