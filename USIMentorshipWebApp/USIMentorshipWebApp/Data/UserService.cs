@@ -1,7 +1,5 @@
-﻿using USIMentorshipWebApp.Models;
-using System;
-using System.Linq;
-using BCrypt.Net;
+﻿using Microsoft.EntityFrameworkCore;
+using USIMentorshipWebApp.Models;
 
 namespace USIMentorshipWebApp.Data
 {
@@ -60,5 +58,48 @@ namespace USIMentorshipWebApp.Data
             // Verify the password using Bcrypt
             return BCrypt.Net.BCrypt.Verify(password, user.Password);
         }
+
+        public User? GetUserByEmailAndPassword(string emailAddress, string password)
+        {
+            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+
+            // Retrieve the user by email address
+            User? user = userContext.Users.FirstOrDefault(u => u.EmailAddress == emailAddress);
+
+            // If the user exists and the password is correct, return the user
+            if (user != null && user.Password == password)
+            {
+                return user;
+            }
+            // If the user doesn't exist or the password is incorrect, return null
+            else
+            {
+                return null;
+            }
+        }
+
+        //public Role? GetUserRoleByUserId(string userId)
+        //{
+        //    using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+
+        //    // Retrieve the user by email address
+        //    Role? role = userContext.Users.FirstOrDefault(u => u.EmailAddress == emailAddress);
+        //    return userContext.Users
+        //        .Join(
+        //            userContext.UserRoles,
+        //            user => user.UserId,
+        //            userRole => userRole.UserId,
+        //            (user, userRole) => new { User = user, UserRole = userRole }
+        //                )
+        //        .Join(
+        //            userContext.Roles,
+        //            combined => combined.UserRole.RoleId,
+        //            role => role.RoleId,
+        //            (combined, role) => new { User = combined.User, Role = role }
+        //        )
+        //        .Where(combined => combined.User.UserId == userId)
+        //        .Select(combined => combined.Role)
+        //        .FirstOrDefault();
+        //}
     }
 }

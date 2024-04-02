@@ -104,7 +104,7 @@
     <RadzenRow class="mb-4 mt-4" Gap="25" AlignItems="AlignItems.Center">
         <div class="our-column">
             <RadzenLabel Text="Birthdate:" Style="margin-right: 4px; vertical-align: middle;" />
-            <RadzenDatePicker @bind-Value=@inputtedBirthdate ShowCalendarWeek DateFormat="MM/dd/yyyy" />
+            <RadzenDatePicker @bind-Value=@inputtedBirthdate ShowCalendarWeek DateFormat="MM/dd/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(-18)"  />
         </div>
     </RadzenRow>
 

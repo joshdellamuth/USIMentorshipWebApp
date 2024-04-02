@@ -1,10 +1,15 @@
 ﻿@page "/"
+@using USIMentorshipWebApp.Models;
+@using BlazorServerAuthenticationAndAuthorization.Authentication
 @layout NotLoggedInLayout
 @inject NavigationManager NavigationManager
 @inject UserService UserService
+@inject IJSRuntime js;
+@inject AuthenticationStateProvider authStateProvider
+@inject UserService userService
+
 
 @using USIMentorshipWebApp.Data
-
 
 <PageTitle>Login - USI Mentorship Program</PageTitle>
 
@@ -38,17 +43,27 @@
 @code {
      LoginModel loginModel = new LoginModel();
 
-  private async Task OnLogin()
+    private async Task OnLogin()
     {
-        var user = UserService.GetUserByEmail(loginModel.Email);
-        if (user != null && UserService.VerifyPassword(user, loginModel.Password))
+        var user = userService.GetUserByEmailAndPassword(loginModel.Email, loginModel.Password);
+        if (user == null || user.Password != loginModel.Password)
         {
-            NavigationManager.NavigateTo("/mentor-match");
+            await js.InvokeVoidAsync("alert", "Invalid User Name or Password");
+            return;
         }
+
+        // var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        // await customAuthStateProvider.UpdateAuthenticationState(new UserSession
+        // {
+        //     UserName = user.EmailAddress,
+        //     Role = user.Role
+        // });
         else
         {
             // Implement user feedback for failed login
         }
+
+        NavigationManager.NavigateTo("/mentor-match");
     }
 
     void OnRegister(string name)
