@@ -45,7 +45,7 @@
     @* GENDER PREFERENCES *@
     <div class="our-column mb-2">
         <label>Gender Preference:</label>
-        <RadzenDropDown @bind-Value=@gendersSelected Data=@genders Style="max-width:160px;" />
+        <RadzenDropDown @bind-Value=@genderSelected Data=@genders Style="max-width:160px;" />
     </div>
 
     @* Maybe not have business countries??? *@
@@ -147,7 +147,7 @@
     #endregion
 
     #region Gender Preference
-    public List<string>? gendersSelected;
+    public string? genderSelected;
     public List<string> genders = new List<string> { "Male", "Female", "Other" };
     #endregion
 
@@ -228,10 +228,10 @@
                 .ToList();
         }
 
-        if (gendersSelected != null && gendersSelected.Count != 0)
+        if (genderSelected != null)
         {
             mentorResults = mentorResults
-                .Where(user => gendersSelected.Contains(user.Gender))
+                .Where(user => genderSelected.Contains(user.Gender))
                 .ToList();
         }
 
