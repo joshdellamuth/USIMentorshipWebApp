@@ -72,6 +72,10 @@ html {
     display: none;
 }
 
+.height-scrollable {
+    overflow-y: auto;
+}
+
 .message-wrapper {
     height: 100%;
     width: 80%;
@@ -217,7 +221,7 @@ html {
 }
 
 
-      
+
 
 @media (max-width:870px) {
 
@@ -230,7 +234,7 @@ html {
         font-size: 25px;
     }
 
-   
+
     .oi-x {
         color: white;
     }
@@ -243,9 +247,9 @@ html {
     }
 
 
-        .hamburger-icon:hover {
-            cursor: pointer;
-        }
+    .hamburger-icon:hover {
+        cursor: pointer;
+    }
 
     /* Do not show header items when width is below 860px*/
     .sidebar {
@@ -256,9 +260,8 @@ html {
         justify-content: flex-end;
     }
 
-    .message-wrapper{
+    .message-wrapper {
         border: none;
         width: 100%;
     }
 }
-
