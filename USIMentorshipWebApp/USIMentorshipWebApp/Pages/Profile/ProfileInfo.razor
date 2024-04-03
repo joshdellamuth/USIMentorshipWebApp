@@ -12,19 +12,19 @@
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Email</RadzenText>
-                <RadzenTextBox @bind-Value=@userProfile.EmailAddress class="w-100" />
+                <RadzenTextBox MaxLength="30" @bind-Value=@userProfile.EmailAddress class="w-100" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Phone Number</RadzenText>
-                <RadzenTextBox class="w-100" Value="PhoneNumberHere" /> @*@userProfile.PhoneNumber.ToString()*@
+                <RadzenTextBox class="w-100" MaxLength="10" @bind-Value=@userProfile.PhoneNumber /> 
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard Style="width:100">
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Major</RadzenText>
-                <RadzenTextBox class="w-100" @bind-Value="@userProfile.Major" />
+                <RadzenTextBox MaxLength="30" class="w-100" @bind-Value="@userProfile.Major" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
@@ -36,7 +36,7 @@
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Current Position</RadzenText>
-                <RadzenTextBox class="w-100" @bind-Value="@userProfile.CurrentPosition" />
+                <RadzenTextBox MaxLength="30" class="w-100" @bind-Value="@userProfile.CurrentPosition" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
@@ -48,13 +48,13 @@
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Student ID</RadzenText>
-                <RadzenTextBox Disabled="true" class="w-100" Value="1234567890" /> @*Will need to add field for student id, even if it is null*@
+                <RadzenTextBox MaxLength="12" Disabled="true" class="w-100" Value="1234567890" /> @*Will need to add field for student id, even if it is null*@
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Gender</RadzenText>
-                <RadzenTextBox Disabled="true" class="w-100" MaxLength="4" @bind-Value="@userProfile.Gender" />
+                <RadzenTextBox MaxLength="8" Disabled="true" class="w-100" @bind-Value="@userProfile.Gender" />
             </RadzenCard>
         </div>
         
@@ -62,11 +62,17 @@
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Role</RadzenText>
                 <RadzenRadioButtonList Disabled="true" Value="2" TValue="int">  @*NEED TO COME BACK AND LOOK AT THIS*@
-                    <Items>
+                    <Items>                                                     @*Should we make this a disabled text field since admin will handle change?*@
                         <RadzenRadioButtonListItem Text="Mentee" Value="1"/>
                         <RadzenRadioButtonListItem Text="Mentor" Value="2" />
                     </Items>
                 </RadzenRadioButtonList>
+            </RadzenCard>
+        </div>
+        <div class="col-md-12 col-lg-12 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">About</RadzenText>
+                <RadzenTextArea class="col-md-6 col-lg-12 p-3 w-100 h-50" Style="resize:vertical" @bind-Value=@userProfile.Bio Cols="77"></RadzenTextArea>
             </RadzenCard>
         </div>
     </div>
@@ -82,14 +88,11 @@
     [CascadingParameter]
     //must have this property for the cascading dropdown
     public User userProfile { get; set; }
-    public string email;
 
     public string exampleGraduationYear;  
 
     protected override void OnInitialized() //On Page Load
     {
-        email = userProfile.EmailAddress;
-        // string phoneNum = userProfile.PhoneNumber.ToString();
         exampleGraduationYear = userProfile.GraduationYear.ToString();
     }
 

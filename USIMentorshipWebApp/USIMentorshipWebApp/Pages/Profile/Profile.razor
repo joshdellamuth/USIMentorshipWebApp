@@ -7,7 +7,7 @@
 <PageTitle>Profile - USI Mentorship Program</PageTitle>
 
 @*This is for layout of page*@     
-<body>
+<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center">
     <div class="container">
         <div class="fixed-column; justify-content-center">
             <center><h2>@userProfile.FullName</h2></center>
@@ -22,9 +22,9 @@
             </CascadingValue>
         </div>
     </div>
-    @* Go to admin page *@
-    <a href="/admin-portal">Click here to go to Admin page</a>
-</body>
+</RadzenStack>
+@* Go to admin page *@
+<a href="/admin-portal">Click here to go to Admin page</a>
 
 
 @code {
