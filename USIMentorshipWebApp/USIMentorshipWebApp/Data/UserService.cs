@@ -78,6 +78,53 @@ namespace USIMentorshipWebApp.Data
             }
         }
 
+        public User? GetExampleMenteeUser()
+        {
+            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+
+            // gets the role of Mentee
+            Role? menteeRole = userContext.Roles.FirstOrDefault(r => r.RoleName == "Mentee");
+
+
+            User? userWithMenteeRole = (from user in userContext.Users
+                                        join userRole in userContext.UserRoles on user.UserId equals userRole.UserId
+                                        where userRole.RoleId == menteeRole.RoleId
+                                        select user).FirstOrDefault();
+
+            return userWithMenteeRole;
+        }
+
+        public User? GetExampleMentorUser()
+        {
+            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+
+            // gets the role of Mentee
+            Role? mentorRole = userContext.Roles.FirstOrDefault(r => r.RoleName == "Mentor");
+
+            User? userWithMenteeRole = (from user in userContext.Users
+                                        join userRole in userContext.UserRoles on user.UserId equals userRole.UserId
+                                        where userRole.RoleId == mentorRole.RoleId
+                                        select user).FirstOrDefault();
+
+            return userWithMenteeRole;
+        }
+
+        public User? GetExampleAdminUser()
+        {
+            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+
+            // gets the role of Mentee
+            Role? adminRole = userContext.Roles.FirstOrDefault(r => r.RoleName == "Admin");
+
+
+            User? userWithAdminRole = (from user in userContext.Users
+                                        join userRole in userContext.UserRoles on user.UserId equals userRole.UserId
+                                        where userRole.RoleId == adminRole.RoleId
+                                        select user).FirstOrDefault();
+
+            return userWithAdminRole;
+        }
+
         //public Role? GetUserRoleByUserId(string userId)
         //{
         //    using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();

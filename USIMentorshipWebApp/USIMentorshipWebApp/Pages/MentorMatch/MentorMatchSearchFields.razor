@@ -39,13 +39,13 @@
     @* AGE RANGE *@
     <div class="our-column mb-2">
         <label>Preferred Age Range(s):</label>
-        <RadzenDropDown @bind-Value=@ageRangesSelected Data=@ageRanges Multiple="true" Chips=true Style="max-width:160px;" />
+        <RadzenDropDown @bind-Value=@ageRangesSelected Data=@ageRanges AllowClear="true" Multiple="true" Chips=true Style="max-width:160px;" />
     </div>
 
     @* GENDER PREFERENCES *@
     <div class="our-column mb-2">
         <label>Gender Preference:</label>
-        <RadzenDropDown @bind-Value=@genderSelected Data=@genders Style="max-width:160px;" />
+        <RadzenDropDown @bind-Value=@genderSelected Data=@genders AllowClear="true" Style="max-width:160px;" />
     </div>
 
     @* Maybe not have business countries??? *@

@@ -24,8 +24,9 @@ builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStat
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<RequestService>();
 //maybe need the line below???
-//builder.Services.AddScoped<RegistrationDataService>();
+builder.Services.AddScoped<RegistrationDataService>();
 
 // GetConnectionString pulls the connection string from appsettings.json
 builder.Services.AddDbContext<UsiMentorshipApplicationContext>(options =>
