@@ -1,6 +1,7 @@
 ﻿@using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models;
 @using System.Linq;
+@inject EmailService emailService;
 
 <br />
 <div class="row">
@@ -197,6 +198,13 @@
 
     public void SearchMentors(MouseEventArgs args)
     {
+        EmailService emailService = new EmailService();
+
+        string emailAddress = "jddellamut@eagles.usi.edu";
+        string message = "Oh my goodness, you just clicked Find Mentors. Wowzers!";
+
+        emailService.SendMail(emailAddress, message);
+
         // sets results to all mentors when nothing is filled out
         mentorResults = allMentors;
 
