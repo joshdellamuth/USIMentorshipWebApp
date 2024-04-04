@@ -1,0 +1,14 @@
+﻿@using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Models;
+
+<RadzenStack Orientation="Orientation.Horizontal">
+    <RadzenImage Path=@user.ProfilePicutre Style="width: 110px; height: 110px; border-radius: 50%;" />
+    <RadzenCard Class="rz-p-3">
+        <RadzenText TextStyle="TextStyle.Body1">This is an example reciever chat!</RadzenText>
+    </RadzenCard>
+</RadzenStack>
+
+@code {
+    [Parameter]
+    public User user { get; set; }
+}

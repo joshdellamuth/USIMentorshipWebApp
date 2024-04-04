@@ -1,94 +1,115 @@
 ﻿@page "/Chat"
 @layout MainLayout
+@using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Models;
+@inject UserService userService; 
+
 <PageTitle>Chat - USI Mentorship Program</PageTitle>
 
+<!--row-->
+<div style="display:flex; align-items:stretch;">
+    <!--SIDEBAR FOR CHATS-->
+    <!--Column-->
+    <div class="@SidebarCssClass height-scrollable">
+        @* X BUTTON *@
+        <div @onclick="ToggleNavMenu" style="text-align:right;">
+            <span class="oi oi-x"></span>
+        </div>
 
-<!--The sidebar menu container-->
-<div class="sidebar">
-    <div class="small-sidebar-heading-container">
-        <h1 class="sidebar-title">Chat</h1>
-        <p class="sidebar-subtitle">Get chatting with your mentors/mentees below!</p>
+        @* CHAT HEADING*@
+        <h1>Chat</h1>
+        <h6>Get started chatting with mentors below!</h6>
+
+        <UserChatSidebarCard user="exampleMentor"/>
+        <UserChatSidebarCard user="exampleMentor" />
+        <UserChatSidebarCard user="exampleMentor"/>
+        <UserChatSidebarCard user="exampleMentor"/>
+        <UserChatSidebarCard user="exampleMentor"/>
+        <UserChatSidebarCard user="exampleMentor"/>
+        <UserChatSidebarCard user="exampleMentor"/>
+
     </div>
 
-    <!--Accounts that are connected with each other-->
-    <div class="account-wrapper">
-        <div class="small-account">
-            <img src="images/jane-doe-profile-picture.png" alt="" class="image-circle" />
-            <p>Kareem Kabur</p>
+    @if (IsCollapsed == true)
+    {
+        @* MENU BUTTON *@
+        <div class="small-sidebar">
+            <div @onclick="ToggleNavMenu" style="text-align:right; font-size:24px;">
+                <span class="oi oi-menu"></span>
+            </div>
         </div>
-        <div class="small-account">
-            <img src="images/monica-johnson-mentee-profile-pciture.png" alt="" class="image-circle" />
-            <p>Micelle myers</p>
+    }
+
+<!--MESSAGES-->
+    <!--column-->
+    <div class="main-column">
+        <!--row-->
+        <div class="messages-column height-scrollable">
+            <div style="justify-content:flex-end;" class="main-row">
+                <SenderMessage user="exampleMentee"/>
+            </div>
+            <div style="justify-content:flex-start;" class="main-row">
+                <RecieverMessage user="exampleMentor" />
+            </div>
+            <div style="justify-content:flex-end;" class="main-row">
+                <SenderMessage user="exampleMentee" />
+            </div>
+            <div style="justify-content:flex-start;" class="main-row">
+                <RecieverMessage user="exampleMentor" />
+            </div>
+            <div style="justify-content:flex-end;" class="main-row">
+                <SenderMessage user="exampleMentee" />
+            </div>
+            <div style="justify-content:flex-start;" class="main-row">
+                <RecieverMessage user="exampleMentor" />
+            </div>
+            <div style="justify-content:flex-end;" class="main-row">
+                <SenderMessage user="exampleMentee" />
+            </div>
         </div>
-        <div class="small-account">
-            <img src="images/shawn-smith-profile-picture.png" alt="" class="image-circle" />
-            <p>Joshie Natashie</p>
-        </div>
-    </div>
-</div>
-
-    <!--Message section-->
-    <div class="message-wrapper">
-
-        <div @onclick="ToggleNavMenu">
-            <span class="oi oi-menu hamburger-menu"></span>
-        </div>
-
-
-        <div class="message-area">
-            <div class="message-recieved">Messages Recieved</div>
-            <div class="message-sent">Messages sent</div>
-        </div>
-
-        <div class="message-input">
-            <input type="text" placeholder="Type your message..." />
-            <button>Send</button>
-        </div>
-    </div>
-
-
-@*The following are styles for the hamburger menu *@
-<div class="@NavMenuCssClass column default-margin ">
-
-
-    <div @onclick="ToggleNavMenu">
-        <span class="oi oi-x hamburger-menu small-menu"></span>
-    </div>
-
-
-    <div class="small-sidebar-heading-container">
-        <h1 class="sidebar-title">Chat</h1>
-        <p class="sidebar-subtitle">Get chatting with your mentors/Mentees below!</p>
-    </div>
-
-    <!--Accounts that are connected with each other-->
-    <div class="account-wrapper">
-        <div class="small-account">
-            <img src="images/jane-doe-profile-picture.png" alt="" class="image-circle" />
-            <p>Kareem Kabur</p>
-        </div>
-        <div class="small-account">
-            <img src="images/monica-johnson-mentee-profile-pciture.png" alt="" class="image-circle" />
-            <p>Micelle myers</p>
-        </div>
-        <div class="small-account">
-            <img src="images/shawn-smith-profile-picture.png" alt="" class="image-circle" />
-            <p>Joshie Natashie</p>
+        
+        <div class="main-column-input" style="padding:5px;">
+            <RadzenStack Orientation="Orientation.Horizontal">
+                <RadzenTextArea MaxLength="300" @bind-Value=@inputtedMessage class="w-100" aria-label="TextArea with 300 maximum characters" />
+                <RadzenButton Style="width:80px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click=@SendChat Text="Send" />
+            </RadzenStack>
+            <h6 class="side-note">Note: If you don't immediately see a message, refresh the page</h6>
         </div>
     </div>
+
 
 </div>
 
 @code {
-    private bool IsCollapsed = true;
+    User exampleMentor;
 
-    private string? NavMenuCssClass => IsCollapsed ? "hamburger-collapsed" : "hamburger-expanded";
+    User exampleMentee;
+
+    protected override void OnInitialized()
+    {
+        // userService from above
+        exampleMentor = userService.GetExampleMentorUser();
+
+        //exampleMentee
+        exampleMentee = userService.GetExampleMenteeUser();
+    }
+
+    public string inputtedMessage;
+
+    #region Collapsing the Sidebar
+    private bool IsCollapsed = false;
+
+    private string? SidebarCssClass => IsCollapsed ? "dont-show" : "sidebar";
 
     private void ToggleNavMenu()
     {
         IsCollapsed = !IsCollapsed;
     }
+    #endregion
 
-
+    public void SendChat()
+    {
+        
+    }
 }
 
