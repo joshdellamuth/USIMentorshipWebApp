@@ -60,3 +60,22 @@
 .oi {
     color: black;
 }
+
+@media (max-width: 800px) {
+    .sidebar-appear-over {
+        /* Never collapse the sidebar for wide screens */
+        position: fixed;
+        top: 70px; /* offesets 70px (height of header bar) from the top */
+        left: 0;
+        width: 320px;
+        background-color: #F1F1F1;
+        height: calc(100vh - 95.38px);
+        padding: 10px;
+        border-radius: 10px;
+        z-index: 999;
+    }
+
+    sidebar {
+        display:none;
+    }
+}

@@ -5,6 +5,23 @@ namespace USIMentorshipWebApp.Data
 {
     public class UserService
     {
+        // Get User By UserId
+        public User GetUserByIdAsync(int userId)
+        {
+            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+
+            try
+            {
+                return userContext.Users
+                    .FirstOrDefault(u => u.UserId == userId);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (e.g., logging, error handling)
+                throw new ApplicationException("Error retrieving user by ID.", ex);
+            }
+        }
+
         // add user must take in the name of a role also to make the new user. Every new user must have a role. 
         public void AddUser(User user, string roleName)
         {
