@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace USIMentorshipWebApp.Models;
 
@@ -20,6 +21,7 @@ public partial class User
 
     public string? Password { get; set; }
 
+    [NotMapped]
     public string? RepeatPassword { get; set; }
 
     public string? ProfilePicutre { get; set; }
