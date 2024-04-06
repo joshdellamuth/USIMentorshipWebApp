@@ -1,4 +1,5 @@
-﻿using USIMentorshipWebApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using USIMentorshipWebApp.Models;
 
 namespace USIMentorshipWebApp.Data
 {
@@ -18,26 +19,23 @@ namespace USIMentorshipWebApp.Data
             return registrationDataService.Cities.FirstOrDefault(s => s.CityId == id);
         }
 
-        public List<string> GetJobTitles()
+        public async Task<List<string>> GetIndustriesAsync()
         {
-            using UsiMentorshipApplicationContext registrationDataService = new UsiMentorshipApplicationContext();
-
-            // jt represents a single JobTitle in the JobTitles DbSet
-            return registrationDataService.JobTitles.Select(jt => jt.JobTitleName).ToList();
+            using var context = new UsiMentorshipApplicationContext();
+            return await context.Industries.Select(i => i.IndustryName).ToListAsync();
         }
 
-        public List<string> GetSchools()
+        public async Task<List<string>> GetJobTitlesAsync()
         {
-            using UsiMentorshipApplicationContext registrationDataService = new UsiMentorshipApplicationContext();
-
-            return registrationDataService.Schools.Select(s => s.SchoolName).ToList();
+            using var context = new UsiMentorshipApplicationContext();
+            return await context.JobTitles.Select(jt => jt.JobTitleName).ToListAsync();
         }
 
-        public List<string> GetIndustries()
+        public async Task<List<string>> GetSchoolsAsync()
         {
-            using UsiMentorshipApplicationContext registrationDataService = new UsiMentorshipApplicationContext();
-
-            return registrationDataService.Industries.Select(i => i.IndustryName).ToList();
+            using var context = new UsiMentorshipApplicationContext();
+            return await context.Schools.Select(s => s.SchoolName).ToListAsync();
         }
+
     }
 }

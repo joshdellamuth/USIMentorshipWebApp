@@ -52,6 +52,8 @@ public partial class User
 
     public string? School { get; set; }
 
+    public string? JobTitles { get; set; }
+
     public int? MenteesPerSemester { get; set; }
 
     public virtual ICollection<MatchCommunicationDetail> MatchCommunicationDetails { get; set; } = new List<MatchCommunicationDetail>();
