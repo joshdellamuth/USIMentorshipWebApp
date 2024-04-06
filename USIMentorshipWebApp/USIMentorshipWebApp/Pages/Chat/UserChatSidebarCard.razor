@@ -1,0 +1,20 @@
+﻿@using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Models;
+
+@* ADD A CLICK EVENT HERE *@
+<div style="height:125px; overflow:hidden;">
+    <RadzenCard Class="rz-p-3">
+        <RadzenStack Orientation="Orientation.Horizontal">
+            <RadzenImage Path=@user.ProfilePicutre Style="width: 90px; height: 90px; border-radius: 50%;" />
+            <RadzenStack Gap=".5rem" Orientation="Orientation.Vertical">
+                <RadzenText TextStyle="TextStyle.H6">@user.FirstName</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1">Grab the latest text from this user to display in this card.</RadzenText>
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenCard>
+</div>
+
+@code {
+    [Parameter]
+    public User user { get; set; }
+}

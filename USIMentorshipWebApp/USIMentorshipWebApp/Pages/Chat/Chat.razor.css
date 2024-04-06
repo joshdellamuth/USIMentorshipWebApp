@@ -1,0 +1,81 @@
+﻿.main-row {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+
+.main-column {
+    flex-direction: column;
+    background-color: white;
+    /* essentially sets flex-grow and flex-shrink */
+    flex: auto;
+    display: flex;
+    height: calc(100vh - 95.38px);
+}
+
+.main-column-input {
+    margin-top:auto;
+    padding-left: 10px;
+}
+
+.height-scrollable {
+    overflow-y: auto;
+}
+
+/*Sidebar styling*/
+.sidebar {
+    width: 330px;
+    background-color: #F1F1F1;
+    height: calc(100vh - 95.38px); /* Subtract the navbar's height from 100vh */
+    padding: 10px;
+    border-radius:10px;
+}
+
+/*Sidebar styling*/
+.small-sidebar {
+    width: 45px;
+    background-color: #F1F1F1;
+    height: calc(100vh - 95.38px); /* Subtract the navbar's height from 100vh */
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.side-note {
+    text-align: center;
+    color: #999;
+}
+
+.image-circle {
+    width: 50px; /* Adjust the width and height as needed */
+    height: 50px; /* Ensure width and height are equal for a perfect circle */
+    border-radius: 50%; /* Apply border-radius to create a circle */
+    object-fit: cover; /* Ensure the image covers the entire space without distortion */
+}
+
+.dont-show {
+    /* Never collapse the sidebar for wide screens */
+    display: none;
+}
+
+.oi {
+    color: black;
+}
+
+@media (max-width: 800px) {
+    .sidebar-appear-over {
+        /* Never collapse the sidebar for wide screens */
+        position: fixed;
+        top: 70px; /* offesets 70px (height of header bar) from the top */
+        left: 0;
+        width: 320px;
+        background-color: #F1F1F1;
+        height: calc(100vh - 95.38px);
+        padding: 10px;
+        border-radius: 10px;
+        z-index: 999;
+    }
+
+    sidebar {
+        display:none;
+    }
+}

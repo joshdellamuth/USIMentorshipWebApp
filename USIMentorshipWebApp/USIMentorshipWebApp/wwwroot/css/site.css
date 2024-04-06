@@ -40,7 +40,6 @@ html, body {
 .our-row {
     display: flex;
     flex-direction: row;
-    height: auto;
     flex-wrap: wrap;
 }
 
