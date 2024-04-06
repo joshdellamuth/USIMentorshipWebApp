@@ -74,8 +74,12 @@ namespace USIMentorshipWebApp.Data
 
         public bool VerifyPassword(User user, string password)
         {
+
             // Verify the password using Bcrypt
-            return BCrypt.Net.BCrypt.Verify(password, user.Password);
+            //return BCrypt.Net.BCrypt.Verify(password, user.Password);
+            UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+            return userContext.Users.Any(u => u.UserId == user.UserId && u.Password == password);
+
         }
 
         public User? GetUserByEmailAndPassword(string emailAddress, string password)

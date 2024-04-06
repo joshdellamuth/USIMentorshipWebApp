@@ -23,15 +23,16 @@
         <div class="login-column">
                 <EditForm Model="@loginModel" OnValidSubmit="@OnLogin">
                 <img src="images/usi-logo-mentorship-program.png" alt="Student and Mentor looking at taxes">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <InputText id="email" class="form-control" @bind-Value="@loginModel.Email" />
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <InputText id="password" class="form-control" @bind-Value="@loginModel.Password" />
-                    </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <InputText id="email" class="form-control" @bind-Value="@loginModel.Email" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <InputText id="password" class="form-control" @bind-Value="@loginModel.Password" />
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <button class="btn btn-primary" @onclick="GoToSignUp">Sign Up</button>
                 <a href="/mentor-match">Click here to go to mentor match.</a>
                 </EditForm>
         </div>
@@ -41,29 +42,19 @@
 
 
 @code {
-     LoginModel loginModel = new LoginModel();
+    LoginModel loginModel = new LoginModel();
 
     private async Task OnLogin()
     {
-        var user = userService.GetUserByEmailAndPassword(loginModel.Email, loginModel.Password);
-        if (user == null || user.Password != loginModel.Password)
+        var user = UserService.GetUserByEmail(loginModel.Email);
+        if (user != null && UserService.VerifyPassword(user, loginModel.Password))
         {
-            await js.InvokeVoidAsync("alert", "Invalid User Name or Password");
-            return;
+            NavigationManager.NavigateTo("/mentor-match");
         }
-
-        // var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
-        // await customAuthStateProvider.UpdateAuthenticationState(new UserSession
-        // {
-        //     UserName = user.EmailAddress,
-        //     Role = user.Role
-        // });
         else
         {
             // Implement user feedback for failed login
         }
-
-        NavigationManager.NavigateTo("/mentor-match");
     }
 
     void OnRegister(string name)
@@ -77,5 +68,10 @@
     void GoToMentorMatch(MouseEventArgs args)
     {
         NavigationManager.NavigateTo("/mentor-match");
+    }
+
+    void GoToSignUp(MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo("/sign-up-landing-page");
     }
 }
