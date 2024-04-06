@@ -20,6 +20,8 @@ public partial class User
 
     public string? Password { get; set; }
 
+    public string? RepeatPassword { get; set; }
+
     public string? ProfilePicutre { get; set; }
 
     public string? LinkedInLink { get; set; }

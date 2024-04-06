@@ -23,10 +23,17 @@
 
             @* FIRSTNAME, LASTNAME *@
             <RadzenRow class="mb-4 mt-4" Gap="25">
+                
+
                 <RadzenFormField Text="First Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenTextBox @bind-Value="@user.FirstName" Name="FirstName" />
-                    <RadzenRequiredValidator Text="First name is required" Component="FirstName" />
+                    <RadzenStack Orientation="Orientation.Vertical">
+                        <RadzenTextBox @bind-Value="@user.FirstName" Name="FirstName" />
+                        <RadzenRequiredValidator Text="First name is required" Component="FirstName" />
+                    </RadzenStack>
                 </RadzenFormField>
+
+
+
 
                 <RadzenFormField Text="Last Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
                     <RadzenTextBox @bind-Value="@user.LastName" Name="LastName" />
@@ -158,19 +165,19 @@
             <RadzenFormField Text="Password" AllowFloatingLabel="false">
                 <RadzenPassword @bind-Value="@user.Password" Name="Password" />
                 <RadzenRequiredValidator Text="Password is required" Component="Password" />
-                <RadzenLengthValidator MinimumLength="6" Text="Password must be at least 6 characters long" Component="Password" />
+                <RadzenLengthValidator Min="6" Text="Password must be at least 6 characters long" Component="Password" />
             </RadzenFormField>
         </RadzenRow>
 
-        @* CONFIRM PASSWORD 
+        @* CONFIRM PASSWORD  *@
         <RadzenRow>
             <RadzenFormField Text="Confirm Password" AllowFloatingLabel="false">
-                <RadzenPassword @bind-Value="@confirmPassword" Name="ConfirmPassword" />
+                <RadzenPassword @bind-Value="@user.RepeatPassword" Name="ConfirmPassword" />
                 <RadzenRequiredValidator Text="Confirming password is required" Component="ConfirmPassword" />
-                <RadzenCompareValidator Text="Passwords do not match" Component="ConfirmPassword" CompareTo="@user.Password" />
+                <RadzenCompareValidator Text="Passwords do not match" Component="ConfirmPassword" Visible=@(!string.IsNullOrEmpty(user.RepeatPassword)) />
             </RadzenFormField>
         </RadzenRow>
-        *@
+       
         
             @* REGISTER, BACK TO LOGIN *@
             <RadzenRow>
