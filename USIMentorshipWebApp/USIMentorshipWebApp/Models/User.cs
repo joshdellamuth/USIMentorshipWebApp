@@ -11,8 +11,9 @@ public partial class User
     public string? FirstName { get; set; }
 
     public string? LastName { get; set; }
-    
+
     // this will be used to show the full name of a user
+    [NotMapped]
     public string FullName => $"{FirstName} {LastName}";
 
     public string? PhoneNumber { get; set; }
@@ -55,8 +56,6 @@ public partial class User
     public string? Gender { get; set; }
 
     public string? School { get; set; }
-
-    public string? JobTitles { get; set; }
 
     public int? MenteesPerSemester { get; set; }
 
