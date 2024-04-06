@@ -97,7 +97,7 @@
 
                 <div class="our-column mb-2">
                     <label>Graduation Date:</label>
-                    <RadzenDatePicker @bind-Value=@user.GraduationYear Name="GraduationDate" ShowCalendarWeek DateFormat="MM/dd/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(30)" />
+                    <RadzenDatePicker @bind-Value=@user.GraduationYear Name="GraduationDate" ShowCalendarWeek DateFormat="MM/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(30)" />
                 <RadzenRequiredValidator Text="Graduation Date is required" Component="GraduationDate" />
                 </div>
             </RadzenRow>
