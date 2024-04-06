@@ -87,7 +87,8 @@
 
 
                 <RadzenFormField Text="Major:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenTextBox @bind-Value=@user.Major />
+                    <RadzenTextBox @bind-Value=@user.Major Name="Major" />
+                    <RadzenRequiredValidator Text="Major is required" Component="Major" />
                 </RadzenFormField>
 
                 <RadzenFormField Text="Minor:" AllowFloatingLabel="false" Variant=Variant.Flat>
@@ -96,7 +97,8 @@
 
                 <div class="our-column mb-2">
                     <label>Graduation Date:</label>
-                <RadzenDatePicker @bind-Value=@user.GraduationYear ShowCalendarWeek DateFormat="MM/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(30)" />
+                    <RadzenDatePicker @bind-Value=@user.GraduationYear Name="GraduationDate" ShowCalendarWeek DateFormat="MM/dd/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(30)" />
+                <RadzenRequiredValidator Text="Graduation Date is required" Component="GraduationDate" />
                 </div>
             </RadzenRow>
 
@@ -236,7 +238,7 @@
         // Check if passwords match
 
             // Assume AddUser is updated to handle async operation if necessary
-        await UserService.AddUserAsync(user, "Mentor");
+            await UserService.AddUserAsync(user, "Mentor");
             NavigationManager.NavigateTo("/mentor-match");
         
 
