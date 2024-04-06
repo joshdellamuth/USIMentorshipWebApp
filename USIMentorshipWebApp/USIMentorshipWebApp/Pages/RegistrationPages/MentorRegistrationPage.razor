@@ -174,7 +174,7 @@
             <RadzenFormField Text="Confirm Password" AllowFloatingLabel="false">
                 <RadzenPassword @bind-Value="@user.RepeatPassword" Name="ConfirmPassword" />
                 <RadzenRequiredValidator Text="Confirming password is required" Component="ConfirmPassword" />
-                <RadzenCompareValidator Text="Passwords do not match" Component="ConfirmPassword" Visible=@(!string.IsNullOrEmpty(user.RepeatPassword)) />
+                <RadzenCompareValidator Text="Passwords do not match" Value=@user.Password Component="ConfirmPassword" Visible=@(!string.IsNullOrEmpty(user.RepeatPassword)) />
             </RadzenFormField>
         </RadzenRow>
        
@@ -187,21 +187,10 @@
 
 
 
-
-
-            @* <RadzenButton ButtonType="ButtonType.Submit" Text="Submit" />   *@
         </RadzenTemplateForm>
 
 
 </div>
-
-
-
-
-
-
-
-
 
 
 
@@ -239,7 +228,7 @@
         // Check if passwords match
 
             // Assume AddUser is updated to handle async operation if necessary
-            await UserService.AddUserAsync(user, "Mentor");
+        await UserService.AddUserAsync(user, "Mentor");
             NavigationManager.NavigateTo("/mentor-match");
         
 
