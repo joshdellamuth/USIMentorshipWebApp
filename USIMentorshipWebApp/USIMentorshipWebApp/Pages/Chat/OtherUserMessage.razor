@@ -1,0 +1,19 @@
+﻿@using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Models;
+
+<div style="justify-content:flex-start;" class="main-row">
+    <RadzenStack Orientation="Orientation.Horizontal">
+        <img src="@user.ProfilePicutre" class="profile-image" alt="@user.FirstName @user.LastName Profile Picture">
+        <RadzenCard Class="rz-p-3">
+            <RadzenText TextStyle="TextStyle.Body1">@chat.CommunicationContent</RadzenText>
+        </RadzenCard>
+    </RadzenStack>
+</div>
+
+@code {
+    [Parameter]
+    public User user { get; set; }
+
+    [Parameter]
+    public MatchCommunicationDetail chat { get; set; }
+}

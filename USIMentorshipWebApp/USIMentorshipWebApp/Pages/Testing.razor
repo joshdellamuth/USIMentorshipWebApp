@@ -2,6 +2,7 @@
 @using USIMentorshipWebApp.Models;
 @using USIMentorshipWebApp.Pages.Chat;
 @inject UserService userService;
+@inject ChatService chatService;
 
 @page "/testing"
 @layout MainLayout
@@ -11,17 +12,17 @@
 <h1>Testing Page</h1>
 <h5>Put code in here that you need to test. Sandbox basically. Thanks! - Josh D</h5>
 
-<UserChatSidebarCard user="@exampleUser"/>
-<SenderMessage user="@exampleUser"/>
-<RecieverMessage user="@exampleUser" />
+<div class="profile-image">
+@*     <RadzenImage Path=@user.ProfilePicutre />
+ *@</div>
 
 
 @code {
     User? exampleUser;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         // userService from above
-        exampleUser = userService.GetExampleMentorUser();
+        exampleUser = await userService.GetExampleMentorUser();
     }
 }

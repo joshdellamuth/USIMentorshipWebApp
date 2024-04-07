@@ -22,7 +22,7 @@
     List<string> mentorshipLengths = new List<string> { "1", "2", "3", "4" };
 
 
-    public void SendMentorshipRequest()
+    public async Task SendMentorshipRequest()
     {
         UserService _userService = new UserService();
         RequestService _requestService = new RequestService();
@@ -31,7 +31,7 @@
         DialogService.Close();
 
         // get an example mentee until sessions are setup
-        User? exampleMentee = _userService.GetExampleMenteeUser();
+        User? exampleMentee = await _userService.GetExampleMenteeUser();
 
         if (selectedMentorshipLength != null)
         {

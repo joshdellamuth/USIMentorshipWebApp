@@ -101,7 +101,7 @@ namespace USIMentorshipWebApp.Data
             }
         }
 
-        public User? GetExampleMenteeUser()
+        public async Task<User?> GetExampleMenteeUser()
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
@@ -117,7 +117,7 @@ namespace USIMentorshipWebApp.Data
             return userWithMenteeRole;
         }
 
-        public User? GetExampleMentorUser()
+        public async Task<User?> GetExampleMentorUser()
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
@@ -132,7 +132,7 @@ namespace USIMentorshipWebApp.Data
             return userWithMenteeRole;
         }
 
-        public User? GetExampleAdminUser()
+        public async Task<User?> GetExampleAdminUser()
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
