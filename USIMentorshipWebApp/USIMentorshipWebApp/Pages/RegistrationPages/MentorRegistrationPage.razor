@@ -83,17 +83,25 @@
                                 AllowClear="true" Style="max-width:190px;" Name="School" />
                     <RadzenRequiredValidator Text="School is Required" Component="School" />
                 </div>
+
+
+                <RadzenStack Orientation="Orientation.Vertical">
                 
-
-
-                <RadzenFormField Text="Major:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenTextBox @bind-Value=@user.Major Name="Major" />
+                    <RadzenFormField Text="Major:" AllowFloatingLabel="false" Variant=Variant.Flat>
+                        <RadzenTextBox @bind-Value=@user.Major Name="Major" />
+                    </RadzenFormField>
                     <RadzenRequiredValidator Text="Major is required" Component="Major" />
-                </RadzenFormField>
 
-                <RadzenFormField Text="Minor:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenTextBox @bind-Value="@user.Minor" />
-                </RadzenFormField>
+                </RadzenStack>
+
+                <RadzenStack Orientation="Orientation.Vertical">
+
+                    <RadzenFormField Text="Minor:" AllowFloatingLabel="false" Variant=Variant.Flat>
+                        <RadzenTextBox @bind-Value="@user.Minor" Name="Minor" />
+                    </RadzenFormField>
+                    <RadzenRequiredValidator Text="Minor is required" Component="Minor" />
+
+                </RadzenStack>
 
                 <div class="our-column mb-2">
                     <label>Graduation Date:</label>
@@ -109,25 +117,36 @@
                     <label>Industry:</label>
                     <RadzenDropDown @bind-SearchText=@industriesSearchText @bind-Value=@user.Industry
                                     AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                    Data=@industries AllowClear="true" Style="max-width:190px;" />
+                                    Data=@industries AllowClear="true" Style="max-width:190px;" Name="Industry" />
+                    <RadzenRequiredValidator Text="Industry is Required" Component="Industry" />
+    
                 </div>
 
                 <div class="our-column mb-2">
                     <label>Current Position:</label>
                     <RadzenDropDown @bind-SearchText=@jobTitlesSearchText @bind-Value=@user.CurrentPosition
                                     AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                    Data=@jobTitles AllowClear="true" Style="max-width:190px;" />
+                                    Data=@jobTitles AllowClear="true" Style="max-width:190px;" Name="CurrentPosition"/>
+                    <RadzenRequiredValidator Text="Current Position is Required" Component="CurrentPosition" />
+
                 </div>
-            </RadzenRow>
+            
+
+                <RadzenStack Orientation="Orientation.Vertical">
+
+                    <RadzenFormField Text="Company:" AllowFloatingLabel="false" Variant=Variant.Flat>
+                        <RadzenTextBox @bind-Value="@user.Company" Name="Company" />
+                    </RadzenFormField>
+                    <RadzenRequiredValidator Text="Company name required" Component="Company" />
+            
+                </RadzenStack>
+
+             </RadzenRow>
 
             <RadzenRow class="mb-4 mt-4" AlignItems="AlignItems.Center" Gap="5">
-                <RadzenFormField Text="Company:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenTextBox @bind-Value="@user.Company" />
-                </RadzenFormField>
-            </RadzenRow>
+                <BusinessLocationDropdown @ref="businessLocationDropdown"/>
+            @*  <RadzenRequiredValidator Text="Business city and state is required" Component="BusinessLocation" />  *@
 
-            <RadzenRow class="mb-4 mt-4" AlignItems="AlignItems.Center" Gap="5">
-                <BusinessLocationDropdown @ref="businessLocationDropdown" />
             </RadzenRow>
 
 
@@ -137,26 +156,34 @@
             <RadzenRow class="mb-4 mt-4" Gap="5" AlignItems="AlignItems.Center">
                 <div class="our-column">
                     <RadzenLabel Text="Birthdate:" Style="margin-right: 4px; vertical-align: middle;" />
-                    <RadzenDatePicker @bind-Value=@user.DateOfBirth ShowCalendarWeek DateFormat="MM/dd/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(-18)" />
+                    <RadzenDatePicker @bind-Value=@user.DateOfBirth Name="DateOfBirth" ShowCalendarWeek DateFormat="MM/dd/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(-18)" />
+                <RadzenRequiredValidator Text="Date of birth is required" Component="DateOfBirth" />
                 </div>
             </RadzenRow>
 
             <div class="our-column mb-2">
                 <label>Gender:</label>
-                <RadzenDropDown @bind-Value=@user.Gender Data=@genders Style="max-width:160px;" />
+                <RadzenDropDown @bind-Value=@user.Gender Data=@genders Style="max-width:160px;" Name="Gender" />
+                <RadzenRequiredValidator Text="Please choose one of the gender specifications" Component="Gender" />
+
             </div>
 
-            <RadzenRow class="mb-4 mt-4" Gap="5">
-                <div class="our-column">
-                    <label>Self-Introduction</label>
-                    <RadzenTextArea @bind-Value=@user.Bio Cols="55" Rows="6" aria-label=Self-Introduction: />
-                </div>
-            </RadzenRow>
+        <RadzenRow class="mb-4 mt-4" Gap="25">
+            <div class="our-column">
+                @*<label>Self-Introduction</label> *@
+                <RadzenFormField Text="Self Introduction:" AllowFloatingLabel="false" Variant=Variant.Flat>
+                    <RadzenTextArea @bind-Value=@user.Bio Name="Bio" Cols="55" Rows="6" aria-label=Self-Introduction: />
+                </RadzenFormField>
+                <RadzenRequiredValidator Text="Please enter a bio about yourself" Component="Bio" />
+            </div>
+        </RadzenRow>
 
             <RadzenRow class="mb-4 mt-4" Gap="5">
                 <div class="our-column mb-2">
                     <label>Mentees Per Semester:</label>
-                    <RadzenDropDown @bind-Value=@user.MenteesPerSemester Data=@MenteesPerSemesterOptions Style="max-width:160px;" />
+                <RadzenDropDown @bind-Value=@user.MenteesPerSemester Name="NumberOfMentees" Data=@MenteesPerSemesterOptions Style="max-width:160px;" />
+                    <RadzenRequiredValidator Text="Please choose a number of mentees" Component="NumberOfMentees" />
+   
                     <label>Mentees will not see this preference.</label>
                 </div>
             </RadzenRow>
