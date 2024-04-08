@@ -1,6 +1,8 @@
 ﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
 @using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Models
+@using System.Linq;
 @using USIMentorshipWebApp.Shared.FullProfileInfo;
 @using USIMentorshipWebApp.Shared.RequestMentorship;
 
@@ -9,9 +11,9 @@
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
         @* PROFILE PICTURE AND CLASS YEAR *@
         <RadzenStack Orientation="Orientation.Vertical" Style="max-width:160px;">
-            <RadzenImage Path=@RequestUser.ProfilePicturePath Style="width: 160px; height: 160px; border-radius: 50%;" />
+            <RadzenImage Path=@RequestUser.ProfilePicutre Style="width: 160px; height: 160px; border-radius: 50%;" />
             <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Class Of</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.ClassYear</b></RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.GraduationYear.ToString()</b></RadzenText>
 
         </RadzenStack>
         @* Gap is the size of the gap between the child items of RadzenStack *@
@@ -45,7 +47,7 @@
 
 @code {
     [CascadingParameter]
-    public UserOld RequestUser { get; set; }
+    public User RequestUser { get; set; }
 
     void Accept()
     {

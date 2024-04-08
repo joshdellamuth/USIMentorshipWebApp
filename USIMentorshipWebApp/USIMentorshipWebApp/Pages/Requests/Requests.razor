@@ -2,29 +2,84 @@
 @layout MainLayout
 @inject NavigationManager NavigationManager
 @using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
+@using System.Linq;
 
 <PageTitle>Requests - USI Mentorship Program</PageTitle>
 
 <h1>Requests</h1>
 <h6>View your approved, pending, and denied requests</h6>
-@foreach (UserOld user in UserData.users)  @*Will need to create a field for mentee or mentor, as well as field for entering mentee/mentors to be displayed*@
-{
-    @if (user.UserId == "U1")
+<CascadingValue Value="@userProfile">
+    @if (roleId == 2) //Mentee
     {
-        <CascadingValue Value="@user">
-            @if (user.Role == "Mentee") 
-            {
-                <MenteeRequestsLayout />    
-            }
-            else if (user.Role == "Mentor")
-            {
-                <MentorRequestsLayout />
-            }
-        </CascadingValue>
+        <MenteeRequestsLayout />    
     }
+    else if (roleId == 1) //Mentor
+    {
+        <MentorRequestsLayout />
     }
+</CascadingValue>
+   
+   
 
 
 @code {
+
+    private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
+    User userProfile = new User();
+    public int? roleId;
+    public List<User> userList;
+
+    protected override void OnInitialized() //On Page Load
+    {
+        userProfile.UserId = 1;
+        userList = _context.Users.ToList();
+        foreach (User user in userList)
+        {
+            if (user.UserId == userProfile.UserId)
+            {
+                userProfile = user;
+            }
+
+        }
+
+        roleId = _context.UserRoles
+                              .Where(ur => ur.UserId == userProfile.UserId)
+                              .Select(ur => ur.RoleId)
+                              .FirstOrDefault();
+        {
+            // var roleName = _context.UserRoles
+            //     .Where(ur => ur.UserId == userProfile.UserId)
+            //     .Join(_context.Roles,
+            //         ur => ur.RoleId,
+            //         r => r.RoleId,
+            //         (ur, r) => r.RoleName)
+            //     .FirstOrDefault();
+            // var usersWithRoles = _context.Users
+            //     .Join(_context.UserRoles,
+            //         u => u.UserId,
+            //         ur => ur.UserId,
+            //         (u, ur) => new { User = u, UserRole = ur })
+            //     .Where(x => x.UserRole.RoleId == roleId)
+            //     .Select(x => x.User)
+            //     .ToList();
+            // allRequests = _context.Users
+            //     .Join(
+            //         _context.UserRoles,
+            //         user => user.UserId,
+            //         userRole => userRole.UserId,
+            //         (user, userRole) => new { User = user, UserRole = userRole }
+            //     )
+            //     .Join(
+            //         _context.Roles,
+            //         combined => combined.UserRole.RoleId,
+            //         role => role.RoleId,
+            //         (combined, role) => new { User = combined.User, Role = role }
+            //     )
+            //     .Where(combined => combined.Role.RoleName == "Mentor")
+            //     .Select(combined => combined.User)
+            //     .ToList();
+        }
+    }
 
 }
