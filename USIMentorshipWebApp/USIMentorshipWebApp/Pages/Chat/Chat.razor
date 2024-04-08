@@ -3,6 +3,7 @@
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models;
 @inject UserService userService; 
+@inject ChatService chatService;
 
 <PageTitle>Chat - USI Mentorship Program</PageTitle>
 
@@ -20,13 +21,17 @@
         <h1>Chat</h1>
         <h6>Get started chatting with mentors below!</h6>
 
-        <UserChatSidebarCard user="exampleMentor"/>
-        <UserChatSidebarCard user="exampleMentor" />
-        <UserChatSidebarCard user="exampleMentor"/>
-        <UserChatSidebarCard user="exampleMentor"/>
-        <UserChatSidebarCard user="exampleMentor"/>
-        <UserChatSidebarCard user="exampleMentor"/>
-        <UserChatSidebarCard user="exampleMentor"/>
+        @if (userSidebarCardData != null)
+        {
+            foreach (var sidebarData in userSidebarCardData)
+            {
+                <UserChatSidebarCard usersInMatch="sidebarData.UsersInMatch" mostRecentChat="sidebarData.MostRecentChat" OnCardClick="HandleCardClick" />
+            }
+        }
+        else
+        {
+
+        }
 
     </div>
 
@@ -35,7 +40,7 @@
         @* MENU BUTTON *@
         <div class="small-sidebar">
             <div @onclick="ToggleNavMenu" style="text-align:right; font-size:24px;">
-                <span class="oi oi-menu"></span>
+                <span class="oi oi-chat"></span>
             </div>
         </div>
     }
@@ -44,28 +49,21 @@
     <!--column-->
     <div class="main-column">
         <!--row-->
-        <div class="messages-column height-scrollable">
-            <div style="justify-content:flex-end;" class="main-row">
-                <SenderMessage user="exampleMentee"/>
-            </div>
-            <div style="justify-content:flex-start;" class="main-row">
-                <RecieverMessage user="exampleMentor" />
-            </div>
-            <div style="justify-content:flex-end;" class="main-row">
-                <SenderMessage user="exampleMentee" />
-            </div>
-            <div style="justify-content:flex-start;" class="main-row">
-                <RecieverMessage user="exampleMentor" />
-            </div>
-            <div style="justify-content:flex-end;" class="main-row">
-                <SenderMessage user="exampleMentee" />
-            </div>
-            <div style="justify-content:flex-start;" class="main-row">
-                <RecieverMessage user="exampleMentor" />
-            </div>
-            <div style="justify-content:flex-end;" class="main-row">
-                <SenderMessage user="exampleMentee" />
-            </div>
+        <div class="messages-column height-scrollable">    
+            @if (UserMessagesData != null)
+            {
+                foreach (UserMessages displayObject in UserMessagesData)
+                {
+                    if (displayObject.user.UserId == loggedInUser.UserId)
+                    {
+                        <LoggedInUserMessage user="displayObject.user" chat="displayObject.userMessage" />
+                    }
+                    else
+                    {
+                        <OtherUserMessage user="displayObject.user" chat="displayObject.userMessage" />
+                    }
+                }
+            }
         </div>
         
         <div class="main-column-input" style="padding:5px;">
@@ -81,17 +79,39 @@
 </div>
 
 @code {
-    User exampleMentor;
+    User loggedInUser;
 
-    User exampleMentee;
+    List<int> userMatchIdsWithChats;
 
-    protected override void OnInitialized()
+    (List<List<User>>, List<MatchCommunicationDetail>) result;
+
+    List<User> sidebarUsers;
+
+    MatchCommunicationDetail mostRecentChat;
+
+    List<SidebarUserCard> userSidebarCardData;
+
+    public int _matchId;
+
+    List<UserMessages> UserMessagesData;
+
+    protected override async Task OnInitializedAsync()
     {
-        // userService from above
-        exampleMentor = userService.GetExampleMentorUser();
 
-        //exampleMentee
-        exampleMentee = userService.GetExampleMenteeUser();
+        // set the logged in User to example mentee 
+        loggedInUser = await userService.GetExampleMenteeUser();
+
+        userSidebarCardData = await chatService.GetSidebarUserCardData(loggedInUser);
+
+    }
+
+    private async void HandleCardClick(int matchId)
+    {
+        _matchId = matchId;
+        // Now you can use _matchId in your parent component
+        // For example, you can pass it to another method
+        UserMessagesData = await chatService.GetUserMessagesData(_matchId);
+        await InvokeAsync(StateHasChanged);
     }
 
     public string inputtedMessage;
@@ -107,9 +127,12 @@
     }
     #endregion
 
-    public void SendChat()
+    public async Task SendChat()
     {
-        
+        chatService.SendChat(_matchId, inputtedMessage, loggedInUser.UserId);
+        UserMessagesData = await chatService.GetUserMessagesData(_matchId);
+        await InvokeAsync(StateHasChanged);
+        inputtedMessage = "";
     }
 }
 

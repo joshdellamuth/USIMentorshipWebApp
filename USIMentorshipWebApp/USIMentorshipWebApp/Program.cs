@@ -26,6 +26,7 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<RequestService>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<ChatService>();
 
 //maybe need the line below???
 builder.Services.AddScoped<RegistrationDataService>();

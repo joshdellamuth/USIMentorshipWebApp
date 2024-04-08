@@ -7,9 +7,9 @@ public partial class MatchCommunicationDetail
 {
     public int CommunicationDetailId { get; set; }
 
-    public int? MatchId { get; set; }
+    public int MatchId { get; set; }
 
-    public int? SenderUserId { get; set; }
+    public int SenderUserId { get; set; }
 
     public string? CommunicationType { get; set; }
 

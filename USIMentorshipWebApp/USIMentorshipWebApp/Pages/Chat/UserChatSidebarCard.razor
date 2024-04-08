@@ -1,20 +1,69 @@
 ﻿@using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models;
+@inject UserService userService;
+@inject ChatService chatService;
+
 
 @* ADD A CLICK EVENT HERE *@
-<div style="height:125px; overflow:hidden;">
-    <RadzenCard Class="rz-p-3">
-        <RadzenStack Orientation="Orientation.Horizontal">
-            <RadzenImage Path=@user.ProfilePicutre Style="width: 90px; height: 90px; border-radius: 50%;" />
-            <RadzenStack Gap=".5rem" Orientation="Orientation.Vertical">
-                <RadzenText TextStyle="TextStyle.H6">@user.FirstName</RadzenText>
-                <RadzenText TextStyle="TextStyle.Body1">Grab the latest text from this user to display in this card.</RadzenText>
+<div @onclick="CardClick" class="hover-pointer">
+    <div style="height:125px; overflow:hidden;">
+        <RadzenCard Class="rz-p-3">
+            <RadzenStack Orientation="Orientation.Horizontal">
+                @foreach (User user in usersInMatch)
+                {
+                    <RadzenImage Path=@user.ProfilePicutre Style="width: 90px; height: 90px; border-radius: 50%;" />
+                }
+                <RadzenStack Gap=".5rem" Orientation="Orientation.Vertical">
+                    @if (usersInMatch != null)
+                    {
+                        foreach (User user in usersInMatch)
+                        {
+                            <RadzenText TextStyle="TextStyle.H6">@($"{user.FirstName} {user.LastName} ")</RadzenText>
+                        }
+                    }
+                    @if (mostRecentChat != null)
+                    {
+                        if (loggedInUser.UserId == mostRecentChat.SenderUserId)
+                        {
+                            <RadzenText TextStyle="TextStyle.Body1">You: @mostRecentChat.CommunicationContent</RadzenText>
+                        }
+
+                        else
+                        {
+                            <RadzenText TextStyle="TextStyle.Body1">@mostRecentChat.CommunicationContent</RadzenText>
+                        }
+                    }
+                </RadzenStack>
             </RadzenStack>
-        </RadzenStack>
-    </RadzenCard>
+        </RadzenCard>
+    </div>
 </div>
+
 
 @code {
     [Parameter]
-    public User user { get; set; }
+    public List<User> usersInMatch { get; set; }
+
+    [Parameter]
+    public MatchCommunicationDetail mostRecentChat { get; set; }
+
+    [Parameter]
+    // when clicked, pass the MatchId to the parent component
+    public EventCallback<int> OnCardClick { get; set; }
+
+    User loggedInUser;
+
+    public int matchId; 
+
+    protected override async Task OnInitializedAsync()
+    {
+        // set the logged in User to example mentee
+        loggedInUser = await userService.GetExampleMenteeUser();
+        matchId = mostRecentChat.MatchId;
+    }
+
+    private async Task CardClick()
+    {
+        await OnCardClick.InvokeAsync(matchId);
+    }
 }

@@ -17,51 +17,55 @@
     <h1>Sign up as a Mentee</h1>
 
 
-         <RadzenTemplateForm TItem="User" Data="@user" Submit="@OnSubmit">
+        <RadzenTemplateForm TItem="User" Data="@user" Submit="@OnSubmit">
 
-            @* FIRSTNAME, LASTNAME *@
-            <RadzenRow class="mb-4 mt-4" Gap="25">
-                
+        @* FIRSTNAME, LASTNAME *@
+        <RadzenRow class="mb-4 mt-4" Gap="5">
 
+            <RadzenStack Orientation="Orientation.Vertical">
                 <RadzenFormField Text="First Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenStack Orientation="Orientation.Vertical">
-                        <RadzenTextBox @bind-Value="@user.FirstName" Name="FirstName" />
-                        <RadzenRequiredValidator Text="First name is required" Component="FirstName" />
-                    </RadzenStack>
+                    <RadzenTextBox @bind-Value="@user.FirstName" Name="FirstName" />
                 </RadzenFormField>
+                <RadzenRequiredValidator Text="First name is required" Component="FirstName" />
+            </RadzenStack>
 
 
 
-
+            <RadzenStack Orientation="Orientation.Vertical">
                 <RadzenFormField Text="Last Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
                     <RadzenTextBox @bind-Value="@user.LastName" Name="LastName" />
-                    <RadzenRequiredValidator Text="Last name is required" Component="LastName" />
                 </RadzenFormField>
-            </RadzenRow>
+                <RadzenRequiredValidator Text="Last name is required" Component="LastName" />
+            </RadzenStack>
+        </RadzenRow>
 
-            @* EMAIL, PHONE NUMBER *@
-            <RadzenRow class="mb-4" Gap="25">
+        @* EMAIL, PHONE NUMBER *@
+        <RadzenRow class="mb-4" Gap="5">
+            <RadzenStack Orientation="Orientation.Vertical">
                 <RadzenFormField Text="Email:" AllowFloatingLabel="false" Variant=Variant.Flat>
                     <RadzenTextBox @bind-Value="@user.EmailAddress" Name="EmailAddress" />
-                    <RadzenRequiredValidator Text="EmailAddress is required" Component="EmailAddress" />    
-                 </RadzenFormField>
+                </RadzenFormField>
+                <RadzenRequiredValidator Text="Email address is required" Component="EmailAddress" />
+            </RadzenStack>
 
+
+            <RadzenStack Orientation="Orientation.Vertical">
                 <RadzenFormField Text="Phone Number:" AllowFloatingLabel="false" Variant=Variant.Flat>
                     <RadzenTextBox @bind-Value="@user.PhoneNumber" Name="PhoneNumber" />
-                    <RadzenRequiredValidator Text="Phone Number is required" Component="PhoneNumber" />
                 </RadzenFormField>
+                <RadzenRequiredValidator Text="Phone number is required" Component="PhoneNumber" />
+            </RadzenStack>
+        </RadzenRow>
 
-            </RadzenRow>
-
-            @* LinkedIn *@
-            <RadzenRow class="mb-4" Gap="25">
-
+        @* LINKEDIN (its in its own row) *@
+        <RadzenRow class="mb-4" Gap="5">
+            <RadzenStack Orientation="Orientation.Vertical">
                 <RadzenFormField Text="LinkedIn Profile URL:" AllowFloatingLabel="false" Variant=Variant.Flat>
                     <RadzenTextBox @bind-Value="@user.LinkedInLink" Name="LinkedIn" />
-                    <RadzenRequiredValidator Text="LinkedIn is required" Component="LinkedIn" />
                 </RadzenFormField>
-
-            </RadzenRow>
+                <RadzenRequiredValidator Text="LinkedIn is required" Component="LinkedIn" />
+            </RadzenStack>
+        </RadzenRow>
 
             @* UPLOAD PROFILE PICTURE *@
             <RadzenRow class="mb-4">
@@ -71,61 +75,75 @@
 
 
 
-            @* SCHOOL, MAJOR, MINOR, GRADUATION YEAR *@
+            @* MAJOR, MINOR *@
             <h3>Education Information:</h3>
             <RadzenRow class="mb-4 mt-4" AlignItems="AlignItems.Center" Gap="25">
 
+                <RadzenStack Orientation="Orientation.Vertical">
 
-                <RadzenFormField Text="Major:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenTextBox @bind-Value=@user.Major Name="Major" />
-                <RadzenRequiredValidator Text="Major is required" Component="Major" />
-                </RadzenFormField>
+                    <RadzenFormField Text="Major:" AllowFloatingLabel="false" Variant=Variant.Flat>
+                        <RadzenTextBox @bind-Value=@user.Major Name="Major" />
+                    </RadzenFormField>
+                    <RadzenRequiredValidator Text="Major is required" Component="Major" />
 
-                <RadzenFormField Text="Minor:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenTextBox @bind-Value="@user.Minor" />
-                </RadzenFormField>
 
+                    <RadzenFormField Text="Minor:" AllowFloatingLabel="false" Variant=Variant.Flat>
+                        <RadzenTextBox @bind-Value="@user.Minor" Name="Minor" />
+                    </RadzenFormField>
+                    <RadzenRequiredValidator Text="Minor is required" Component="Minor" />
+
+                </RadzenStack>
             </RadzenRow>
 
 
 
             @* BIRTHDATE, SELF-INTRODUCTION, MENTEES PER SEMESTER *@
             <h3>Further Profile Info</h3>
-            <h6>Some of this information will be used in your profile for students to see</h6>
+            <h6>Some of this information will be used in your profile for mentors to get a better idea of who you are</h6>
 
 
             <RadzenRow class="mb-4 mt-4" Gap="25">
                 <div class="our-column">
-                    <label>Self-Introduction</label>
-                    <RadzenTextArea @bind-Value=@user.Bio Cols="55" Rows="6" aria-label=Self-Introduction: />
+@*                     <label>Self-Introduction</label> *@
+                     <RadzenFormField Text="Self Introduction:" AllowFloatingLabel="false" Variant=Variant.Flat>
+                        <RadzenTextArea @bind-Value=@user.Bio Name="Bio" Cols="55" Rows="6" aria-label=Self-Introduction: />
+                    </RadzenFormField>
+                    <RadzenRequiredValidator Text="Please enter a bio about yourself" Component="Bio"/>
                 </div>
             </RadzenRow>
 
 
 
-            @* PASSWORD *@
-            <RadzenRow>
+        @* PASSWORD *@
+        <RadzenRow class="mb-4 mt-4" Gap="5">
+            <RadzenStack Orientation="Orientation.Vertical">
                 <RadzenFormField Text="Password" AllowFloatingLabel="false">
                     <RadzenPassword @bind-Value="@user.Password" Name="Password" />
-                    <RadzenRequiredValidator Text="Password is required" Component="Password" />
-                    <RadzenLengthValidator Min="6" Text="Password must be at least 6 characters long" Component="Password" />
                 </RadzenFormField>
-            </RadzenRow>
+                <RadzenRequiredValidator Text="Password is required" Component="Password" />
+                <RadzenLengthValidator Min="6" Text="Password must be at least 6 characters long" Component="Password" />
+            </RadzenStack>
+
+
+
 
             @* CONFIRM PASSWORD  *@
-            <RadzenRow>
+            <RadzenStack Orientation="Orientation.Vertical">
                 <RadzenFormField Text="Confirm Password" AllowFloatingLabel="false">
                     <RadzenPassword @bind-Value="@user.RepeatPassword" Name="ConfirmPassword" />
-                    <RadzenRequiredValidator Text="Confirming password is required" Component="ConfirmPassword" />
-                    <RadzenCompareValidator Text="Passwords do not match" Value=@user.Password Component="ConfirmPassword" Visible=@(!string.IsNullOrEmpty(user.RepeatPassword)) />
                 </RadzenFormField>
-            </RadzenRow>
+                <RadzenRequiredValidator Text="Confirming password is required" Component="ConfirmPassword" />
+                <RadzenCompareValidator Text="Passwords do not match" Value=@user.Password Component="ConfirmPassword" Visible=@(!string.IsNullOrEmpty(user.RepeatPassword)) />
+            </RadzenStack>
+
+        </RadzenRow>
        
         
             @* REGISTER, BACK TO LOGIN *@
             <RadzenRow>
                 <RadzenButton Style="width:100px; font-size:14px;" Variant="Variant.Outlined" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Secondary"  Text="Register" />
                 <RadzenButton Style="width:100px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click="@GoToLogin" Text="Back To Login" />
+
             </RadzenRow>
 
         </RadzenTemplateForm>
@@ -152,5 +170,6 @@
     {
         NavigationManager.NavigateTo("/");
     }
+    
     
 }
