@@ -1,5 +1,6 @@
 ﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
+@inject UserService userService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models
 @using System.Linq;
@@ -61,23 +62,24 @@
 
     User userMentor = new User();
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
-    List<int>? pendingList;
-    List<int>? declinedList;
-    List<int>? requestsList;    //need to figure out why it keeps throwing a null exception!
+    List<int> pendingList = new List<int>(); // Initialize pendingList
+    List<int> declinedList = new List<int>(); // Initialize declinedList
+    List<int> requestsList = new List<int>(); // Initialize requestsLis    //need to figure out why it keeps throwing a null exception!
     public List<User> userList;
     public int? matchId;
 
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
-        userList = _context.Users.ToList();
-        foreach (User user in userList)
-        {
-            if (user.UserId == userMentorId)
-            {
-                userMentor = user;
-            }
+        // userList = _context.Users.ToList();  //returning null exception now...
+        // foreach (User user in userList)
+        // {
+        //     if (user.UserId == userMentorId)
+        //     {
+        //         userMentor = user;
+        //     }
 
-        }
+        // }
+        userMentor = await userService.GetExampleMentorUser();
 
         matchId = _context.UserMatches
                   .Where(ur => ur.UserId == userMentor.UserId)
@@ -97,15 +99,13 @@
             {
                 if (status == "Pending")
                 {
-                    int userId;
-                    userId = user.UserId;
-                    pendingList?.Add(userId);
+                    pendingList?.Add(user.UserId);
                 }
                 else if (status == "Declined")
                 {
                     declinedList?.Add(user.UserId);
                 }
-                else
+                else if (status == "Approved")
                 {
                     requestsList?.Add(user.UserId);
                 }

@@ -45,7 +45,7 @@
 
         // }
 
-        userProfile = await userService.GetExampleMenteeUser();
+        userProfile = await userService.GetExampleMentorUser();
 
         roleId = _context.UserRoles
                               .Where(ur => ur.UserId == userProfile.UserId)

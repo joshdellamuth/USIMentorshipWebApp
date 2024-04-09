@@ -11,9 +11,9 @@
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
         @* PROFILE PICTURE AND CLASS YEAR *@
         <RadzenStack Orientation="Orientation.Vertical" Style="max-width:160px;">
-            <RadzenImage Path=@RequestUser.ProfilePicturePath Style="width: 160px; height: 160px; border-radius: 50%;" />
+            <RadzenImage Path=@RequestUser.ProfilePicutre Style="width: 160px; height: 160px; border-radius: 50%;" />
             <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Class Of</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.ClassYear</b></RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.GraduationYear</b></RadzenText>
         </RadzenStack>
         @* Gap is the size of the gap between the child items of RadzenStack *@
         <RadzenStack Gap="4">
@@ -22,7 +22,7 @@
             @* rz-my-0 applies the vertical ma rgin of 0 to the top and bottom margin (removes the margins on top and bottom) *@
             @* NAME *@
             <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Name</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@(RequestUser.FirstName + " " + RequestUser.LastName)</b></RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@(RequestUser.FullName)</b></RadzenText>
 
             @* MAJOR *@
             <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Major</RadzenText>
@@ -44,6 +44,22 @@
 
 @code {
     [CascadingParameter]
-    public UserOld RequestUser { get; set; }
+    int requestUserId { get; set; }
 
+    User RequestUser = new User();
+    private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
+    public List<User> userList;
+
+    protected override void OnInitialized()
+    {
+        userList = _context.Users.ToList();
+        foreach (User user in userList)
+        {
+            if (user.UserId == requestUserId)
+            {
+                RequestUser = user;
+            }
+
+        }
+    }
 }
