@@ -13,6 +13,6 @@
         await DialogService.OpenAsync<FullProfileDialog>($"Mentor {Mentor.FirstName} {Mentor.LastName}",
                new Dictionary<string, object>() { { "Mentor", Mentor } },
                // can configure the dropdown to be resizable and dragable (commented out)
-               new DialogOptions() { Width = "700px", Height = "550px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
+               new DialogOptions() { Width = "700px", Height = "600px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
     }
 }

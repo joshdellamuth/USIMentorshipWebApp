@@ -19,6 +19,8 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
     public virtual DbSet<ConditionDetail> ConditionDetails { get; set; }
 
+    public virtual DbSet<Country> Countries { get; set; }
+
     public virtual DbSet<Industry> Industries { get; set; }
 
     public virtual DbSet<JobTitle> JobTitles { get; set; }
@@ -49,7 +51,7 @@ public partial class UsiMentorshipApplicationContext : DbContext
     {
         modelBuilder.Entity<City>(entity =>
         {
-            entity.HasKey(e => e.CityId).HasName("PK__Cities__F2D21B762163CFD8");
+            entity.HasKey(e => e.CityId).HasName("PK__Cities__F2D21B76B53F2489");
 
             entity.Property(e => e.CityName)
                 .HasMaxLength(50)
@@ -62,7 +64,7 @@ public partial class UsiMentorshipApplicationContext : DbContext
             entity.HasOne(d => d.StateCodeNavigation).WithMany(p => p.Cities)
                 .HasForeignKey(d => d.StateCode)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Cities__StateCod__778AC167");
+                .HasConstraintName("FK__Cities__StateCod__18EBB532");
         });
 
         modelBuilder.Entity<ConditionDetail>(entity =>
@@ -79,6 +81,20 @@ public partial class UsiMentorshipApplicationContext : DbContext
             entity.HasOne(d => d.Match).WithMany(p => p.ConditionDetails)
                 .HasForeignKey(d => d.MatchId)
                 .HasConstraintName("FK__Condition__Match__5812160E");
+        });
+
+        modelBuilder.Entity<Country>(entity =>
+        {
+            entity.HasKey(e => e.CountryCode).HasName("PK__Countrie__5D9B0D2D38B5BDC5");
+
+            entity.Property(e => e.CountryCode)
+                .HasMaxLength(2)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.CountryName)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .IsFixedLength();
         });
 
         modelBuilder.Entity<Industry>(entity =>
@@ -123,6 +139,7 @@ public partial class UsiMentorshipApplicationContext : DbContext
                 .HasMaxLength(45)
                 .IsUnicode(false);
             entity.Property(e => e.DateOfCommunication).HasColumnType("datetime");
+            entity.Property(e => e.Deleted).HasDefaultValueSql("((0))");
 
             entity.HasOne(d => d.Match).WithMany(p => p.MatchCommunicationDetails)
                 .HasForeignKey(d => d.MatchId)
@@ -165,9 +182,17 @@ public partial class UsiMentorshipApplicationContext : DbContext
                 .HasMaxLength(2)
                 .IsUnicode(false)
                 .IsFixedLength();
+            entity.Property(e => e.CountryCode)
+                .HasMaxLength(2)
+                .IsUnicode(false)
+                .IsFixedLength();
             entity.Property(e => e.StateName)
                 .HasMaxLength(22)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.CountryCodeNavigation).WithMany(p => p.States)
+                .HasForeignKey(d => d.CountryCode)
+                .HasConstraintName("FK_States_OtherTable");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -177,15 +202,14 @@ public partial class UsiMentorshipApplicationContext : DbContext
             entity.Property(e => e.Bio)
                 .HasMaxLength(300)
                 .IsUnicode(false);
-            entity.Property(e => e.BusinessCity)
-                .HasMaxLength(45)
-                .IsUnicode(false);
-            entity.Property(e => e.BusinessCountry)
-                .HasMaxLength(45)
-                .IsUnicode(false);
-            entity.Property(e => e.BusinessState)
-                .HasMaxLength(45)
-                .IsUnicode(false);
+            entity.Property(e => e.BusinessCountryCode)
+                .HasMaxLength(2)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.BusinessStateCode)
+                .HasMaxLength(2)
+                .IsUnicode(false)
+                .IsFixedLength();
             entity.Property(e => e.Company)
                 .HasMaxLength(45)
                 .IsUnicode(false);
@@ -233,6 +257,18 @@ public partial class UsiMentorshipApplicationContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(45)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.BusinessCity).WithMany(p => p.Users)
+                .HasForeignKey(d => d.BusinessCityId)
+                .HasConstraintName("FK_Users_Cities");
+
+            entity.HasOne(d => d.BusinessCountryCodeNavigation).WithMany(p => p.Users)
+                .HasForeignKey(d => d.BusinessCountryCode)
+                .HasConstraintName("FK_Users_Countries");
+
+            entity.HasOne(d => d.BusinessStateCodeNavigation).WithMany(p => p.Users)
+                .HasForeignKey(d => d.BusinessStateCode)
+                .HasConstraintName("FK_Users_States");
         });
 
         modelBuilder.Entity<UserDetail>(entity =>

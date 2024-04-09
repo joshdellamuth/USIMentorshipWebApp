@@ -11,7 +11,6 @@ public partial class User
     public string? FirstName { get; set; }
 
     public string? LastName { get; set; }
-
     // this will be used to show the full name of a user
     [NotMapped]
     public string FullName => $"{FirstName} {LastName}";
@@ -20,10 +19,9 @@ public partial class User
 
     public string? EmailAddress { get; set; }
 
-    public string? Password { get; set; }
-
     [NotMapped]
     public string? RepeatPassword { get; set; }
+    public string? Password { get; set; }
 
     public string? ProfilePicutre { get; set; }
 
@@ -47,17 +45,23 @@ public partial class User
 
     public DateTime? GraduationYear { get; set; }
 
-    public string? BusinessCountry { get; set; }
-
-    public string? BusinessState { get; set; }
-
-    public string? BusinessCity { get; set; }
-
     public string? Gender { get; set; }
 
     public string? School { get; set; }
 
     public int? MenteesPerSemester { get; set; }
+
+    public int? BusinessCityId { get; set; }
+
+    public string? BusinessStateCode { get; set; }
+
+    public string? BusinessCountryCode { get; set; }
+
+    public virtual City BusinessCity { get; set; }
+
+    public virtual Country BusinessCountryCodeNavigation { get; set; }
+
+    public virtual State BusinessStateCodeNavigation { get; set; }
 
     public virtual ICollection<MatchCommunicationDetail> MatchCommunicationDetails { get; set; } = new List<MatchCommunicationDetail>();
 
