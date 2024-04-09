@@ -1,6 +1,7 @@
 ﻿@page "/requests"
 @layout MainLayout
 @inject NavigationManager NavigationManager
+@inject UserService userService
 @using USIMentorshipWebApp.Data
 @using USIMentorshipWebApp.Models
 @using System.Linq;
@@ -31,18 +32,20 @@
     public int? roleId;
     public List<User> userList;
 
-    protected override void OnInitialized() //On Page Load
+    protected override async void OnInitialized() //On Page Load
     {
-        userList = _context.Users.ToList();
-        foreach (User user in userList)
-        {
-            if (user.UserId == 1)
-            {
-                userProfile = user;
-                userProfileId = user.UserId;
-            }
+        // userList = _context.Users.ToList();
+        // foreach (User user in userList)
+        // {
+        //     if (user.UserId == 1)
+        //     {
+        //         userProfile = user;
+        //         userProfileId = user.UserId;
+        //     }
 
-        }
+        // }
+
+        userProfile = await userService.GetExampleMenteeUser();
 
         roleId = _context.UserRoles
                               .Where(ur => ur.UserId == userProfile.UserId)

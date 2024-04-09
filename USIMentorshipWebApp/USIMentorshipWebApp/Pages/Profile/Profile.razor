@@ -1,6 +1,7 @@
 ﻿@page "/profile"
 @layout MainLayout
 @inject NavigationManager NavigationManager
+@inject UserService userService;
 @using USIMentorshipWebApp.Data
 @using USIMentorshipWebApp.Models
 @using System.Linq;
@@ -32,18 +33,20 @@
     User userProfile = new User();
     public List<User> userList;
 
-    protected override void OnInitialized() //On Page Load
+    protected override async Task OnInitializedAsync() //On Page Load
     {
-        userProfile.UserId = 1;
-        userList = _context.Users.ToList();
-        foreach (User user in userList)
-        {
-            if (user.UserId == userProfile.UserId)
-            {
-                userProfile = user;
-            }
+        // userProfile.UserId = 1;
+        // userList = _context.Users.ToList();
+        // foreach (User user in userList)
+        // {
+        //     if (user.UserId == userProfile.UserId)
+        //     {
+        //         userProfile = user;
+        //     }
 
-        }
+        // }
+
+        userProfile = await userService.GetExampleMenteeUser();
     }
 
 

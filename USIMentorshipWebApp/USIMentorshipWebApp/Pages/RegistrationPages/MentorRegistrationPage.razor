@@ -111,8 +111,9 @@
 
                 <div class="our-column mb-2">
                     <label>Graduation Date:</label>
-                <RadzenDatePicker @bind-Value=@user.GraduationYear ShowDays=false Name ="GraduationDate" ShowCalendarWeek DateFormat="MM/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(30)" />
-                <RadzenRequiredValidator Text="Graduation Date is required" Component="GraduationDate" />
+                <RadzenDatePicker @bind-Value=@user.GraduationYear Name="GraduationDate" ShowDays=false DateFormat ="MM/yyyy"
+                                  Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(30)" CurrentDateChanged=@OnCurrentGraduationYearChanged />
+                    <RadzenRequiredValidator Text="Graduation Date is required" Component="GraduationDate" />
                 </div>
             </RadzenRow>
 
@@ -162,7 +163,7 @@
             <RadzenRow class="mb-4 mt-4" Gap="5" AlignItems="AlignItems.Center">
                 <div class="our-column">
                     <RadzenLabel Text="Birthdate:" Style="margin-right: 4px; vertical-align: middle;" />
-                    <RadzenDatePicker @bind-Value=@user.DateOfBirth Name="DateOfBirth" ShowCalendarWeek DateFormat="MM/dd/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(-18)" />
+                <RadzenDatePicker @bind-Value=@user.DateOfBirth Name="DateOfBirth" ShowCalendarWeek CurrentDateChanged=@OnCurrentBirthdateChanged DateFormat="MM/dd/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(-18)" />
                 <RadzenRequiredValidator Text="Date of birth is required" Component="DateOfBirth" />
                 </div>
             </RadzenRow>
@@ -244,6 +245,7 @@
     private string? confirmPassword { get; set; }
 
 
+
     public List<string> industries = new List<string>();
     public List<string> jobTitles = new List<string>();
     public List<string> schools = new List<string>();
@@ -258,6 +260,15 @@
         schools = await RegistrationDataService.GetSchoolsAsync();
     }
 
+    // graduation year current date changed and for the birthdate changed
+    void OnCurrentBirthdateChanged(DateTime args)
+    {
+        user.DateOfBirth = new DateTime(args.Year, args.Month, 1);
+    }
+    void OnCurrentGraduationYearChanged(DateTime args)
+    {
+        user.GraduationYear = new DateTime(args.Year, args.Month, 1);
+    }
 
     private async Task OnSubmit()
     {
