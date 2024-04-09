@@ -10,10 +10,11 @@
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Shared.Dropdowns;
 
+<PageTitle>Mentor Sign Up - USI Mentorship Program</PageTitle>
+
 
 <div class="default-margin">
 
-        <PageTitle>Mentor Sign Up - USI Mentorship Program</PageTitle>
 
         <h1>Sign up as a Mentor</h1>
         <h3>General Information:</h3>
@@ -80,7 +81,12 @@
                     <label>School:</label>
                     <RadzenDropDown @bind-SearchText=@schoolsSearchText @bind-Value=@user.School
                                     AllowFiltering="true" Data=@schools FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                AllowClear="true" Style="max-width:190px;" Name="School" />
+                                    AllowClear="true" Style="max-width:190px;" Name="School">
+                        <ValueTemplate Context="customContext">
+                            <RadzenTextBox @bind-Value=@user.School Style="width:280px; margin:-8px;" />
+                        </ValueTemplate>
+                    </RadzenDropDown>
+
                     <RadzenRequiredValidator Text="School is Required" Component="School" />
                 </div>
 
@@ -105,7 +111,7 @@
 
                 <div class="our-column mb-2">
                     <label>Graduation Date:</label>
-                    <RadzenDatePicker @bind-Value=@user.GraduationYear Name="GraduationDate" ShowCalendarWeek DateFormat="MM/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(30)" />
+                <RadzenDatePicker @bind-Value=@user.GraduationYear ShowDays=false Name ="GraduationDate" ShowCalendarWeek DateFormat="MM/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(30)" />
                 <RadzenRequiredValidator Text="Graduation Date is required" Component="GraduationDate" />
                 </div>
             </RadzenRow>
@@ -222,11 +228,7 @@
                 <RadzenButton Style="width:100px; font-size:14px;" Variant="Variant.Outlined" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Secondary"  Text="Register" />
                 <RadzenButton Style="width:100px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click="@GoToLogin" Text="Back To Login" />
             </RadzenRow>
-
-
         </RadzenTemplateForm>
-
-
 </div>
 
 
@@ -236,13 +238,10 @@
     private User user = new User();
     BusinessLocationDropdown businessLocationDropdown;
 
-
-
     private string schoolsSearchText = "";
-    private string industriesSearchText = "";// Add this line
+    private string industriesSearchText = ""; // Add this line
     private string jobTitlesSearchText = "";
     private string? confirmPassword { get; set; }
-
 
 
     public List<string> industries = new List<string>();
@@ -262,18 +261,15 @@
 
     private async Task OnSubmit()
     {
-        // Check if passwords match
+        // grab what is filled out for the business location (have to reference shared component since it is not defined in this file)
+        user.BusinessCountryCode = businessLocationDropdown.countrySelected;
+        user.BusinessStateCode = businessLocationDropdown.stateSelected;
+        user.BusinessCityId = businessLocationDropdown.citySelected;
 
-            // Assume AddUser is updated to handle async operation if necessary
-            await UserService.AddUserAsync(user, "Mentor");
-            NavigationManager.NavigateTo("/mentor-match");
-        
-
+        // Assume AddUser is updated to handle async operation if necessary
+        await UserService.AddUserAsync(user, "Mentor");
+        NavigationManager.NavigateTo("/mentor-match");
     }
-
-    // Removed unused variables and methods for brevity
-
-
 
 
     void GoToNextPage(MouseEventArgs args)
@@ -286,5 +282,4 @@
     {
         NavigationManager.NavigateTo("/");
     }
-
 }

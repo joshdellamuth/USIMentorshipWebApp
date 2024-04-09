@@ -9,5 +9,11 @@ public partial class State
 
     public string StateCode { get; set; } = null!;
 
+    public string? CountryCode { get; set; }
+
     public virtual ICollection<City> Cities { get; set; } = new List<City>();
+
+    public virtual Country? CountryCodeNavigation { get; set; }
+
+    public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

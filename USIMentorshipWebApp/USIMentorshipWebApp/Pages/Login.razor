@@ -37,8 +37,12 @@
                         <ValidationMessage For="@(() => loginModel.Password)" />
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>
+                    <!-- if you have correct credentials in, but click "Sign Up", it will take you to
+                    the mentor match page becuase it is hitting the OnValidSubmit somehow. When you click
+                    Sign Up, it will go to the landing page and then the mentor match right after 
+                    -->
                     <button class="btn btn-primary" @onclick="GoToSignUp">Sign Up</button>
-                <a href="/mentor-match">Click here to go to mentor match.</a>
+                <a @onclick="GoToMentorMatch">Click here to go to mentor match.</a>
                 </EditForm>
         </div>
     </div>

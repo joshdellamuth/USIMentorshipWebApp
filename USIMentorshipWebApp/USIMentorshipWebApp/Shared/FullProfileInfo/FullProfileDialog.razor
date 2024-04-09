@@ -2,19 +2,25 @@
 @using USIMentorshipWebApp.Models;
 @using USIMentorshipWebApp.Shared.RequestMentorship
 @inject NavigationManager NavigationManager
+@inject UserService userService
 
+<div class="height-scrollable">
 <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
     @* PROFILE PICTURE *@
     <RadzenStack Orientation="Orientation.Vertical" Style="width:180px;">
         <RadzenImage Path=@Mentor.ProfilePicutre Style="width: 180px; height: 180px; border-radius: 50%;"/>
         
         @* EX-MAJOR *@
-        <RadzenText TextStyle="TextStyle.Overline" class="rz-mt-2 rz-my-0">Major</RadzenText>
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-mt-1 rz-my-0 rz-text-wrap">Major</RadzenText>
         <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Major</b></RadzenText>
 
         @* CURRENT POSITION *@
-        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Current Position</RadzenText>
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-text-wrap rz-mt-1 rz-my-0">Current Position</RadzenText>
         <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.CurrentPosition</b></RadzenText>
+
+        @* GENDER *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-text-wrap rz-mt-1 rz-my-0">Gender</RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Gender</b></RadzenText>
 
     </RadzenStack>
     @* Gap is the size of the gap between the child items of RadzenStack *@
@@ -23,34 +29,43 @@
         @* rz-mt-2 applies a margin of value 2 to the top of the text *@
         @* rz-my-0 applies the vertical margin of 0 to the top and bottom margin (removes the margins on top and bottom) *@
         @* NAME *@
-        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Mentor Name</RadzenText>
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-text-wrap rz-display-flex rz-mt-1 rz-my-0">Mentor Name</RadzenText>
         <RadzenText TextStyle="TextStyle.Body1"><b>@(Mentor.FirstName + " " + Mentor.LastName)</b></RadzenText>
 
         @* CURRENT POSITION *@
-        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Position</RadzenText>
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-text-wrap rz-mt-1 rz-mb-0">Position</RadzenText>
         <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.CurrentPosition</b></RadzenText>
 
         @* COMPANY *@
-        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Company</RadzenText>
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-text-wrap rz-mt-1 rz-mb-0">Company</RadzenText>
         <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Company</b></RadzenText>
 
+        @* INDUSTRY *@
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-text-wrap rz-mt-1 rz-mb-0">Industry</RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Industry</b></RadzenText>
+
         @* BUSINESS LOCATION *@
-        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Business Location</RadzenText>
-        <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@(Mentor.BusinessCity + ", " + Mentor.BusinessState + ", " + Mentor.BusinessCountry)</b></RadzenText>
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-text-wrap rz-mt-1 rz-my-0">Business Location</RadzenText>
+        <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@(displayedCity.CityName + ", " + displayedState.StateName + ", " + displayedCountry.CountryName)</b></RadzenText>
 
         @* LINKEDIN *@
-        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">LinkedIn</RadzenText>
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-text-wrap rz-mt-1 rz-my-0">LinkedIn</RadzenText>
         <RadzenText TextStyle="TextStyle.Body1"><a href=https://@Mentor.LinkedInLink>@Mentor.LinkedInLink</a></RadzenText>
+
+        @* SCHOOL *@
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-text-wrap rz-mt-1 rz-mb-0">School</RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.School</b></RadzenText>
     </RadzenStack>
 </RadzenStack>
 
 @* BIO (it spans he width of both rows at the bottom) *@
 <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="4" class="rz-p-2">
     <RadzenStack Orientation="Orientation.Vertical">
-        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Bio</RadzenText>
+        <RadzenText TextStyle="TextStyle.Overline" class="rz-text-wrap rz-mt-2 rz-my-0">Bio</RadzenText>
         <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Bio</b></RadzenText>
     </RadzenStack>
 </RadzenStack>
+</div>
 
 @* BOTTOM BUTTONS *@
 <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap="6" class="rz-p-2">
@@ -65,8 +80,19 @@
     [Parameter]
     public User Mentor { get; set; }
 
+    State displayedState;
+    City displayedCity;
+    Country displayedCountry;
+
     void GoToThatMentorsChat(MouseEventArgs args)
     {
         NavigationManager.NavigateTo("/chat");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        displayedState = await userService.GetStateByIdAsync(Mentor.BusinessStateCode);
+        displayedCity = await userService.GetCityByIdAsync(Mentor.BusinessCityId);
+        displayedCountry = await userService.GetCountryByIdAsync(Mentor.BusinessCountryCode);
     }
 }
