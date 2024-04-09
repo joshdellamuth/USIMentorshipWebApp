@@ -23,7 +23,7 @@
             @* rz-my-0 applies the vertical ma rgin of 0 to the top and bottom margin (removes the margins on top and bottom) *@
             @* NAME *@
             <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Name</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@(RequestUser.FirstName + " " + RequestUser.LastName)</b></RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@(RequestUser.FullName)</b></RadzenText>
 
             @* MAJOR *@
             <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Major</RadzenText>
@@ -47,7 +47,24 @@
 
 @code {
     [CascadingParameter]
-    public User RequestUser { get; set; }
+    int requestUserId { get; set; }
+
+    User RequestUser = new User();
+    private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
+    public List<User> userList;
+
+    protected override void OnInitialized()
+    {
+        userList = _context.Users.ToList();
+        foreach (User user in userList)
+        {
+            if (user.UserId == requestUserId)
+            {
+                RequestUser = user;
+            }
+
+        }
+    }
 
     void Accept()
     {

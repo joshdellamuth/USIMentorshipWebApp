@@ -9,7 +9,7 @@
 
 <h1>Requests</h1>
 <h6>View your approved, pending, and denied requests</h6>
-<CascadingValue Value="@userProfile">
+<CascadingValue Value="@userProfileId">
     @if (roleId == 2) //Mentee
     {
         <MenteeRequestsLayout />    
@@ -27,18 +27,19 @@
 
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     User userProfile = new User();
+    int userProfileId;
     public int? roleId;
     public List<User> userList;
 
     protected override void OnInitialized() //On Page Load
     {
-        userProfile.UserId = 1;
         userList = _context.Users.ToList();
         foreach (User user in userList)
         {
-            if (user.UserId == userProfile.UserId)
+            if (user.UserId == 1)
             {
                 userProfile = user;
+                userProfileId = user.UserId;
             }
 
         }
@@ -47,39 +48,6 @@
                               .Where(ur => ur.UserId == userProfile.UserId)
                               .Select(ur => ur.RoleId)
                               .FirstOrDefault();
-        {
-            // var roleName = _context.UserRoles
-            //     .Where(ur => ur.UserId == userProfile.UserId)
-            //     .Join(_context.Roles,
-            //         ur => ur.RoleId,
-            //         r => r.RoleId,
-            //         (ur, r) => r.RoleName)
-            //     .FirstOrDefault();
-            // var usersWithRoles = _context.Users
-            //     .Join(_context.UserRoles,
-            //         u => u.UserId,
-            //         ur => ur.UserId,
-            //         (u, ur) => new { User = u, UserRole = ur })
-            //     .Where(x => x.UserRole.RoleId == roleId)
-            //     .Select(x => x.User)
-            //     .ToList();
-            // allRequests = _context.Users
-            //     .Join(
-            //         _context.UserRoles,
-            //         user => user.UserId,
-            //         userRole => userRole.UserId,
-            //         (user, userRole) => new { User = user, UserRole = userRole }
-            //     )
-            //     .Join(
-            //         _context.Roles,
-            //         combined => combined.UserRole.RoleId,
-            //         role => role.RoleId,
-            //         (combined, role) => new { User = combined.User, Role = role }
-            //     )
-            //     .Where(combined => combined.Role.RoleName == "Mentor")
-            //     .Select(combined => combined.User)
-            //     .ToList();
-        }
     }
 
 }
