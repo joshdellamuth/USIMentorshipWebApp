@@ -1,9 +1,10 @@
 ﻿@page "/Chat"
 @layout MainLayout
-@using USIMentorshipWebApp.Data;
-@using USIMentorshipWebApp.Models;
 @inject UserService userService; 
 @inject ChatService chatService;
+@inject SessionService sessionService
+@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
 
 <PageTitle>Chat - USI Mentorship Program</PageTitle>
 
@@ -99,7 +100,7 @@
     {
 
         // set the logged in User to example mentee 
-        loggedInUser = await userService.GetExampleMenteeUser();
+        loggedInUser = sessionService.SessionUser;
 
         userSidebarCardData = await chatService.GetSidebarUserCardData(loggedInUser);
 

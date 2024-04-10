@@ -2,6 +2,8 @@
 @page "/mentor-match"
 @layout MainLayout
 @using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
+@inject SessionService sessionService
 
 @*
     Make sure to add css to where display is none on the mobile mockup for
@@ -13,11 +15,26 @@
 <PageTitle>Mentor Match - USI Mentorship Program</PageTitle>
 
 <h1>Mentor Match</h1>
-<h6>Find the right mentor for you with the options below!</h6>
 
-<MentorMatchSearchFields/>
+@if (userRoles.Any(role => role.RoleName == "Mentee"))
+{
 
+    <h6>Find the right mentor for you with the options below!</h6>
+    <MentorMatchSearchFields />
+}
+
+@if (userRoles.Any(role => role.RoleName == "Mentor"))
+{
+    <h4 style="color:red;">Sorry, you cannot see Mentor Match as a Mentor.</h4>
+}
 
 @code {
+    List<Role> userRoles;
+    User loggedInUser;
 
+    protected override void OnInitialized()
+    {
+        loggedInUser = sessionService.SessionUser;
+        userRoles = sessionService.Roles; 
+    }
 }
