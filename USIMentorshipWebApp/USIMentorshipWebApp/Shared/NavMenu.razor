@@ -1,4 +1,9 @@
-﻿@* MAIN HEADER NAVBAR *@
+﻿@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
+@inject SessionService sessionService
+@inject NavigationManager NavigationManager
+
+@* MAIN HEADER NAVBAR *@
 <div class="header-bar">
     <a href="/mentor-match">
         @* regular logo shows when resolution over 355px *@
@@ -78,11 +83,11 @@
 
     @* PROFILE PICTURE AND NAME *@
     <div class="our-row mt-1 mb-1" style="background-color:#001e40; border-radius:5px; padding:10px;">
-        <img src=images/tom-schmidt-mentee-profile-picture.png class="circle-image" style="height:100px; width:100px;" alt="Profile Picutre" />
+        <img src=@loggedInUser.ProfilePicutre class="circle-image" style="height:100px; width:100px;" alt="Profile Picture" />
         <div class="our-column ps-2">
-            <h3 style="color:white;">Tom Schmidt</h3>
-            <div style="color:white; font-size:15px;">tomschmidt@email.com</div>
-            <div style="color:white; font-size:15px;">Mentee</div>
+            <h3 style="color:white;">@loggedInUser.FirstName @loggedInUser.LastName </h3>
+            <div style="color:white; font-size:15px;">@loggedInUser.EmailAddress</div>
+            <div style="color:white; font-size:15px;">@displayRoles</div>
         </div>
     </div>
 
@@ -138,7 +143,7 @@
         </a>
 
         @* LOGOUT *@
-        <a class="hamburger-menu-item-logout mb-3" @onclick="ToggleNavMenu" href="/">
+        <a class="hamburger-menu-item-logout mb-3" @onclick="@Logout">
             <div class="our-row" style="justify-content:space-between;">
                 <span class="oi oi-account-logout" />
                 <div class="underline-on-hover ps-3">Logout</div>
@@ -155,6 +160,21 @@
 </div>
 
 @code {
+
+    List<Role> userRoles;
+    User loggedInUser;
+    string displayRoles;
+
+
+    protected override void OnInitialized()
+    {
+        loggedInUser = sessionService.SessionUser;
+        userRoles = sessionService.Roles;
+        displayRoles = string.Join(", ", userRoles.Select(role => role.RoleName));
+
+    }
+
+    #region Menu Toggling
     private bool IsCollapsed = true;
 
     private string? NavMenuCssClass => IsCollapsed ? "hamburger-collapsed" : "hamburger-expanded";
@@ -163,4 +183,13 @@
     {
         IsCollapsed = !IsCollapsed;
     }
+    #endregion
+
+    public void Logout()
+    {
+        // sets the user object to null 
+        sessionService.Logout();
+        NavigationManager.NavigateTo("/");
+    }
+
 }
