@@ -1,9 +1,10 @@
 ﻿@page "/Chat"
 @layout MainLayout
-@using USIMentorshipWebApp.Data;
-@using USIMentorshipWebApp.Models;
 @inject UserService userService; 
 @inject ChatService chatService;
+@inject SessionService sessionService
+@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
 
 <PageTitle>Chat - USI Mentorship Program</PageTitle>
 
@@ -14,7 +15,7 @@
     <div class="@SidebarCssClass sidebar-appear-over height-scrollable">
         @* X BUTTON *@
         <div @onclick="ToggleNavMenu" style="text-align:right;">
-            <span class="oi oi-x"></span>
+            <span style="font-size:20px;"class="oi oi-x"></span>
         </div>
 
         @* CHAT HEADING*@
@@ -39,7 +40,7 @@
     {
         @* MENU BUTTON *@
         <div class="small-sidebar">
-            <div @onclick="ToggleNavMenu" style="text-align:right; font-size:24px;">
+            <div @onclick="ToggleNavMenu" style="text-align:right; font-size:28px;">
                 <span class="oi oi-chat"></span>
             </div>
         </div>
@@ -99,7 +100,7 @@
     {
 
         // set the logged in User to example mentee 
-        loggedInUser = await userService.GetExampleMenteeUser();
+        loggedInUser = sessionService.SessionUser;
 
         userSidebarCardData = await chatService.GetSidebarUserCardData(loggedInUser);
 

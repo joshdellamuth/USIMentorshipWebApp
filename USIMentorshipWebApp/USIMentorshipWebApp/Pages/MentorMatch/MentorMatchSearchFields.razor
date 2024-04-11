@@ -2,6 +2,7 @@
 @using USIMentorshipWebApp.Models;
 @using System.Linq;
 @inject EmailService emailService;
+@inject UserService userService;
 
 <br />
 <div class="row">
@@ -49,27 +50,27 @@
         <RadzenDropDown @bind-Value=@genderSelected Data=@genders AllowClear="true" Style="max-width:160px;" />
     </div>
 
-    @* Maybe not have business countries??? *@
     @* BUSINESS COUNTRIES *@
     <div class="our-column mb-2">
         <label>Business Countries:</label>
-        <RadzenDropDown @bind-Value=@businessCountriesSelected Data=@businessCountries Multiple="true" Chips=true Style="max-width:160px;" />
+        <RadzenDropDown @bind-Value=@businessCountriesSelected Data=@businessCountries Multiple="true" Chips=true Style="max-width:160px;" 
+                        TextProperty="CountryName" ValueProperty="CountryCode" FilterOperator="StringFilterOperator.StartsWith" />
     </div>
 
     @* BUSINESS STATES *@
     <div class="our-column mb-2">
         <label>Business States:</label>
         <RadzenDropDown @bind-SearchText=@businessStatesSearchText @bind-Value=@businessStatesSelected Multiple="true" 
-                        Chips=true AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
-                        Data=@businessStates AllowClear="true" Style="max-width:160px;" />
+                        Chips=true AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith"
+                        Data=@businessStates AllowClear="true" Style="max-width:160px;" TextProperty="StateName" ValueProperty="StateCode" />
     </div>
 
     @* BUSINESS CITIES *@
     <div class="our-column mb-2">
         <label>Business Cities:</label>
         <RadzenDropDown @bind-SearchText=@businessCitiesSearchText @bind-Value=@businessCitiesSelected Multiple="true"
-                        Chips=true AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
-                        Data=@businessCities AllowClear="true" Style="max-width:160px;" />
+                        Chips=true AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith"
+                        Data=@businessCities AllowClear="true" Style="max-width:160px;" TextProperty="CityName" ValueProperty="CityId"/>
     </div>
 
     @* MENTOR NAME SEARCH *@
@@ -129,23 +130,23 @@
                 public List<string> ageRanges = new List<string> { "20-30", "30-40", "50-60", "60-70", "70-80", "80+" };
                 #endregion
 
-                #region Business Country
-                public List<string>? businessCountriesSelected;
-                public List<string> businessCountries;
-                public string businessCountriesSearchText;
-                #endregion
+    #region Business Country
+    public List<string>? businessCountriesSelected;
+    public List<Country> businessCountries;
+    public string businessCountriesSearchText;
+    #endregion
 
-                #region Business State
-                public List<string>? businessStatesSelected;
-                public List<string> businessStates;
-                public string businessStatesSearchText;
-                #endregion
+    #region Business State
+    public List<string>? businessStatesSelected;
+    public List<State> businessStates;
+    public string businessStatesSearchText;
+    #endregion
 
-                #region Business City
-                public List<string>? businessCitiesSelected;
-                public List<string> businessCities;
-                public string businessCitiesSearchText;
-                #endregion
+    #region Business City
+    public List<int?> businessCitiesSelected;
+    public List<City?> businessCities;
+    public string businessCitiesSearchText;
+    #endregion
 
                 #region Gender Preference
                 public string? genderSelected;
@@ -163,34 +164,35 @@
                 public List<User> allMentors;
                 #endregion
 
-                protected override void OnInitialized()
-                {
-                    // allMentors will be used in the base query and for dropdown data
-                    allMentors = _context.Users
-                        .Join(
-                            _context.UserRoles,
-                            user => user.UserId,
-                            userRole => userRole.UserId,
-                            (user, userRole) => new { User = user, UserRole = userRole }
-                        )
-                        .Join(
-                            _context.Roles,
-                            combined => combined.UserRole.RoleId,
-                            role => role.RoleId,
-                            (combined, role) => new { User = combined.User, Role = role }
-                        )
-                        .Where(combined => combined.Role.RoleName == "Mentor")
-                        .Select(combined => combined.User)
-                        .ToList();
+    protected override async Task OnInitializedAsync()
+    {
+        // allMentors will be used in the base query and for dropdown data
+        allMentors = _context.Users
+            .Join(
+                _context.UserRoles,
+                user => user.UserId,
+                userRole => userRole.UserId,
+                (user, userRole) => new { User = user, UserRole = userRole }
+            )
+            .Join(
+                _context.Roles,
+                combined => combined.UserRole.RoleId,
+                role => role.RoleId,
+                (combined, role) => new { User = combined.User, Role = role }
+            )
+            .Where(combined => combined.Role.RoleName == "Mentor")
+            .Select(combined => combined.User)
+            .ToList();
 
-                    // setting the dropdown data based on the database when the page loads
-                    industries = allMentors.Where(u => !string.IsNullOrEmpty(u.Industry)).Select(u => u.Industry).Distinct().ToList();
-                    currentPositions = allMentors.Where(u => !string.IsNullOrEmpty(u.CurrentPosition)).Select(u => u.CurrentPosition).Distinct().ToList();
-                    majorsList = allMentors.Where(u => !string.IsNullOrEmpty(u.Major)).Select(u => u.Major).Distinct().ToList();
-                    companies = allMentors.Where(u => !string.IsNullOrEmpty(u.Company)).Select(u => u.Company).Distinct().ToList();
-                    businessCountries = allMentors.Where(u => !string.IsNullOrEmpty(u.BusinessCountry)).Select(u => u.BusinessCountry).Distinct().ToList();
-                    businessStates = allMentors.Where(u => !string.IsNullOrEmpty(u.BusinessState)).Select(u => u.BusinessState).Distinct().ToList();
-                    businessCities = allMentors.Where(u => !string.IsNullOrEmpty(u.BusinessCity)).Select(u => u.BusinessCity).Distinct().ToList();
+        // setting the dropdown data based on the database when the page loads
+        industries = allMentors.Where(u => !string.IsNullOrEmpty(u.Industry)).Select(u => u.Industry).Distinct().ToList();
+        currentPositions = allMentors.Where(u => !string.IsNullOrEmpty(u.CurrentPosition)).Select(u => u.CurrentPosition).Distinct().ToList();
+        majorsList = allMentors.Where(u => !string.IsNullOrEmpty(u.Major)).Select(u => u.Major).Distinct().ToList();
+        companies = allMentors.Where(u => !string.IsNullOrEmpty(u.Company)).Select(u => u.Company).Distinct().ToList();
+        businessCountries = await userService.GetMentorCountriesGivenAllMentorsAsync(allMentors);
+        businessStates = await userService.GetMentorStatesGivenAllMentorsAsync(allMentors);
+        businessCities = await userService.GetMentorCitiesGivenAllMentorsAsync(allMentors);
+        //businessCities = allMentors.Where(u => !string.IsNullOrEmpty(u.BusinessCityId)).Select(u => u.BusinessCityId).Distinct().ToList();
 
                     //mentors is used for the autocomplete field
                     mentors = allMentors;
@@ -256,26 +258,26 @@
                             .ToList();
                     }
 
-                    if (businessCountriesSelected != null && businessCountriesSelected.Count != 0)
-                    {
-                        mentorResults = mentorResults
-                            .Where(user => businessCountriesSelected.Contains(user.BusinessCountry))
-                            .ToList();
-                    }
+        if (businessCountriesSelected != null && businessCountriesSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => businessCountriesSelected.Contains(user.BusinessCountryCode))
+                .ToList();
+        }
 
-                    if (businessStatesSelected != null && businessStatesSelected.Count != 0)
-                    {
-                        mentorResults = mentorResults
-                            .Where(user => businessStatesSelected.Contains(user.BusinessState))
-                            .ToList();
-                    }
+        if (businessStatesSelected != null && businessStatesSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => businessStatesSelected.Contains(user.BusinessStateCode))
+                .ToList();
+        }
 
-                    if (businessCitiesSelected != null && businessCitiesSelected.Count != 0)
-                    {
-                        mentorResults = mentorResults
-                            .Where(user => businessCitiesSelected.Contains(user.BusinessCity))
-                            .ToList();
-                    }
+        if (businessCitiesSelected != null && businessCitiesSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => businessCitiesSelected.Contains(user.BusinessCityId))
+                .ToList();
+        }
 
                     if (MentorNameSelected != null && MentorNameSelected != "")
                     {

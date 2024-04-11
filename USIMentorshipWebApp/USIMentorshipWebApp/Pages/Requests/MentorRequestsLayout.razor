@@ -1,17 +1,25 @@
 ﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
+@inject UserService userService
 @using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Models
+@using System.Linq;
 @using USIMentorshipWebApp.Shared.FullProfileInfo;
 @using USIMentorshipWebApp.Shared.RequestMentorship;
 
 @*************Pending Requests For Mentors*********@
 <body>
     <h3 style="color:dodgerblue"><b>Pending Requests</b></h3>
-    @if (pending == 1)
+    @if (pendingList != null)
     {
-    <CascadingValue Value="@Mentee">
-            <RequestsResultCard1></RequestsResultCard1>
-    </CascadingValue>
+        @foreach (int user in pendingList)
+        {
+            <CascadingValue Value
+            ="@user">
+                <RequestsResultCard1></RequestsResultCard1>
+            </CascadingValue>
+        }
+
     }
 </body>
 
@@ -20,47 +28,88 @@
 @*************Approved Requests For Mentors*********@
 <body>
     <h3 style="color:forestgreen"><b>Approved Requests</b></h3>
-    <CascadingValue Value="@Mentee">
-        <RequestsResultCard2></RequestsResultCard2>
-    </CascadingValue>
+    @if (requestsList != null)
+    {
+        @foreach (int user in requestsList)
+        {
+            <CascadingValue Value
+            ="@user">
+                <RequestsResultCard2></RequestsResultCard2>
+            </CascadingValue>
+        }
+
+    }
 </body>
 
 @*************Denied Requests For Mentors*********@
 <body>
-    <h3 style="color:grey"><b>Passed Requests</b></h3>
-    <CascadingValue Value="@Mentee">
-        <RequestsResultCard2></RequestsResultCard2>
-    </CascadingValue>
+    <h3 style="color:grey"><b>Declined Requests</b></h3>
+    @if (declinedList != null)
+    {
+        @foreach (int user in declinedList)
+        {
+            <CascadingValue Value="@user">
+                <RequestsResultCard2></RequestsResultCard2>
+            </CascadingValue>
+        }
+
+    }
 </body>
 
 @code {
     [CascadingParameter]
-    public UserOld Mentee { get; set; }
+    int userMentorId { get; set; }
 
-    int pending = 1;
+    User userMentor = new User();
+    private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
+    List<int> pendingList = new List<int>(); // Initialize pendingList
+    List<int> declinedList = new List<int>(); // Initialize declinedList
+    List<int> requestsList = new List<int>(); // Initialize requestsLis    //need to figure out why it keeps throwing a null exception!
+    public List<User> userList;
+    public int? matchId;
 
-    void LoadRequests()
+    protected override async void OnInitialized()
     {
-        foreach (UserOld user in UserData.users) //This will be from a list of mentees they have requests from connected to their profile, not UserData.users
+        // userList = _context.Users.ToList();  //returning null exception now...
+        // foreach (User user in userList)
+        // {
+        //     if (user.UserId == userMentorId)
+        //     {
+        //         userMentor = user;
+        //     }
+
+        // }
+        userMentor = await userService.GetExampleMentorUser();
+
+        matchId = _context.UserMatches
+                  .Where(ur => ur.UserId == userMentor.UserId)
+                      .Select(ur => ur.MatchId)
+                      .FirstOrDefault();
+        foreach (User user in userList) 
         {
-            // <div class="column">
-            //     <img src="images/man1-profile-picture.png" width="120px" height="120px" alt="Sean Paul profile picture">
-            // </div>
-            // <div class="column" style="min-width:400px">
-            //     <b>Sean Paul</b>
-            //     <div>Field: Computer Science</div>
-            //     <div>Current Position: Software Developer</div>
-            //     <div>Previous Major(s): Computer Science</div>
-            // </div>
-            // <div class="column" style="width:400px">
-            //     About: I have worked as a remote software developer for Google for 20 years. I have lived in Evansville my whole life and I'm excited to continue helping students in this area.
-            // </div>
+            int? matchedId = _context.UserMatches
+                  .Where(ur => ur.UserId == user.UserId)
+                      .Select(ur => ur.MatchId)
+                      .FirstOrDefault();
+            string? status = _context.Matches
+                  .Where(ur => ur.MatchId == matchedId)
+                      .Select(ur => ur.Status)
+                      .FirstOrDefault();
+            if (user.UserId != userMentor.UserId && matchedId == matchId)
+            {
+                if (status == "Pending")
+                {
+                    pendingList?.Add(user.UserId);
+                }
+                else if (status == "Declined")
+                {
+                    declinedList?.Add(user.UserId);
+                }
+                else if (status == "Approved")
+                {
+                    requestsList?.Add(user.UserId);
+                }
+            }
         }
     }
-
-    void Accept()
-    {
-        
-    }
-    void Decline(){}
 }

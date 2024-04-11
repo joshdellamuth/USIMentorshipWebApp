@@ -1,30 +1,57 @@
 ﻿@page "/requests"
 @layout MainLayout
 @inject NavigationManager NavigationManager
+@inject UserService userService
+@inject SessionService sessionService
 @using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
+@using System.Linq;
 
 <PageTitle>Requests - USI Mentorship Program</PageTitle>
 
 <h1>Requests</h1>
 <h6>View your approved, pending, and denied requests</h6>
-@foreach (UserOld user in UserData.users)  @*Will need to create a field for mentee or mentor, as well as field for entering mentee/mentors to be displayed*@
-{
-    @if (user.UserId == "U1")
+<CascadingValue Value="@userProfileId">
+    @if (roleId == 2) //Mentee
     {
-        <CascadingValue Value="@user">
-            @if (user.Role == "Mentee") 
-            {
-                <MenteeRequestsLayout />    
-            }
-            else if (user.Role == "Mentor")
-            {
-                <MentorRequestsLayout />
-            }
-        </CascadingValue>
+        <MenteeRequestsLayout />    
     }
+    else if (roleId == 1) //Mentor
+    {
+        <MentorRequestsLayout />
     }
+</CascadingValue>
+   
+   
 
 
 @code {
+
+    private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
+    User userProfile = new User();
+    int userProfileId;
+    public int? roleId;
+    public List<User> userList;
+
+    protected override async void OnInitialized() //On Page Load
+    {
+        // userList = _context.Users.ToList();
+        // foreach (User user in userList)
+        // {
+        //     if (user.UserId == 1)
+        //     {
+        //         userProfile = user;
+        //         userProfileId = user.UserId;
+        //     }
+
+        // }
+
+        userProfile = await userService.GetExampleMentorUser();
+
+        roleId = _context.UserRoles
+                              .Where(ur => ur.UserId == userProfile.UserId)
+                              .Select(ur => ur.RoleId)
+                              .FirstOrDefault();
+    }
 
 }

@@ -17,6 +17,8 @@ public partial class MatchCommunicationDetail
 
     public DateTime? DateOfCommunication { get; set; }
 
+    public bool? Deleted { get; set; }
+
     public virtual Match? Match { get; set; }
 
     public virtual User? SenderUser { get; set; }

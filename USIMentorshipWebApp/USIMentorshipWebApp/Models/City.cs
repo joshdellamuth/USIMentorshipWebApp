@@ -12,4 +12,6 @@ public partial class City
     public string StateCode { get; set; } = null!;
 
     public virtual State StateCodeNavigation { get; set; } = null!;
+
+    public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

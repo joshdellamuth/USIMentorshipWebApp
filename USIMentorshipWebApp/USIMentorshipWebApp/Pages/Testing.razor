@@ -7,22 +7,37 @@
 @page "/testing"
 @layout MainLayout
 
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject RegistrationDataService RegistrationDataService
+@inject UserService UserService
+
+@using USIMentorshipWebApp.Models;
+@using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Shared.Dropdowns;
+
 <PageTitle>Testing - USI Mentorship Program</PageTitle>
 
 <h1>Testing Page</h1>
 <h5>Put code in here that you need to test. Sandbox basically. Thanks! - Josh D</h5>
 
-<div class="profile-image">
-@*     <RadzenImage Path=@user.ProfilePicutre />
- *@</div>
-
+<RadzenDropDown @bind-Value=@value Data=@companyNames Style="width:200px; max-width: 400px;">
+    <ValueTemplate>
+        <RadzenTextBox @bind-Value=@value Style="width:220px; margin:-8px;" />
+    </ValueTemplate>
+</RadzenDropDown>
 
 @code {
-    User? exampleUser;
+    string value = "";
+    IEnumerable<string> companyNames;
+
+    private User user = new User();
+
 
     protected override async Task OnInitializedAsync()
     {
-        // userService from above
-        exampleUser = await userService.GetExampleMentorUser();
+        await base.OnInitializedAsync();
+
+        companyNames = new List<string> { "Facebook", "ESPN", "Tesla", "Google" };
     }
 }

@@ -5,15 +5,17 @@
 @inject DialogService DialogService
 @inject RegistrationDataService RegistrationDataService
 @inject UserService UserService
+@inject SessionService sessionService
 
 @using USIMentorshipWebApp.Models;
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Shared.Dropdowns;
 
+<PageTitle>Mentor Sign Up - USI Mentorship Program</PageTitle>
+
 
 <div class="default-margin">
 
-        <PageTitle>Mentor Sign Up - USI Mentorship Program</PageTitle>
 
         <h1>Sign up as a Mentor</h1>
         <h3>General Information:</h3>
@@ -80,7 +82,12 @@
                     <label>School:</label>
                     <RadzenDropDown @bind-SearchText=@schoolsSearchText @bind-Value=@user.School
                                     AllowFiltering="true" Data=@schools FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                AllowClear="true" Style="max-width:190px;" Name="School" />
+                                    AllowClear="true" Style="max-width:190px;" Name="School">
+                        <ValueTemplate Context="customContext">
+                            <RadzenTextBox @bind-Value=@user.School Style="width:280px; margin:-8px;" />
+                        </ValueTemplate>
+                    </RadzenDropDown>
+
                     <RadzenRequiredValidator Text="School is Required" Component="School" />
                 </div>
 
@@ -105,8 +112,9 @@
 
                 <div class="our-column mb-2">
                     <label>Graduation Date:</label>
-                    <RadzenDatePicker @bind-Value=@user.GraduationYear Name="GraduationDate" ShowCalendarWeek DateFormat="MM/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(30)" />
-                <RadzenRequiredValidator Text="Graduation Date is required" Component="GraduationDate" />
+                <RadzenDatePicker @bind-Value=@user.GraduationYear Name="GraduationDate" ShowDays=false DateFormat ="MM/yyyy"
+                                  Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(30)" CurrentDateChanged=@OnCurrentGraduationYearChanged />
+                    <RadzenRequiredValidator Text="Graduation Date is required" Component="GraduationDate" />
                 </div>
             </RadzenRow>
 
@@ -156,7 +164,7 @@
             <RadzenRow class="mb-4 mt-4" Gap="5" AlignItems="AlignItems.Center">
                 <div class="our-column">
                     <RadzenLabel Text="Birthdate:" Style="margin-right: 4px; vertical-align: middle;" />
-                    <RadzenDatePicker @bind-Value=@user.DateOfBirth Name="DateOfBirth" ShowCalendarWeek DateFormat="MM/dd/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(-18)" />
+                <RadzenDatePicker @bind-Value=@user.DateOfBirth Name="DateOfBirth" ShowCalendarWeek CurrentDateChanged=@OnCurrentBirthdateChanged DateFormat="MM/dd/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(-18)" />
                 <RadzenRequiredValidator Text="Date of birth is required" Component="DateOfBirth" />
                 </div>
             </RadzenRow>
@@ -222,11 +230,7 @@
                 <RadzenButton Style="width:100px; font-size:14px;" Variant="Variant.Outlined" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Secondary"  Text="Register" />
                 <RadzenButton Style="width:100px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click="@GoToLogin" Text="Back To Login" />
             </RadzenRow>
-
-
         </RadzenTemplateForm>
-
-
 </div>
 
 
@@ -236,10 +240,8 @@
     private User user = new User();
     BusinessLocationDropdown businessLocationDropdown;
 
-
-
     private string schoolsSearchText = "";
-    private string industriesSearchText = "";// Add this line
+    private string industriesSearchText = ""; // Add this line
     private string jobTitlesSearchText = "";
     private string? confirmPassword { get; set; }
 
@@ -259,21 +261,27 @@
         schools = await RegistrationDataService.GetSchoolsAsync();
     }
 
+    // graduation year current date changed and for the birthdate changed
+    void OnCurrentBirthdateChanged(DateTime args)
+    {
+        user.DateOfBirth = new DateTime(args.Year, args.Month, 1);
+    }
+    void OnCurrentGraduationYearChanged(DateTime args)
+    {
+        user.GraduationYear = new DateTime(args.Year, args.Month, 1);
+    }
 
     private async Task OnSubmit()
     {
-        // Check if passwords match
+        // grab what is filled out for the business location (have to reference shared component since it is not defined in this file)
+        user.BusinessCountryCode = businessLocationDropdown.countrySelected;
+        user.BusinessStateCode = businessLocationDropdown.stateSelected;
+        user.BusinessCityId = businessLocationDropdown.citySelected;
 
-            // Assume AddUser is updated to handle async operation if necessary
-            await UserService.AddUserAsync(user, "Mentor");
-            NavigationManager.NavigateTo("/mentor-match");
-        
-
+        // Assume AddUser is updated to handle async operation if necessary
+        await UserService.AddUserAsync(user, "Mentor");
+        NavigationManager.NavigateTo("/mentor-match");
     }
-
-    // Removed unused variables and methods for brevity
-
-
 
 
     void GoToNextPage(MouseEventArgs args)
@@ -286,5 +294,4 @@
     {
         NavigationManager.NavigateTo("/");
     }
-
 }
