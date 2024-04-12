@@ -1,5 +1,6 @@
 ﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
+@inject UserService userService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models
 @using System.Linq;
@@ -39,7 +40,9 @@
         </RadzenStack>
     </RadzenStack>
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="10">
-        <FullProfileButtonRequests />
+        <CascadingValue Value="@RequestUser.UserId">
+            <FullProfileButtonRequests />
+        </CascadingValue>
         <RadzenButton Shade="Shade.Dark" ButtonStyle="ButtonStyle.Success" Variant="Variant.Filled" Style="font-size:12px" Text="Accept" Click="@Accept" />
         <RadzenButton Shade="Shade.Dark" ButtonStyle="ButtonStyle.Danger" Variant="Variant.Filled" Style="font-size:12px" Text="Decline" Click="@Decline" />
     </RadzenStack>
@@ -52,23 +55,56 @@
     User RequestUser = new User();
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     public List<User> userList;
+    public int? matchId;
 
-    protected override void OnInitialized()
+    protected override /*async*/ void OnInitialized()
     {
-        userList = _context.Users.ToList();
-        foreach (User user in userList)
-        {
-            if (user.UserId == requestUserId)
-            {
-                RequestUser = user;
-            }
-
-        }
+        RequestUser = userService.GetUserByIdAsync(requestUserId);
     }
 
     void Accept()
     {
-
+        int update = 1;
+        UpdateMatchesTable(update);
     }
-    void Decline() { }
+    void Decline()
+    {
+        int update = 0;
+        UpdateMatchesTable(update);
+    }
+
+    void UpdateMatchesTable(int update)
+    {
+        matchId = _context.UserMatches
+                  .Where(ur => ur.UserId == RequestUser.UserId)
+                      .Select(ur => ur.MatchId)
+                      .FirstOrDefault();
+        foreach (User user in userList)
+        {
+            int? matchedId = _context.UserMatches
+                  .Where(ur => ur.UserId == user.UserId)
+                      .Select(ur => ur.MatchId)
+                      .FirstOrDefault();
+            string? status = _context.Matches
+                  .Where(ur => ur.MatchId == matchedId)
+                      .Select(ur => ur.Status)
+                      .FirstOrDefault();
+            if (matchedId == matchId)
+            {
+                var matchToUpdate = _context.Matches.FirstOrDefault(m => m.MatchId == matchId);
+                if (matchToUpdate != null)
+                {
+                    if (update == 1)
+                    {
+                        matchToUpdate.Status = "Approved";
+                    }
+                    else if (update == 0)
+                    {
+                        matchToUpdate.Status = "Declined";
+                    }
+                    _context.SaveChanges();
+                }
+            }
+        }
+    }
 }

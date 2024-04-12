@@ -55,15 +55,7 @@
 
     protected override async void OnInitialized()
     {
-        // userList = _context.Users.ToList();
-        // foreach (User user in userList)
-        // {
-        //     if (user.UserId == userMenteeId)
-        //     {
-        //         userMentee = user;
-        //     }
-
-        // }
+        userMentee = userService.GetUserByIdAsync(userMenteeId);
         userMentee = await userService.GetExampleMenteeUser();
 
         matchId = _context.UserMatches

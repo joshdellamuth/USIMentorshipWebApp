@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.Diagnostics.Metrics;
 using USIMentorshipWebApp.Models;
 
@@ -270,6 +271,14 @@ namespace USIMentorshipWebApp.Data
                     .FirstOrDefault();
 
             return country;
+        }
+
+        public async Task<List<User>> GetUsers()
+        {
+            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+            List<User> userList = new List<User>();
+            userList = userContext.Users.ToList();
+            return userList;
         }
 
         #region Mentor Match Methods to retrieve the data
