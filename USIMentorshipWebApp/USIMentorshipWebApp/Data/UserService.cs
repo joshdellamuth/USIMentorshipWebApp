@@ -7,7 +7,7 @@ namespace USIMentorshipWebApp.Data
     public class UserService
     {
         // Get User By UserId
-        public User GetUserByIdAsync(int userId)
+        public User GetUserByIdAsync(int? userId)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
@@ -239,7 +239,7 @@ namespace USIMentorshipWebApp.Data
             return userWithAdminRole;
         }
 
-        public async Task<Country> GetCountryByIdAsync(string countryCode)
+        public async Task<Country?> GetCountryByIdAsync(string countryCode)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
@@ -250,7 +250,7 @@ namespace USIMentorshipWebApp.Data
             return country;
         }
 
-        public async Task<State> GetStateByIdAsync(string stateCode)
+        public async Task<State?> GetStateByIdAsync(string stateCode)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
@@ -261,7 +261,7 @@ namespace USIMentorshipWebApp.Data
             return country;
         }
 
-        public async Task<City> GetCityByIdAsync(int? cityCode)
+        public async Task<City?> GetCityByIdAsync(int? cityCode)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 

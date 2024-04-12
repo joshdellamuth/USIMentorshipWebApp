@@ -5,9 +5,9 @@ namespace USIMentorshipWebApp.Models;
 
 public partial class UserMatch
 {
-    public int UserId { get; set; }
+    public int? UserId { get; set; }
 
-    public int MatchId { get; set; }
+    public int? MatchId { get; set; }
 
     public int UserMatchesId { get; set; }
 

@@ -50,7 +50,7 @@
 
             @* BUSINESS LOCATION *@
             <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Business Location</RadzenText>
-            <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@(displayedCity.CityName + ", " + displayedState.StateName + ", " + displayedCountry.CountryName)</b></RadzenText>
+            <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@((displayedCity?.CityName ?? "N/A") + ", " + (displayedState?.StateName ?? "N/A") + ", " + (displayedCountry?.CountryName ?? "N/A"))</b></RadzenText>
         </RadzenStack>
     </RadzenStack>
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="10">
@@ -74,7 +74,7 @@
 
     void RequestMembershipDetails(MouseEventArgs args)
     {
-                
+
     }
 
     void OpenFullProfile(MouseEventArgs args)
@@ -82,14 +82,15 @@
 
     }
 
-    State displayedState;
-    City displayedCity;
-    Country displayedCountry;
+    State? displayedState;
+    City? displayedCity;
+    Country? displayedCountry;
 
     protected override async Task OnInitializedAsync()
     {
         displayedState = await userService.GetStateByIdAsync(Mentor.BusinessStateCode);
-        displayedCity = await userService.GetCityByIdAsync(Mentor.BusinessCityId);
         displayedCountry = await userService.GetCountryByIdAsync(Mentor.BusinessCountryCode);
+        displayedCity = await userService.GetCityByIdAsync(Mentor.BusinessCityId);
+
     }
 }

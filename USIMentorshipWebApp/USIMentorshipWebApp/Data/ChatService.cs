@@ -17,7 +17,7 @@ namespace USIMentorshipWebApp.Data
         }
 
         // this works and is good
-        public async Task<List<int>> GetMatchIdsWithChats(User user)
+        public async Task<List<int?>> GetMatchIdsWithChats(User user)
         {
             var matchIds = await _chatContext.UserMatches
                 .Where(um => um.UserId == user.UserId)
@@ -40,7 +40,7 @@ namespace USIMentorshipWebApp.Data
 
             List<SidebarUserCard> sidebarCardData = new List<SidebarUserCard>();
 
-            foreach (int matchId in userMatchIdsWithChats)
+            foreach (int? matchId in userMatchIdsWithChats)
             {
                 var sidebarUsers = await GetUsersFromMatchId(matchId, user.UserId);
                 var mostRecentChat = await GetMostRecentChat(matchId);
@@ -52,7 +52,7 @@ namespace USIMentorshipWebApp.Data
         }
 
         // method used for LoggedInUser.razor component and OtherUserMessage.razor
-        public async Task<List<UserMessages>> GetUserMessagesData(int matchId)
+        public async Task<List<UserMessages>> GetUserMessagesData(int? matchId)
         {
             UserService userService = new UserService();
 
@@ -71,7 +71,7 @@ namespace USIMentorshipWebApp.Data
             return userMessagesList;
         }
 
-        public async Task<List<User>> GetUsersFromMatchId(int matchId, int userId)
+        public async Task<List<User>> GetUsersFromMatchId(int? matchId, int? userId)
         {
             // the userId parameter is the paramter we do not want to get since they're logged in 
             var users = await _chatContext.UserMatches
@@ -89,7 +89,7 @@ namespace USIMentorshipWebApp.Data
             return users;
         }
 
-        public async Task<List<int>> GetUserIdsFromMatchId(int matchId, int userId)
+        public async Task<List<int?>> GetUserIdsFromMatchId(int? matchId, int? userId)
         {
             // the userId parameter is the paramter we do not want to get since they're logged in 
             var userIds = await _chatContext.UserMatches
@@ -118,7 +118,7 @@ namespace USIMentorshipWebApp.Data
 
         //This method first filters the MatchCommunicationDetail for the given match and where CommunicationType is
         //“Chat”, then orders the result by DateOfCommunication in descending order and selects the first record.
-        public async Task<MatchCommunicationDetail> GetMostRecentChat(int matchId)
+        public async Task<MatchCommunicationDetail> GetMostRecentChat(int? matchId)
         {
             UserService userService = new UserService();
             var mostRecentChat = await _chatContext.MatchCommunicationDetails
@@ -129,7 +129,7 @@ namespace USIMentorshipWebApp.Data
             return mostRecentChat;
         }
 
-        public async Task<List<MatchCommunicationDetail>> GetChatDetailsForMatch(int matchId)
+        public async Task<List<MatchCommunicationDetail>> GetChatDetailsForMatch(int? matchId)
         {
             var chatDetails = await _chatContext.MatchCommunicationDetails
                 .Where(mcd => mcd.MatchId == matchId && mcd.CommunicationType == "Chat")
@@ -139,7 +139,7 @@ namespace USIMentorshipWebApp.Data
             return chatDetails;
         }
 
-        public async Task SendChat(int matchId, string chatContent, int senderId)
+        public async Task SendChat(int? matchId, string chatContent, int? senderId)
         {
             using UsiMentorshipApplicationContext chatContext2 = new UsiMentorshipApplicationContext();
 

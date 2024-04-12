@@ -49,11 +49,11 @@
 
     [Parameter]
     // when clicked, pass the MatchId to the parent component
-    public EventCallback<int> OnCardClick { get; set; }
+    public EventCallback<int?> OnCardClick { get; set; }
 
     User loggedInUser;
 
-    public int matchId; 
+    public int? matchId; 
 
     protected override async Task OnInitializedAsync()
     {

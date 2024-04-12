@@ -92,7 +92,7 @@
 
     List<SidebarUserCard> userSidebarCardData;
 
-    public int _matchId;
+    public int? _matchId;
 
     List<UserMessages> UserMessagesData;
 
@@ -106,7 +106,7 @@
 
     }
 
-    private async void HandleCardClick(int matchId)
+    private async void HandleCardClick(int? matchId)
     {
         _matchId = matchId;
         // Now you can use _matchId in your parent component

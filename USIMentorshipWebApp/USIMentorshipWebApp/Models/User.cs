@@ -19,9 +19,9 @@ public partial class User
 
     public string? EmailAddress { get; set; }
 
+    public string? Password { get; set; }
     [NotMapped]
     public string? RepeatPassword { get; set; }
-    public string? Password { get; set; }
 
     public string? ProfilePicutre { get; set; }
 
@@ -57,11 +57,11 @@ public partial class User
 
     public string? BusinessCountryCode { get; set; }
 
-    public virtual City BusinessCity { get; set; }
+    public virtual City? BusinessCity { get; set; }
 
-    public virtual Country BusinessCountryCodeNavigation { get; set; }
+    public virtual Country? BusinessCountryCodeNavigation { get; set; }
 
-    public virtual State BusinessStateCodeNavigation { get; set; }
+    public virtual State? BusinessStateCodeNavigation { get; set; }
 
     public virtual ICollection<MatchCommunicationDetail> MatchCommunicationDetails { get; set; } = new List<MatchCommunicationDetail>();
 
