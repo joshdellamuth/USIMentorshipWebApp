@@ -170,8 +170,11 @@
     {
         loggedInUser = sessionService.SessionUser;
         userRoles = sessionService.Roles;
-        displayRoles = string.Join(", ", userRoles.Select(role => role.RoleName));
 
+        if (userRoles != null)
+        {
+            displayRoles = string.Join(", ", userRoles.Select(role => role.RoleName));
+        }
     }
 
     #region Menu Toggling

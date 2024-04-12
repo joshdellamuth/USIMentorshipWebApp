@@ -237,13 +237,16 @@
 
 
 @code {
+    List<Role> userRoles;
+    User loggedInUser;
+
     private User user = new User();
+    
     BusinessLocationDropdown businessLocationDropdown;
 
     private string schoolsSearchText = "";
     private string industriesSearchText = ""; // Add this line
     private string jobTitlesSearchText = "";
-    private string? confirmPassword { get; set; }
 
 
 
@@ -274,12 +277,28 @@
     private async Task OnSubmit()
     {
         // grab what is filled out for the business location (have to reference shared component since it is not defined in this file)
-        user.BusinessCountryCode = businessLocationDropdown.countrySelected;
-        user.BusinessStateCode = businessLocationDropdown.stateSelected;
-        user.BusinessCityId = businessLocationDropdown.citySelected;
+        if (businessLocationDropdown.countrySelected != null)
+        {
+            user.BusinessCountryCode = businessLocationDropdown.countrySelected;
+            if (businessLocationDropdown.stateSelected != null)
+            {
+                user.BusinessStateCode = businessLocationDropdown.stateSelected;
+
+                if (businessLocationDropdown.citySelected != null)
+                {
+                    user.BusinessCityId = businessLocationDropdown.citySelected;
+                }
+            }
+        }
+        
+        
 
         // Assume AddUser is updated to handle async operation if necessary
         await UserService.AddUserAsync(user, "Mentor");
+
+        // automatically "Login" this newly created user
+        sessionService.Login(user);
+
         NavigationManager.NavigateTo("/mentor-match");
     }
 

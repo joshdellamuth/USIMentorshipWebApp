@@ -153,25 +153,24 @@
 </div>
 
 @code {
+    List<Role> userRoles;
+    User loggedInUser;
 
     private User user = new User();
 
-
     private async Task OnSubmit()
     {
-        // Check if passwords match
-
         // Assume AddUser is updated to handle async operation if necessary
-        await UserService.AddUserAsync(user, "Mentor");
+        await UserService.AddUserAsync(user, "Mentee");
+
+        // automatically "Login" this newly created user
+        sessionService.Login(user);
+
         NavigationManager.NavigateTo("/mentor-match");
-
-
     }
 
     void GoToLogin(MouseEventArgs args)
     {
         NavigationManager.NavigateTo("/");
     }
-    
-    
 }

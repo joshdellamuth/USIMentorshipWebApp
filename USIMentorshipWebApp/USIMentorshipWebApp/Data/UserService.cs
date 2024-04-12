@@ -102,7 +102,97 @@ namespace USIMentorshipWebApp.Data
             }
         }
 
-        public async Task<User?> GetExampleMenteeUser()
+        //public async Task<List<User?>> GetAllMentors()
+        //{
+        //    using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+
+        //    var allMentors = await userContext.Users
+        //        .Join(
+        //            userContext.UserRoles,
+        //            user => user.UserId,
+        //            userRole => userRole.UserId,
+        //            (user, userRole) => new { User = user, UserRole = userRole }
+        //            )
+        //        .Join(
+        //            userContext.Roles,
+        //            combined => combined.UserRole.RoleId,
+        //            role => role.RoleId,
+        //            (combined, role) => new { User = combined.User, Role = role }
+        //            )
+        //        .Where(combined => combined.Role.RoleName == "Mentor")
+        //        .Select(combined => combined.User)
+        //        .ToListAsync();
+
+        //    return allMentors;
+        //}
+
+        public async Task<List<User>> GetAllMentors()
+        {
+            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+
+            var usersWithMentorRole = from user in userContext.Users
+                                      join userRole in userContext.UserRoles on user.UserId equals userRole.UserId
+                                      join role in userContext.Roles on userRole.RoleId equals role.RoleId
+                                      where role.RoleName == "Mentor"
+                                      select user;
+
+            return await usersWithMentorRole.ToListAsync();
+        }
+
+
+        // MENTOR INDUSTRIES 
+        #region All the commands to get the mentor information
+        public async Task<List<string?>> GetMentorIndustries()
+        {
+            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+
+            var allMentors = await GetAllMentors(); 
+
+            var industries = allMentors.Where(u => !string.IsNullOrEmpty(u.Industry)).Select(u => u.Industry).Distinct().ToList();
+
+            return industries; 
+        }
+
+        // MENTOR CURRENT POSITIONS 
+        public async Task<List<string?>> GetMentorCurrentPositions()
+        {
+            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+
+            var allMentors = await GetAllMentors();
+
+            var currentPositions = allMentors.Where(u => !string.IsNullOrEmpty(u.CurrentPosition)).Select(u => u.CurrentPosition).Distinct().ToList();
+
+            return currentPositions;
+        }
+
+        // MENTOR MAJORS
+        public async Task<List<string?>> GetMentorMajors()
+        {
+            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+
+            var allMentors = await GetAllMentors();
+
+            var majors = allMentors.Where(u => !string.IsNullOrEmpty(u.Major)).Select(u => u.Major).Distinct().ToList();
+
+            return majors;
+        }
+
+        // MENTOR COMPANIES
+        public async Task<List<string?>> GetMentorCompanies()
+        {
+            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
+
+            var allMentors = await GetAllMentors();
+
+            var companies = allMentors.Where(u => !string.IsNullOrEmpty(u.Company)).Select(u => u.Company).Distinct().ToList();
+
+            return companies;
+        }
+
+        #endregion
+
+
+        public async Task<User> GetExampleMenteeUser()
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
@@ -183,7 +273,7 @@ namespace USIMentorshipWebApp.Data
         }
 
         #region Mentor Match Methods to retrieve the data
-        public async Task<List<City>> GetMentorCitiesGivenAllMentorsAsync(List<User> allMentors)
+        public async Task<List<City>> GetMentorCitiesGivenAllMentorsAsync(List<User?> allMentors)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
@@ -201,7 +291,7 @@ namespace USIMentorshipWebApp.Data
         #endregion
 
         #region Mentor Match Methods to retrieve the data
-        public async Task<List<State>> GetMentorStatesGivenAllMentorsAsync(List<User> allMentors)
+        public async Task<List<State>> GetMentorStatesGivenAllMentorsAsync(List<User?> allMentors)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
@@ -217,7 +307,7 @@ namespace USIMentorshipWebApp.Data
             return states;
         }
 
-        public async Task<List<Country>> GetMentorCountriesGivenAllMentorsAsync(List<User> allMentors)
+        public async Task<List<Country>> GetMentorCountriesGivenAllMentorsAsync(List<User?> allMentors)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 

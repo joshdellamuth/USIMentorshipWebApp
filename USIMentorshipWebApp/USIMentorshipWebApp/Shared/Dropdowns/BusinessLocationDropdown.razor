@@ -37,17 +37,17 @@
     // countries variables
     public List<Country> countries;
     public string countriesSearchText;
-    public string countrySelected;
+    public string? countrySelected;
 
     // states variables
     public bool stateDropdownDisabled = true;
     public List<State> states;
     public string stateSearchText;
-    public string stateSelected;
+    public string? stateSelected;
 
     // cities variables
     public bool cityDropdownDisabled = true;
-    public int citySelected;
+    public int? citySelected;
     public List<City> cities;
     public string citySearchText;
 
@@ -65,7 +65,7 @@
         if (stateSelected == null)
         {
             cityDropdownDisabled = true;
-            citySelected = 0;
+            citySelected = null;
         }
         // converts the value variable to a string
         stateSelected = (string)value;
@@ -80,8 +80,8 @@
         // disable the city and state dropdown if country is cleared and clear other dropdowns
         if (countrySelected == null)
         {
-            citySelected = 0;
-            stateSelected = "";
+            citySelected = null;
+            stateSelected = null;
             stateDropdownDisabled = true;
             cityDropdownDisabled = true;
         }

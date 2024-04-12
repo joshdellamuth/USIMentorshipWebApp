@@ -91,172 +91,158 @@
     {
         foreach (User user in mentorResults)
         {
-            <CascadingValue Value="@user">
-                <MentorResultCard />
-            </CascadingValue>
+            if (user != null)
+            {
+                <CascadingValue Value="@user">
+                    <MentorResultCard />
+                </CascadingValue>
+            }
         }
     }
 </div>
 
 @code {
-                private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
+    private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
 
-                # region Industry
-                public List<string> industries;
-                public List<string>? industriesSelected;
-                public string industriesSearchText;
-                #endregion
+    # region Industry
+    public List<string?>? industries;
+    public List<string?>? industriesSelected;
+    public string? industriesSearchText;
+    #endregion
 
-                #region Current Position
-                public List<string> currentPositions;
-                public List<string>? currentPositionsSelected;
-                public string currentPositionsSearchText;
-                #endregion
+    #region Current Position
+    public List<string?>? currentPositions;
+    public List<string?>? currentPositionsSelected;
+    public string? currentPositionsSearchText;
+    #endregion
 
-                #region Major
-                public List<string> majorsList;
-                public List<string> majorsSelected;
-                public string majorsSearchText;
-                #endregion
+    #region Major
+    public List<string?>? majorsList;
+    public List<string?>? majorsSelected;
+    public string? majorsSearchText;
+    #endregion
 
-                # region Companies
-                public List<string> companies;
-                public List<string>? companiesSelected;
-                public string companiesSearchText;
-                # endregion
+    # region Companies
+    public List<string?>? companies;
+    public List<string?>? companiesSelected;
+    public string? companiesSearchText;
+    # endregion
 
-                #region Age Range
-                public List<string> ageRangesSelected;
-                public List<string> ageRanges = new List<string> { "20-30", "30-40", "50-60", "60-70", "70-80", "80+" };
-                #endregion
+    #region Age Range
+    public List<string>? ageRangesSelected;
+    public List<string> ageRanges = new List<string> { "20-30", "30-40", "50-60", "60-70", "70-80", "80+" };
+    #endregion
 
     #region Business Country
-    public List<string>? businessCountriesSelected;
-    public List<Country> businessCountries;
-    public string businessCountriesSearchText;
+    public List<string?>? businessCountriesSelected;
+    public List<Country>? businessCountries;
+    public string? businessCountriesSearchText;
     #endregion
 
     #region Business State
-    public List<string>? businessStatesSelected;
-    public List<State> businessStates;
-    public string businessStatesSearchText;
+    public List<string?>? businessStatesSelected;
+    public List<State>? businessStates;
+    public string? businessStatesSearchText;
     #endregion
 
     #region Business City
-    public List<int?> businessCitiesSelected;
-    public List<City?> businessCities;
-    public string businessCitiesSearchText;
+    public List<int?>? businessCitiesSelected;
+    public List<City>? businessCities;
+    public string? businessCitiesSearchText;
     #endregion
 
-                #region Gender Preference
-                public string? genderSelected;
-                public List<string> genders = new List<string> { "Male", "Female", "Other" };
-                #endregion
+    #region Gender Preference
+    public string? genderSelected;
+    public List<string> genders = new List<string> { "Male", "Female", "Other" };
+    #endregion
 
-                #region Search by Name Variables
-                //define the value of the data that is selected
-                public string MentorNameSelected;
-                public List<User> mentors = new List<User>() { };
-                #endregion
+    #region Search by Name Variables
+    //define the value of the data that is selected
+    public string? MentorNameSelected;
+    public List<User?> mentors = new List<User?>() { };
+    #endregion
 
-                #region Mentor Results Variables 
-                public List<User> mentorResults;
-                public List<User> allMentors;
-                #endregion
+    #region Mentor Results Variables 
+    public List<User?>? mentorResults;
+    public List<User> allMentors;
+    #endregion
 
     protected override async Task OnInitializedAsync()
     {
-        // allMentors will be used in the base query and for dropdown data
-        allMentors = _context.Users
-            .Join(
-                _context.UserRoles,
-                user => user.UserId,
-                userRole => userRole.UserId,
-                (user, userRole) => new { User = user, UserRole = userRole }
-            )
-            .Join(
-                _context.Roles,
-                combined => combined.UserRole.RoleId,
-                role => role.RoleId,
-                (combined, role) => new { User = combined.User, Role = role }
-            )
-            .Where(combined => combined.Role.RoleName == "Mentor")
-            .Select(combined => combined.User)
-            .ToList();
-
+        allMentors = await userService.GetAllMentors();
         // setting the dropdown data based on the database when the page loads
-        industries = allMentors.Where(u => !string.IsNullOrEmpty(u.Industry)).Select(u => u.Industry).Distinct().ToList();
-        currentPositions = allMentors.Where(u => !string.IsNullOrEmpty(u.CurrentPosition)).Select(u => u.CurrentPosition).Distinct().ToList();
-        majorsList = allMentors.Where(u => !string.IsNullOrEmpty(u.Major)).Select(u => u.Major).Distinct().ToList();
-        companies = allMentors.Where(u => !string.IsNullOrEmpty(u.Company)).Select(u => u.Company).Distinct().ToList();
+        industries = await userService.GetMentorIndustries();
+        currentPositions = await userService.GetMentorCurrentPositions();
+        majorsList = await userService.GetMentorIndustries();
+        companies = await userService.GetMentorCompanies();
         businessCountries = await userService.GetMentorCountriesGivenAllMentorsAsync(allMentors);
         businessStates = await userService.GetMentorStatesGivenAllMentorsAsync(allMentors);
         businessCities = await userService.GetMentorCitiesGivenAllMentorsAsync(allMentors);
         //businessCities = allMentors.Where(u => !string.IsNullOrEmpty(u.BusinessCityId)).Select(u => u.BusinessCityId).Distinct().ToList();
 
-                    //mentors is used for the autocomplete field
-                    mentors = allMentors;
-                }
+        //mentors is used for the autocomplete field
+        mentors = allMentors;
+    }
 
 
-                // Corrected Method to calculate age from a birthdate
-                private static int? CalculateAge(DateTime? birthdate)
-                {
-                    if (!birthdate.HasValue)
-                        return null;
+    // Corrected Method to calculate age from a birthdate
+    private static int? CalculateAge(DateTime? birthdate)
+    {
+        if (!birthdate.HasValue)
+            return null;
 
-                    var today = DateTime.Today;
-                    var age = today.Year - birthdate.Value.Year;
-                    if (birthdate.Value > today.AddYears(-age)) age--;
-                    return age;
-                }
+        var today = DateTime.Today;
+        var age = today.Year - birthdate.Value.Year;
+        if (birthdate.Value > today.AddYears(-age)) age--;
+        return age;
+    }
 
-                public void SearchMentors(MouseEventArgs args)
-                {
-                    EmailService emailService = new EmailService();
+    public void SearchMentors(MouseEventArgs args)
+    {
+        EmailService emailService = new EmailService();
 
-                    string emailAddress = "jddellamut@eagles.usi.edu";
-                    string message = "Oh my goodness, you just clicked Find Mentors. Wowzers!";
+        string emailAddress = "jddellamut@eagles.usi.edu";
+        string message = "Oh my goodness, you just clicked Find Mentors. Wowzers!";
 
-                    //emailService.SendMail(emailAddress, message);
+        //emailService.SendMail(emailAddress, message);
 
-                    // sets results to all mentors when nothing is filled out
-                    mentorResults = allMentors;
+        // sets results to all mentors when nothing is filled out
+        mentorResults = allMentors;
 
-                    if (industriesSelected != null && industriesSelected.Count != 0)
-                    {
-                        mentorResults = mentorResults
-                            .Where(user => industriesSelected.Contains(user.Industry))
-                            .ToList();
-                    }
+        if (industriesSelected != null && industriesSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => industriesSelected.Contains(user.Industry))
+                .ToList();
+        }
         
-                    if (currentPositionsSelected != null && currentPositionsSelected.Count != 0)
-                    {
-                        mentorResults = mentorResults
-                            .Where(user => currentPositionsSelected.Contains(user.CurrentPosition))
-                            .ToList();
-                    }
+        if (currentPositionsSelected != null && currentPositionsSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => currentPositionsSelected.Contains(user.CurrentPosition))
+                .ToList();
+        }
 
-                    if (companiesSelected != null && companiesSelected.Count != 0)
-                    {
-                        mentorResults = mentorResults
-                            .Where(user => companiesSelected.Contains(user.Company))
-                            .ToList();
-                    }
+        if (companiesSelected != null && companiesSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => companiesSelected.Contains(user.Company))
+                .ToList();
+        }
 
-                    if (majorsSelected != null && majorsSelected.Count != 0)
-                    {
-                        mentorResults = mentorResults
-                            .Where(user => majorsSelected.Contains(user.Major))
-                            .ToList();
-                    }
+        if (majorsSelected != null && majorsSelected.Count != 0)
+        {
+            mentorResults = mentorResults
+                .Where(user => majorsSelected.Contains(user.Major))
+                .ToList();
+        }
 
-                    if (genderSelected != null)
-                    {
-                        mentorResults = mentorResults
-                            .Where(user => genderSelected.Contains(user.Gender))
-                            .ToList();
-                    }
+        if (genderSelected != null)
+        {
+            mentorResults = mentorResults
+                .Where(user => genderSelected.Contains(user.Gender))
+                .ToList();
+        }
 
         if (businessCountriesSelected != null && businessCountriesSelected.Count != 0)
         {
@@ -279,51 +265,45 @@
                 .ToList();
         }
 
-                    if (MentorNameSelected != null && MentorNameSelected != "")
-                    {
-                        mentorResults = mentorResults
-                            .Where(user => MentorNameSelected.Equals(user.FirstName + " " + user.LastName))
-                            .ToList();
-                    }
+        if (MentorNameSelected != null && MentorNameSelected != "")
+        {
+            mentorResults = mentorResults
+                .Where(user => MentorNameSelected.Equals(user.FirstName + " " + user.LastName))
+                .ToList();
+        }
         
-                    if (mentorResults.Count == 0)
+        if (mentorResults.Count == 0)
+        {
+            mentorResults = new List<User>();
+        }
+
+        // Filter by Age Range
+        if (ageRangesSelected != null && ageRangesSelected.Count != 0)
+        {
+            mentorResults = mentorResults.Where(mentor =>
+            {
+                var mentorAge = CalculateAge(mentor.DateOfBirth); // Ensure this matches your User model's birthdate property
+                if (!mentorAge.HasValue) // Skip mentors without a valid DateOfBirth
+                    return false;
+
+                return ageRangesSelected.Any(selectedRange =>
+                {
+                    if (selectedRange.Contains("-"))
                     {
-                        mentorResults = new List<User>();
+                        var parts = selectedRange.Split('-');
+                        int.TryParse(parts[0], out int minAge);
+                        int.TryParse(parts[1], out int maxAge);
+                        return mentorAge >= minAge && mentorAge <= maxAge;
                     }
-
-                    // Filter by Age Range
-                    if (ageRangesSelected != null && ageRangesSelected.Count != 0)
+                    else if (selectedRange.EndsWith("+"))
                     {
-                        mentorResults = mentorResults.Where(mentor =>
-                        {
-                            var mentorAge = CalculateAge(mentor.DateOfBirth); // Ensure this matches your User model's birthdate property
-                            if (!mentorAge.HasValue) // Skip mentors without a valid DateOfBirth
-                                return false;
-
-                            return ageRangesSelected.Any(selectedRange =>
-                            {
-                                if (selectedRange.Contains("-"))
-                                {
-                                    var parts = selectedRange.Split('-');
-                                    int.TryParse(parts[0], out int minAge);
-                                    int.TryParse(parts[1], out int maxAge);
-                                    return mentorAge >= minAge && mentorAge <= maxAge;
-                                }
-                                else if (selectedRange.EndsWith("+"))
-                                {
-                                    int.TryParse(selectedRange.TrimEnd('+'), out int minAge);
-                                    return mentorAge >= minAge;
-                                }
-                                return false;
-                            });
-                        }).ToList();
+                        int.TryParse(selectedRange.TrimEnd('+'), out int minAge);
+                        return mentorAge >= minAge;
                     }
-
-                }
-
-
-
-
-
+                    return false;
+                });
+            }).ToList();
+        }
     }
+}
 
