@@ -1,26 +1,39 @@
-﻿@using USIMentorshipWebApp.Data
+﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
+@inject UserService userService
+@using USIMentorshipWebApp.Data;
+@using USIMentorshipWebApp.Models
+@using System.Linq;
 
 <RadzenButton Shade="Shade.Dark" ButtonStyle="ButtonStyle.Info" Style="font-size:12px" Text="Full Profile" Click=@ShowFullProfile />
 
 @code {
     [CascadingParameter]
-    //must have this property for the cascading dropdown
-    public UserOld userRequest { get; set; }
+    public int requestUserId { get; set; }
+
+    User RequestUser = new User();
+    private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
+    public int? roleId;
 
     public async Task ShowFullProfile()
     {
-        if (userRequest.Role == "Mentor")
+        RequestUser = userService.GetUserByIdAsync(requestUserId);
+        roleId = _context.UserRoles
+                              .Where(ur => ur.UserId == RequestUser.UserId)
+                              .Select(ur => ur.RoleId)
+                              .FirstOrDefault();
+
+        if (roleId == 1)
         {
-            await DialogService.OpenAsync<FullProfileDialogRequests2>($"Mentor {userRequest.FirstName} {userRequest.LastName}",
-                   new Dictionary<string, object>() { { "Mentor", userRequest } },
+            await DialogService.OpenAsync<FullProfileDialogRequests2>($"Mentor {RequestUser.FirstName} {RequestUser.LastName}",
+                   new Dictionary<string, object>() { { "Mentor", RequestUser } },
                    // can configure the dropdown to be resizable and dragable (commented out)
                    new DialogOptions() { Width = "700px", Height = "550px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
         }
-        else
+        else if (roleId == 2)
         {
-            await DialogService.OpenAsync<FullProfileDialogRequests>($"Mentee {userRequest.FirstName} {userRequest.LastName}",
-                   new Dictionary<string, object>() { { "Mentee", userRequest } },
+            await DialogService.OpenAsync<FullProfileDialogRequests>($"Mentee {RequestUser.FirstName} {RequestUser.LastName}",
+                   new Dictionary<string, object>() { { "Mentee", RequestUser } },
                    // can configure the dropdown to be resizable and dragable (commented out)
                    new DialogOptions() { Width = "700px", Height = "550px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
         }

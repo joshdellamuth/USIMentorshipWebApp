@@ -35,16 +35,7 @@
 
     protected override async void OnInitialized() //On Page Load
     {
-        // userList = _context.Users.ToList();
-        // foreach (User user in userList)
-        // {
-        //     if (user.UserId == 1)
-        //     {
-        //         userProfile = user;
-        //         userProfileId = user.UserId;
-        //     }
-
-        // }
+        userProfile = userService.GetUserByIdAsync(userProfileId);
 
         userProfile = await userService.GetExampleMentorUser();
 

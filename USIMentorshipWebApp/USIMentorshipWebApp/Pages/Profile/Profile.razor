@@ -37,17 +37,6 @@
 
     protected override async Task OnInitializedAsync() //On Page Load
     {
-        // userProfile.UserId = 1;
-        // userList = _context.Users.ToList();
-        // foreach (User user in userList)
-        // {
-        //     if (user.UserId == userProfile.UserId)
-        //     {
-        //         userProfile = user;
-        //     }
-
-        // }
-
         userProfile = await userService.GetExampleMenteeUser();
     }
 

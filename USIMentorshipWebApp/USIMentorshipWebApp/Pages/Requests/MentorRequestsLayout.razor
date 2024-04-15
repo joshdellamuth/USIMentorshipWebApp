@@ -65,20 +65,14 @@
     List<int> pendingList = new List<int>(); // Initialize pendingList
     List<int> declinedList = new List<int>(); // Initialize declinedList
     List<int> requestsList = new List<int>(); // Initialize requestsLis    //need to figure out why it keeps throwing a null exception!
-    public List<User> userList;
+    List<User> userList = new List<User>();
     public int? matchId;
 
     protected override async void OnInitialized()
     {
-        // userList = _context.Users.ToList();  //returning null exception now...
-        // foreach (User user in userList)
-        // {
-        //     if (user.UserId == userMentorId)
-        //     {
-        //         userMentor = user;
-        //     }
+        userList = await userService.GetUsers();  //returning null exception now...
 
-        // }
+        userMentor = userService.GetUserByIdAsync(userMentorId);
         userMentor = await userService.GetExampleMentorUser();
 
         matchId = _context.UserMatches

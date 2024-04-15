@@ -1,5 +1,6 @@
 ﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
+@inject UserService userService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models
 @using System.Linq;
@@ -52,15 +53,7 @@
 
     protected override void OnInitialized()
     {
-        userList = _context.Users.ToList();
-        foreach (User user in userList)
-        {
-            if (user.UserId == requestUserId)
-            {
-                RequestUser = user;
-            }
-
-        }
+        RequestUser = userService.GetUserByIdAsync(requestUserId);
     }
 
 }
