@@ -57,9 +57,10 @@
             {
                 foreach (User user in usersInMatch)
                 {
-                    <h1 style="padding-left:5px;">@user.FirstName @user.LastName</h1>
+                    <h1 style="position:sticky; background-color:white; top:0; padding-left:5px;">@user.FirstName @user.LastName</h1>
                 }
-            } 
+            }
+
             @if (UserMessagesData != null)
             {
                 foreach (UserMessages displayObject in UserMessagesData)
@@ -80,7 +81,7 @@
             <RadzenStack Orientation="Orientation.Horizontal">
                 <RadzenTextArea MaxLength="300" @bind-Value=@inputtedMessage class="w-100" aria-label="TextArea with 300 maximum characters" />
                 <RadzenButton Style="width:80px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Disabled="@sendChatDisabled" Click=@SendChat Text="Send" />
-                <div @onclick="OnInitializedAsync" class="hover-pointer" style="text-align:right; font-size:28px;">
+                <div @onclick="SyncButtonClicked" class="hover-pointer" style="text-align:right; font-size:28px;">
                     <span class="oi oi-reload"></span>
                 </div>
             </RadzenStack>
@@ -166,6 +167,12 @@
             sendChatDisabled = false;
         }
         // make method in here that sets the data for the chat according to the URL 
+    }
+
+    private async Task SyncButtonClicked()
+    {
+        await OnInitializedAsync();
+        UserMessagesData = await chatService.GetUserMessagesData(_matchId);
     }
 
     private async Task HandleCardClick(int? matchId)
