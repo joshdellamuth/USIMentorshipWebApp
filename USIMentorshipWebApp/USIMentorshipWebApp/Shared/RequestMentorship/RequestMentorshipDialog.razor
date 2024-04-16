@@ -1,15 +1,14 @@
 ﻿@using USIMentorshipWebApp.Models
 @using USIMentorshipWebApp.Data
 @inject DialogService DialogService
-@inject UserService userservice
+@inject UserService userService
+@inject SessionService sessionService
+@inject RequestService requestService
+
 
 @* Align Items centered the elements in the middle of the popup *@
 <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center">
-    <RadzenImage Path=@Mentor.ProfilePicutre Style="width: 180px; height: 180px; border-radius: 50%;" />
-    <div class="our-column mb-2">
-        <label>Mentorship Length in <br />Semesters:</label>
-        <RadzenDropDown @bind-Value=@selectedMentorshipLength Data=@mentorshipLengths Style="max-width:160px;" />
-    </div>
+    <RadzenImage Path=@Mentor.ProfilePicutre Style="width: 180px; height: 120px; border-radius: 50%;" />
     <RadzenButton Click="@SendMentorshipRequest" Variant="Variant.Outlined" Text="Send Request" Style="width: 120px" />
 </RadzenStack>
 
@@ -18,29 +17,20 @@
     [Parameter]
     public User Mentor { get; set; }
 
-    public string? selectedMentorshipLength;
-    List<string> mentorshipLengths = new List<string> { "1", "2", "3", "4" };
-
+    // used for session
+    List<Role> userRoles;
+    User loggedInUser;
 
     public async Task SendMentorshipRequest()
     {
-        UserService _userService = new UserService();
-        RequestService _requestService = new RequestService();
+        loggedInUser = sessionService.SessionUser;
+        userRoles = sessionService.Roles;
 
         // close the dialog
         DialogService.Close();
 
-        // get an example mentee until sessions are setup
-        User? exampleMentee = await _userService.GetExampleMenteeUser();
-
-        if (selectedMentorshipLength != null)
-        {
-            //convert the selectedMentorshipLength from string to int
-            int IntegerSelectedMentorshipLength = int.Parse(selectedMentorshipLength);
-
-            // make a request with the method in the request service, passing in the correct parameters
-            _requestService.RequestOnePersonMatch(exampleMentee, Mentor, IntegerSelectedMentorshipLength);
-        }
+        // make a request with the method in the request service, passing in the correct parameters
+        await requestService.RequestOnePersonMatch(loggedInUser, Mentor);
 
     }
 }

@@ -1,8 +1,10 @@
-﻿@page "/Chat"
+﻿@* declaring a URL but saying it can also be blank*@
+@page "/chat/{matchId?}"
 @layout MainLayout
 @inject UserService userService; 
 @inject ChatService chatService;
-@inject SessionService sessionService
+@inject SessionService sessionService;
+@inject EmailService emailService;
 @using USIMentorshipWebApp.Data
 @using USIMentorshipWebApp.Models
 
@@ -14,7 +16,7 @@
     <!--Column-->
     <div class="@SidebarCssClass sidebar-appear-over height-scrollable">
         @* X BUTTON *@
-        <div @onclick="ToggleNavMenu" style="text-align:right;">
+        <div @onclick="ToggleNavMenu" class="hover-pointer" style="text-align:right;">
             <span style="font-size:20px;"class="oi oi-x"></span>
         </div>
 
@@ -40,7 +42,7 @@
     {
         @* MENU BUTTON *@
         <div class="small-sidebar">
-            <div @onclick="ToggleNavMenu" style="text-align:right; font-size:28px;">
+            <div class="hover-pointer" @onclick="ToggleNavMenu" style="text-align:right; font-size:28px;">
                 <span class="oi oi-chat"></span>
             </div>
         </div>
@@ -50,7 +52,14 @@
     <!--column-->
     <div class="main-column">
         <!--row-->
-        <div class="messages-column height-scrollable">    
+        <div class="messages-column height-scrollable">
+            @if (usersInMatch != null)
+            {
+                foreach (User user in usersInMatch)
+                {
+                    <h1 style="padding-left:5px;">@user.FirstName @user.LastName</h1>
+                }
+            } 
             @if (UserMessagesData != null)
             {
                 foreach (UserMessages displayObject in UserMessagesData)
@@ -70,9 +79,12 @@
         <div class="main-column-input" style="padding:5px;">
             <RadzenStack Orientation="Orientation.Horizontal">
                 <RadzenTextArea MaxLength="300" @bind-Value=@inputtedMessage class="w-100" aria-label="TextArea with 300 maximum characters" />
-                <RadzenButton Style="width:80px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Click=@SendChat Text="Send" />
+                <RadzenButton Style="width:80px; font-size:14px;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Secondary" Disabled="@sendChatDisabled" Click=@SendChat Text="Send" />
+                <div @onclick="OnInitializedAsync" class="hover-pointer" style="text-align:right; font-size:28px;">
+                    <span class="oi oi-reload"></span>
+                </div>
             </RadzenStack>
-            <h6 class="side-note">Note: If you don't immediately see a message, refresh the page</h6>
+            <h6 class="side-note">Note: If you don't immediately see a message, click the refresh icon</h6>
         </div>
     </div>
 
@@ -80,6 +92,9 @@
 </div>
 
 @code {
+    [Parameter]
+    public string matchId { get; set; }
+
     User loggedInUser;
 
     List<int> userMatchIdsWithChats;
@@ -96,22 +111,74 @@
 
     List<UserMessages> UserMessagesData;
 
+    bool sendChatDisabled = true;
+
+    // used to get the users after a match is clicked
+    List<User> usersInMatch;
+
+    // used to get the users from the new match in the URL 
+    List<User> usersInNewMatch;
+
     protected override async Task OnInitializedAsync()
     {
-
         // set the logged in User to example mentee 
         loggedInUser = sessionService.SessionUser;
 
         userSidebarCardData = await chatService.GetSidebarUserCardData(loggedInUser);
 
+        int matchIdAsInt;
+
+        userMatchIdsWithChats = await chatService.GetMatchIdsWithChats(loggedInUser);
+
+        // if the URL is populated with a matchId
+        if (matchId != null)
+        {
+            // get the matchId string from the URL and make it an int to pass into GetUserMessagesData
+            matchIdAsInt = int.Parse(matchId);
+
+            _matchId = matchIdAsInt;
+
+            // pull the messages data for the user with the match Id
+            UserMessagesData = await chatService.GetUserMessagesData(_matchId);
+            // add the new entry to the sidebar if needed (do a check to see if it is already there or just bring it to the top)
+            //userSidebarCardData.Add
+
+            // get the users in the match (used for displaying the names at the top of the page)
+            usersInMatch = await chatService.GetUsersFromMatchId(_matchId, loggedInUser.UserId);
+
+
+            // if the matchId is not included with the matchIds with chats, add it to the side data at the top
+            if (_matchId != null && !userMatchIdsWithChats.Contains(_matchId.Value))
+            {
+                //make new sidebar card object 
+                SidebarUserCard sidebarCardForNewMatch = new SidebarUserCard();
+
+                //get a list of users in the match
+                usersInNewMatch = await chatService.GetUsersFromMatchId(_matchId, loggedInUser.UserId);
+
+                // grab all the user objects from that matchId
+                sidebarCardForNewMatch.UsersInMatch = usersInNewMatch;
+                sidebarCardForNewMatch.MostRecentChat = new MatchCommunicationDetail { CommunicationContent = "" };
+
+                userSidebarCardData.Add(sidebarCardForNewMatch);
+            }
+
+            sendChatDisabled = false;
+        }
+        // make method in here that sets the data for the chat according to the URL 
     }
 
-    private async void HandleCardClick(int? matchId)
+    private async Task HandleCardClick(int? matchId)
     {
         _matchId = matchId;
         // Now you can use _matchId in your parent component
         // For example, you can pass it to another method
         UserMessagesData = await chatService.GetUserMessagesData(_matchId);
+
+        sendChatDisabled = false;
+
+        usersInMatch = await chatService.GetUsersFromMatchId(_matchId, loggedInUser.UserId);
+
         await InvokeAsync(StateHasChanged);
     }
 
@@ -130,10 +197,20 @@
 
     public async Task SendChat()
     {
-        chatService.SendChat(_matchId, inputtedMessage, loggedInUser.UserId);
+        await chatService.SendChat(_matchId, inputtedMessage, loggedInUser.UserId);
         UserMessagesData = await chatService.GetUserMessagesData(_matchId);
         await InvokeAsync(StateHasChanged);
+
+        // send an email to all of the people who recieved the chat
+        foreach (User user in usersInMatch)
+        {
+            string emailSubject = $"New Chat from {loggedInUser.FirstName} {loggedInUser.LastName}!";
+            string emailBody = $"Hi {user.FirstName}! <br/><br/>{loggedInUser.FirstName} {loggedInUser.LastName} has sent you a new chat on your USI Mentorship account that reads: <br/><br/>{inputtedMessage} <br/><br/>You can respond to the chat by logging on to the USI Mentorship Portal and navigating to the 'Chat' page. <br/><br/> Login Here:<br/>www.google.com";
+
+            // send email to person getting the request
+            await emailService.SendMail(user.EmailAddress, emailSubject, emailBody);
+        }
+
         inputtedMessage = "";
     }
 }
-

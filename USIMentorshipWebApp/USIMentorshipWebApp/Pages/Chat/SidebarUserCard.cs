@@ -5,6 +5,6 @@ namespace USIMentorshipWebApp.Pages.Chat
     public class SidebarUserCard
     {
         public List<User> UsersInMatch { get; set; }
-        public MatchCommunicationDetail MostRecentChat { get; set; }
+        public MatchCommunicationDetail? MostRecentChat { get; set; }
     }
 }

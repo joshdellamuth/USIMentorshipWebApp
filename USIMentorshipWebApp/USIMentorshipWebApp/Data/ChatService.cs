@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using USIMentorshipWebApp.Models;
 using USIMentorshipWebApp.Pages.Chat;
+using Match = USIMentorshipWebApp.Models.Match;
 
 namespace USIMentorshipWebApp.Data
 {
@@ -17,7 +18,7 @@ namespace USIMentorshipWebApp.Data
         }
 
         // this works and is good
-        public async Task<List<int?>> GetMatchIdsWithChats(User user)
+        public async Task<List<int>> GetMatchIdsWithChats(User user)
         {
             var matchIds = await _chatContext.UserMatches
                 .Where(um => um.UserId == user.UserId)
@@ -89,7 +90,7 @@ namespace USIMentorshipWebApp.Data
             return users;
         }
 
-        public async Task<List<int?>> GetUserIdsFromMatchId(int? matchId, int? userId)
+        public async Task<List<int>> GetUserIdsFromMatchId(int? matchId, int? userId)
         {
             // the userId parameter is the paramter we do not want to get since they're logged in 
             var userIds = await _chatContext.UserMatches
@@ -160,5 +161,41 @@ namespace USIMentorshipWebApp.Data
             chatContext2.SaveChanges();
         }
 
+        public async Task<int> GetOrCreateMatch(int loggedInUserId, List<int> userIds)
+        {
+            using UsiMentorshipApplicationContext chatContext = new UsiMentorshipApplicationContext();
+
+            // Include the original userId in the list of userIds
+            userIds.Add(loggedInUserId);
+
+            // Find matches that include all the userIds
+            var matches = await chatContext.UserMatches
+                .Where(um => userIds.Contains(um.UserId))
+                .GroupBy(um => um.MatchId)
+                .Where(g => g.Count() == userIds.Count)
+                .Select(g => g.Key)
+                .ToListAsync();
+
+            // If a match is found, return the MatchId
+            if (matches.Any())
+            {
+                return matches.First();
+            }
+
+            // If no match is found, create a new match and set the start date to now 
+            var match = new Match { StartDate=DateTime.Now };
+            chatContext.Matches.Add(match);
+            await chatContext.SaveChangesAsync();
+
+            // Add all the userIds to the new match
+            foreach (var id in userIds)
+            {
+                chatContext.UserMatches.Add(new UserMatch { UserId = id, MatchId = match.MatchId });
+            }
+            await chatContext.SaveChangesAsync();
+
+            // Return the MatchId of the new match
+            return match.MatchId;
+        }
     }
 }

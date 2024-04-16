@@ -14,6 +14,10 @@ html, body {
     font-family: Inter, sans-serif;
 }
 
+.hover-pointer:hover {
+    cursor: pointer;
+}
+
 .default-margin {
     margin: .8rem;
 }

@@ -2,12 +2,19 @@
 @using USIMentorshipWebApp.Models;
 
 <div style="justify-content:flex-end;" class="main-row">
-    <RadzenStack Orientation="Orientation.Horizontal">
-        <RadzenCard Class="rz-p-3">
-            <RadzenText TextStyle="TextStyle.Body1">@chat.CommunicationContent</RadzenText>
-        </RadzenCard>
-        <img src="@user.ProfilePicutre" class="profile-image" alt="@user.FirstName @user.LastName Profile Picture">
+    <RadzenStack Orientation="Orientation.Vertical">
+        <RadzenStack Orientation="Orientation.Horizontal" class="mt-4" Style="justify-content:flex-end !important;">
+            <label style="font-size:12px;">@chat.DateOfCommunication</label>
+            <label style="font-size:12px;">@user.FirstName @user.LastName</label>
+        </RadzenStack>
+        <RadzenStack Orientation="Orientation.Horizontal">
+            <RadzenCard Class="rz-p-2">
+                <RadzenText TextStyle="TextStyle.Body1">@chat.CommunicationContent</RadzenText>
+            </RadzenCard>
+            <img src="@user.ProfilePicutre" class="profile-image" alt="@user.FirstName @user.LastName Profile Picture">
+        </RadzenStack>
     </RadzenStack>
+
 </div>
 @code {
     [Parameter]

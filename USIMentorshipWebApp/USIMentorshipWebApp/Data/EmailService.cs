@@ -6,7 +6,7 @@ namespace USIMentorshipWebApp.Data
     {
         private string Message { get; set; } = "";
 
-        public async Task SendMail(string emailAddress, string messageContent)
+        public async Task SendMail(string emailAddress, string subject, string messageContent)
         {
             try
             {
@@ -14,7 +14,7 @@ namespace USIMentorshipWebApp.Data
                 {
                     mail.From = new MailAddress("bigb60690@gmail.com"); //from address
                     mail.To.Add(emailAddress); //where its going to go to
-                    mail.Subject = "Sending Mail Testing"; //subject line
+                    mail.Subject = subject; //subject line
                     mail.Body = messageContent; // body of mail
                     mail.IsBodyHtml = true; // can turn on and off
 

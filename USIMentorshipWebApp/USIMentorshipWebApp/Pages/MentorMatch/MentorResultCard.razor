@@ -1,58 +1,49 @@
-﻿@* 
-    1. On left, show image 
-    2. Show profile picture, Name, Bio and buttons
-    3. Make responsive 
-    4. Hard code for now 
-*@
-@inject NavigationManager NavigationManager
+﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
 @inject UserService userService
+@inject ChatService chatService
+@inject SessionService sessionService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models;
 @using USIMentorshipWebApp.Shared.FullProfileInfo;
 @using USIMentorshipWebApp.Shared.RequestMentorship;
 
-@* In this component, eventually, we will need to pull in the data to render 
-    this component a certain amount of times. To do this, we would have
-    to run the query to get the Mentors first, then from those results, 
-    loop through that list and for each mentor object, render the element
-    pulling from each of its properties. 
-*@
-
-
 @* rz-my-12 applies margin to the top and bottom of an element (my is for margin y) (12 correlates to 48 px) *@
 @* rz-mx-auto applies a margin to both the left and right of an element (mx stands for margin x) auto means the browser will select a suitable margin *@
-<RadzenCard Class="rz-p-3 default-margin" Style="max-width: 350px;">
+<RadzenCard Class="rz-p-3 default-margin" Style="max-width:350px;">
     @* rz-p-2 applies padding to all sides of an element to radzen stack *@
-    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
-        @* PROFILE PICTURE AND BUSINESS LOCATION *@
-        <RadzenStack Orientation="Orientation.Vertical" Style="max-width:160px;">
-            <RadzenImage Path=@Mentor.ProfilePicutre Style="width: 160px; height: 160px; border-radius: 50%;" />
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Major</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Major</b></RadzenText>
-        </RadzenStack>
-        @* Gap is the size of the gap between the child items of RadzenStack *@
-        <RadzenStack Gap="4">
-            @* rz-display-flex puts the text in a flexible layout*@
-            @* rz-mt-2 applies a margin of value 2 to the top of the text *@
-            @* rz-my-0 applies the vertical ma rgin of 0 to the top and bottom margin (removes the margins on top and bottom) *@
-            @* NAME *@
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Mentor Name</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@(Mentor.FirstName + " " + Mentor.LastName)</b></RadzenText>
-                
-            @* CURRENT POSITION *@
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Position</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.CurrentPosition</b></RadzenText>
+    <div style="height:250px; overflow:hidden;">
+        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
+            @* PROFILE PICTURE AND BUSINESS LOCATION *@
+            <RadzenStack Orientation="Orientation.Vertical" Style="max-width:160px;">
+                <RadzenImage Path=@Mentor.ProfilePicutre Style="width: 160px; height: 160px; border-radius: 50%;" />
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Major</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Major</b></RadzenText>
+            </RadzenStack>
+            @* Gap is the size of the gap between the child items of RadzenStack *@
+            <RadzenStack Gap="4">
+                @* rz-display-flex puts the text in a flexible layout*@
+                @* rz-mt-2 applies a margin of value 2 to the top of the text *@
+                @* rz-my-0 applies the vertical ma rgin of 0 to the top and bottom margin (removes the margins on top and bottom) *@
+                @* NAME *@
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Mentor Name</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1"><b>@(Mentor.FirstName + " " + Mentor.LastName)</b></RadzenText>
 
-            @* COMPANY *@
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Company</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Company</b></RadzenText>
+                @* CURRENT POSITION *@
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Position</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.CurrentPosition</b></RadzenText>
 
-            @* BUSINESS LOCATION *@
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Business Location</RadzenText>
-            <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@((displayedCity?.CityName ?? "N/A") + ", " + (displayedState?.StateName ?? "N/A") + ", " + (displayedCountry?.CountryName ?? "N/A"))</b></RadzenText>
+                @* COMPANY *@
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Company</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Company</b></RadzenText>
+
+                @* BUSINESS LOCATION *@
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Business Location</RadzenText>
+                <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@((displayedCity?.CityName ?? "N/A") + ", " + (displayedState?.StateName ?? "N/A") + ", " + (displayedCountry?.CountryName ?? "N/A"))</b></RadzenText>
+            </RadzenStack>
         </RadzenStack>
-    </RadzenStack>
+    </div>
+    
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="10">
         <FullProfileButton/>
         <RequestMentorshipButton/>
@@ -67,9 +58,19 @@
     //must have this property for the cascading dropdown 
     public User Mentor { get; set; }
 
-    void GoToThatMentorsChat(MouseEventArgs args)
+    int newOrExistingMatchId;
+
+    User loggedInUser;
+
+    // make a new empty list
+    List<int> listOfUserIds = new List<int>();
+
+    public async Task GoToThatMentorsChat(MouseEventArgs args)
     {
-        NavigationManager.NavigateTo("/chat");
+        // this list will only be one for now
+        listOfUserIds.Add(Mentor.UserId);
+        newOrExistingMatchId = await chatService.GetOrCreateMatch(loggedInUser.UserId, listOfUserIds);
+        NavigationManager.NavigateTo($"/chat/{newOrExistingMatchId}");
     }
 
     void RequestMembershipDetails(MouseEventArgs args)
@@ -88,9 +89,10 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // set the logged in User to example mentee
+        loggedInUser = sessionService.SessionUser;
         displayedState = await userService.GetStateByIdAsync(Mentor.BusinessStateCode);
         displayedCountry = await userService.GetCountryByIdAsync(Mentor.BusinessCountryCode);
         displayedCity = await userService.GetCityByIdAsync(Mentor.BusinessCityId);
-
     }
 }

@@ -46,7 +46,7 @@
 
         @* BUSINESS LOCATION *@
         <RadzenText TextStyle="TextStyle.Overline" class="rz-text-wrap rz-mt-1 rz-my-0">Business Location</RadzenText>
-        <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@(displayedCity.CityName + ", " + displayedState.StateName + ", " + displayedCountry.CountryName)</b></RadzenText>
+            <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@((displayedCity?.CityName ?? "") + (displayedState?.StateName != null ? ", " + displayedState.StateName : "") + (displayedCountry?.CountryName != null ? ", " + displayedCountry.CountryName : ""))</b></RadzenText>
 
         @* LINKEDIN *@
         <RadzenText TextStyle="TextStyle.Overline" class="rz-text-wrap rz-mt-1 rz-my-0">LinkedIn</RadzenText>

@@ -36,12 +36,15 @@
                         <InputText id="password" class="form-control" @bind-Value="@loginModel.Password" type="password" />
                         <ValidationMessage For="@(() => loginModel.Password)" />
                     </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
-                    <!-- if you have correct credentials in, but click "Sign Up", it will take you to
-                    the mentor match page becuase it is hitting the OnValidSubmit somehow. When you click
-                    Sign Up, it will go to the landing page and then the mentor match right after 
-                    -->
-                    <button class="btn btn-primary" @onclick="GoToSignUp">Sign Up</button>
+                    <div class="mt-2">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        <!-- if you have correct credentials in, but click "Sign Up", it will take you to
+                        the mentor match page becuase it is hitting the OnValidSubmit somehow. When you click
+                        Sign Up, it will go to the landing page and then the mentor match right after
+                        -->
+                        <button class="btn btn-primary" @onclick="GoToSignUp">Sign Up</button>
+                    </div>
+
                 </EditForm>
         </div>
     </div>
