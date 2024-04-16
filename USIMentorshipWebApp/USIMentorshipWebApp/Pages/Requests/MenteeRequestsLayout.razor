@@ -56,7 +56,7 @@
     protected override async void OnInitialized()
     {
         userMentee = userService.GetUserByIdAsync(userMenteeId);
-        userMentee = await userService.GetExampleMenteeUser();
+        //userMentee = await userService.GetExampleMenteeUser();
 
         matchId = _context.UserMatches
                   .Where(ur => ur.UserId == userMentee.UserId)

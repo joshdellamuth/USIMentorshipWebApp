@@ -75,6 +75,7 @@
 
     void UpdateMatchesTable(int update)
     {
+        userList = _context.Users.ToList();
         matchId = _context.UserMatches
                   .Where(ur => ur.UserId == RequestUser.UserId)
                       .Select(ur => ur.MatchId)
@@ -106,5 +107,6 @@
                 }
             }
         }
+        NavigationManager.NavigateTo("/requests");
     }
 }

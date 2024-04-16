@@ -35,9 +35,10 @@
 
     protected override async void OnInitialized() //On Page Load
     {
+        userProfileId = 1;
         userProfile = userService.GetUserByIdAsync(userProfileId);
 
-        userProfile = await userService.GetExampleMentorUser();
+        //userProfile = await userService.GetExampleMentorUser();
 
         roleId = _context.UserRoles
                               .Where(ur => ur.UserId == userProfile.UserId)

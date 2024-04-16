@@ -1,5 +1,6 @@
 ﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
+@inject UserService userService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Shared.FullProfileInfo;
 @using USIMentorshipWebApp.Shared.RequestMentorship;
@@ -12,7 +13,7 @@
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Email</RadzenText>
-                <RadzenTextBox MaxLength="30" @bind-Value=@userProfile.EmailAddress class="w-100" />
+                <RadzenTextBox MaxLength="30" Disabled="true" @bind-Value=@userProfile.EmailAddress class="w-100" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
@@ -47,26 +48,14 @@
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
-                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Student ID</RadzenText>
-                <RadzenTextBox MaxLength="12" Disabled="true" class="w-100" Value="1234567890" /> @*Will need to add field for student id, even if it is null*@
-            </RadzenCard>
-        </div>
-        <div class="col-md-6 col-lg-4 p-3">
-            <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Gender</RadzenText>
-                <RadzenTextBox MaxLength="8" Disabled="true" class="w-100" @bind-Value="@userProfile.Gender" />
+                <RadzenTextBox MaxLength="8" class="w-100" @bind-Value="@userProfile.Gender" />
             </RadzenCard>
         </div>
-        
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Role</RadzenText>
-                <RadzenRadioButtonList Disabled="true" Value="2" TValue="int">  @*NEED TO COME BACK AND LOOK AT THIS*@
-                    <Items>                                                     @*Should we make this a disabled text field since admin will handle change?*@
-                        <RadzenRadioButtonListItem Text="Mentee" Value="1"/>
-                        <RadzenRadioButtonListItem Text="Mentor" Value="2" />
-                    </Items>
-                </RadzenRadioButtonList>
+                <RadzenTextBox MaxLength="8" Disabled="true" class="w-100" @bind-Value="@roleName" />
             </RadzenCard>
         </div>
         <div class="col-md-12 col-lg-12 p-3">
@@ -84,19 +73,27 @@
 
 
 @code {
-    // CascadingParameter attribute maps it to the parameter from the CascadingParameter in MentorMatch (does this by type)
     [CascadingParameter]
-    //must have this property for the cascading dropdown
-    public User userProfile { get; set; }
+    int userId { get; set; }
 
-    public string exampleGraduationYear;  
-
-    protected override void OnInitialized() //On Page Load
-    {
-        exampleGraduationYear = userProfile.GraduationYear.ToString();
-    }
+    public string? exampleGraduationYear;  
 
     private UserService _userService = new UserService();
+    private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
+    User userProfile = new User();
+    public string? roleName;
+
+    protected override async void OnInitialized() //On Page Load
+    {
+        userProfile = userService.GetUserByIdAsync(userId);
+        //userProfile = await userService.GetExampleMentorUser();
+
+        exampleGraduationYear = userProfile.GraduationYear.ToString();
+        roleName = _context.Roles
+                              .Where(ur => ur.RoleId == userId)
+                              .Select(ur => ur.RoleName)
+                              .FirstOrDefault();
+    }
 
     void SignOut(MouseEventArgs args)
     {

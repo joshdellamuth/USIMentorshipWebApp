@@ -73,7 +73,7 @@
         userList = await userService.GetUsers();  //returning null exception now...
 
         userMentor = userService.GetUserByIdAsync(userMentorId);
-        userMentor = await userService.GetExampleMentorUser();
+        //userMentor = await userService.GetExampleMentorUser();
 
         matchId = _context.UserMatches
                   .Where(ur => ur.UserId == userMentor.UserId)
