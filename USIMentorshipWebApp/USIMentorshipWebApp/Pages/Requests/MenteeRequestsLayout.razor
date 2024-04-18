@@ -13,9 +13,12 @@
     <h5 style="color:forestgreen">Approved Requests</h5>
     @if (requestsList != null)
     {
-        <CascadingValue Value="@requestsList">
-            <RequestsResultCard3></RequestsResultCard3>
-    </CascadingValue>
+        @foreach (int user in requestsList)
+        {
+            <CascadingValue Value="@user">
+                <RequestsResultCardMentee></RequestsResultCardMentee>
+            </CascadingValue>
+        }
     }
 </body>
 
@@ -24,9 +27,12 @@
     <h5 style="color:dodgerblue">Pending Requests</h5>
     @if (pendingList != null)
     {
-        <CascadingValue Value="@pendingList">
-            <RequestsResultCard3></RequestsResultCard3>
-    </CascadingValue>
+        @foreach (int user in pendingList)
+        {
+            <CascadingValue Value="@user">
+                <RequestsResultCardMentee></RequestsResultCardMentee>
+            </CascadingValue>
+        }
     }
 </body>
 
@@ -35,9 +41,12 @@
     <h5 style="color:grey">Past Requests</h5>
     @if (declinedList != null)
     {
-        <CascadingValue Value="@declinedList">
-            <RequestsResultCard3></RequestsResultCard3>
-    </CascadingValue>
+        @foreach (int user in declinedList)
+        {
+            <CascadingValue Value="@user">
+                <RequestsResultCardMentee></RequestsResultCardMentee>
+            </CascadingValue>
+        }
     }
 </body>
 
@@ -48,12 +57,14 @@
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     List<int> pendingList = new List<int>(); // Initialize pendingList
     List<int> declinedList = new List<int>(); // Initialize declinedList
-    List<int> requestsList = new List<int>(); // Initialize requestsLis    //need to figure out why it keeps throwing a null exception!
+    List<int> requestsList = new List<int>(); // Initialize requestsLis
     List<User> userList = new List<User>();
     public int? matchId;
 
     protected override async void OnInitialized()
     {
+        userList = await userService.GetUsers();
+
         loggedInUser = sessionService.SessionUser;
         userRoles = sessionService.Roles;
 

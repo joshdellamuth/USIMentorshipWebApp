@@ -15,9 +15,8 @@
     {
         @foreach (int user in pendingList)
         {
-            <CascadingValue Value
-            ="@user">
-                <RequestsResultCard1></RequestsResultCard1>
+            <CascadingValue Value ="@user">
+                <RequestsResultCardMentorPending></RequestsResultCardMentorPending>
             </CascadingValue>
         }
 
@@ -35,7 +34,7 @@
         {
             <CascadingValue Value
             ="@user">
-                <RequestsResultCard2></RequestsResultCard2>
+                <RequestsResultCardMentorDecApp></RequestsResultCardMentorDecApp>
             </CascadingValue>
         }
 
@@ -50,7 +49,7 @@
         @foreach (int user in declinedList)
         {
             <CascadingValue Value="@user">
-                <RequestsResultCard2></RequestsResultCard2>
+                <RequestsResultCardMentorDecApp></RequestsResultCardMentorDecApp>
             </CascadingValue>
         }
 
@@ -69,7 +68,7 @@
 
     protected override async void OnInitialized()
     {
-        userList = await userService.GetUsers();  //returning null exception now...
+        userList = await userService.GetUsers();
 
         loggedInUser = sessionService.SessionUser;
         userRoles = sessionService.Roles;

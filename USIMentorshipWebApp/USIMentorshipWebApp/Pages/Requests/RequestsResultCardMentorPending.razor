@@ -41,8 +41,8 @@
         </RadzenStack>
     </RadzenStack>
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="10">
-        <CascadingValue Value="@RequestUser.UserId">
-            <FullProfileButtonRequests />
+        <CascadingValue Value="@RequestUser">
+            <FullProfileButton />
         </CascadingValue>
         <RadzenButton Shade="Shade.Dark" ButtonStyle="ButtonStyle.Success" Variant="Variant.Filled" Style="font-size:12px" Text="Accept" Click="@Accept" />
         <RadzenButton Shade="Shade.Dark" ButtonStyle="ButtonStyle.Danger" Variant="Variant.Filled" Style="font-size:12px" Text="Decline" Click="@Decline" />

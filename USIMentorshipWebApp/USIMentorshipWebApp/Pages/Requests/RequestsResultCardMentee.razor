@@ -11,11 +11,11 @@
 <RadzenCard Class="rz-p-3 default-margin" Style="max-width: 500px;">
     @* rz-p-2 applies padding to all sides of an element to radzen stack *@
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
-        @* PROFILE PICTURE AND CLASS YEAR *@
+        @* PROFILE PICTURE AND MENTORSHIP LENGTH *@
         <RadzenStack Orientation="Orientation.Vertical" Style="max-width:160px;">
             <RadzenImage Path=@RequestUser.ProfilePicutre Style="width: 160px; height: 160px; border-radius: 50%;" />
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Class Of</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.GraduationYear</b></RadzenText>
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Mentorship Length</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>6 months</b></RadzenText>
         </RadzenStack>
         @* Gap is the size of the gap between the child items of RadzenStack *@
         <RadzenStack Gap="4">
@@ -26,22 +26,22 @@
             <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Name</RadzenText>
             <RadzenText TextStyle="TextStyle.Body1"><b>@(RequestUser.FullName)</b></RadzenText>
 
-            @* MAJOR *@
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Major</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.Major</b></RadzenText>
+            @* INDUSTRY *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Industry</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.Industry</b></RadzenText>
 
-            @* MINOR *@
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Minor</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.Minor</b></RadzenText>
+            @* CURRENT POSITION *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Current Position</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.CurrentPosition</b></RadzenText>
 
-            @* MENTORSHIP LENGTH *@
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Mentorship Length</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>6 months</b></RadzenText>
+            @* PREVIOUS MAJOR(S) *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Previous Major(s)</RadzenText>
+            <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@RequestUser.Major</b></RadzenText>
         </RadzenStack>
     </RadzenStack>
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="10">
-        <CascadingValue Value="@RequestUser.UserId">
-        <FullProfileButtonRequests/>
+        <CascadingValue Value="@RequestUser">
+            <FullProfileButton />
         </CascadingValue>
     </RadzenStack>
 </RadzenCard>
@@ -53,8 +53,9 @@
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     public List<User> userList;
 
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
         RequestUser = userService.GetUserByIdAsync(requestUserId);
     }
+
 }
