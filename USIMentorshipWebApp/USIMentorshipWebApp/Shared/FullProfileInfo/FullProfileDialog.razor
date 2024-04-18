@@ -1,8 +1,10 @@
 ﻿@using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models;
 @using USIMentorshipWebApp.Shared.RequestMentorship
+@inject ChatService chatService
 @inject NavigationManager NavigationManager
 @inject UserService userService
+@inject SessionService sessionService
 
 <div class="height-scrollable">
 <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
@@ -24,7 +26,7 @@
         @* CURRENT POSITION *@
         @if (Mentor.EmailAddress != null)
         {
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-text-wrap rz-mt-1 rz-my-0">Current Position</RadzenText>
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-text-wrap rz-mt-1 rz-my-0">Email</RadzenText>
             <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.EmailAddress</b></RadzenText>
         }
 
@@ -113,13 +115,22 @@
     City displayedCity;
     Country displayedCountry;
 
-    void GoToThatMentorsChat(MouseEventArgs args)
+    int newOrExistingMatchId;
+    User loggedInUser;
+
+    // make a new empty list
+    List<int> listOfUserIds = new List<int>();
+
+    public async Task GoToThatMentorsChat(MouseEventArgs args)
     {
-        NavigationManager.NavigateTo("/chat");
+        listOfUserIds.Add(Mentor.UserId);
+        newOrExistingMatchId = await chatService.GetOrCreateMatch(loggedInUser.UserId, listOfUserIds);
+        NavigationManager.NavigateTo($"/chat/{newOrExistingMatchId}");
     }
 
     protected override async Task OnInitializedAsync()
     {
+        loggedInUser = sessionService.SessionUser;
         displayedState = await userService.GetStateByIdAsync(Mentor.BusinessStateCode);
         displayedCity = await userService.GetCityByIdAsync(Mentor.BusinessCityId);
         displayedCountry = await userService.GetCountryByIdAsync(Mentor.BusinessCountryCode);

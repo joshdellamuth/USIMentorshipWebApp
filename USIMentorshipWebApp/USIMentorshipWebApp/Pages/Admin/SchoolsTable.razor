@@ -1,0 +1,28 @@
+﻿@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
+@inject AdminPortalService adminPortalService
+@using Radzen
+@using Radzen.Blazor
+
+<style>
+    .rz-grid-table {
+        width: unset;
+    }
+</style>
+
+<RadzenGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@allSchools" TItem="School">
+    <Columns>
+        <RadzenGridColumn TItem="School" Property="SchoolId" Title="School Id"></RadzenGridColumn>
+        <RadzenGridColumn TItem="School" Property="SchoolName" Title="School Name"></RadzenGridColumn>
+        <RadzenGridColumn TItem="School" Property="WebsiteUrl" Title="Website Url"></RadzenGridColumn>
+    </Columns>
+</RadzenGrid>
+
+@code {
+    List<School>? allSchools;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allSchools = await adminPortalService.GetAllSchools();
+    }
+}

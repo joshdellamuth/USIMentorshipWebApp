@@ -106,7 +106,6 @@
                     <RadzenFormField Text="Minor:" AllowFloatingLabel="false" Variant=Variant.Flat>
                         <RadzenTextBox @bind-Value="@user.Minor" Name="Minor" />
                     </RadzenFormField>
-                    <RadzenRequiredValidator Text="Minor is required" Component="Minor" />
 
                 </RadzenStack>
 
@@ -180,7 +179,7 @@
             <div class="our-column">
                 @*<label>Self-Introduction</label> *@
                 <RadzenFormField Text="Self Introduction:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenTextArea @bind-Value=@user.Bio Name="Bio" Cols="55" Rows="6" aria-label=Self-Introduction: />
+                    <RadzenTextArea @bind-Value=@user.Bio Name="Bio" MaxLength="300" Cols="40" Rows="6" aria-label=Self-Introduction: />
                 </RadzenFormField>
                 <RadzenRequiredValidator Text="Please enter a bio about yourself" Component="Bio" />
             </div>

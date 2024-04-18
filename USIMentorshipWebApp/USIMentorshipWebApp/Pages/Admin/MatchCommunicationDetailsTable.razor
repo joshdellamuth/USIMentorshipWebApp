@@ -1,0 +1,32 @@
+﻿@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
+@inject AdminPortalService adminPortalService
+@using Radzen
+@using Radzen.Blazor
+
+<style>
+    .rz-grid-table {
+        width: unset;
+    }
+</style>
+
+<RadzenGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@allMatchCommunicationDetails" TItem="MatchCommunicationDetail">
+    <Columns>
+        <RadzenGridColumn TItem="MatchCommunicationDetail" Property="MatchCommunicationDetailsId" Title="Match Communication Detail Id"></RadzenGridColumn>
+        <RadzenGridColumn TItem="MatchCommunicationDetail" Property="MatchId" Title="Match Id"></RadzenGridColumn>
+        <RadzenGridColumn TItem="MatchCommunicationDetail" Property="CommunicationContent" Title="Communication Content"></RadzenGridColumn>
+        <RadzenGridColumn TItem="MatchCommunicationDetail" Property="SenderUserId" Title="Sender User Id"></RadzenGridColumn>
+        <RadzenGridColumn TItem="MatchCommunicationDetail" Property="CommunicationType" Title="Communication Type"></RadzenGridColumn>
+        <RadzenGridColumn TItem="MatchCommunicationDetail" Property="DateOfCommunication" Title="Date Of Communication"></RadzenGridColumn>
+        <RadzenGridColumn TItem="MatchCommunicationDetail" Property="Deleted" Title="Deleted"></RadzenGridColumn>
+    </Columns>
+</RadzenGrid>
+
+@code {
+    List<MatchCommunicationDetail>? allMatchCommunicationDetails;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allMatchCommunicationDetails = await adminPortalService.GetAllMatchCommunicationDetails();
+    }
+}

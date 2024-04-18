@@ -14,6 +14,6 @@
         await DialogService.OpenAsync<RequestMentorshipDialog>($"Send Mentorship Request to {Mentor.FirstName} {Mentor.LastName}?",
                new Dictionary<string, object>() { { "Mentor", Mentor } },
                // can configure the dropdown to be resizable and dragable (commented out)
-               new DialogOptions() { Width = "550px", Height = "450px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
+               new DialogOptions() { Width = "550px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
     }
 }

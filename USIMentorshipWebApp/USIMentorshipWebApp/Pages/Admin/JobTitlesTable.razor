@@ -1,0 +1,25 @@
+﻿@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
+@inject AdminPortalService adminPortalService
+
+<style>
+    .rz-grid-table {
+        width: unset;
+    }
+</style>
+
+<RadzenGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@allJobTitles" TItem="JobTitle">
+    <Columns>
+        <RadzenGridColumn TItem="JobTitle" Property="JobTitleId" Title="Job Title Id"></RadzenGridColumn>
+        <RadzenGridColumn TItem="JobTitle" Property="JobTitleName" Title="Job Title Name"></RadzenGridColumn>
+    </Columns>
+</RadzenGrid>
+
+@code {
+    List<JobTitle>? allJobTitles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allJobTitles = await adminPortalService.GetAllJobTitles();
+    }
+}

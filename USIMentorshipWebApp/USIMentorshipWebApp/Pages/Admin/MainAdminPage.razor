@@ -1,7 +1,10 @@
 ﻿@page "/admin-portal"
 @layout MainLayout
-@using USIMentorshipWebApp.Data
 @inject SessionService sessionService
+@inject NavigationManager NavigationManager
+@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
+@using USIMentorshipWebApp.Pages.Admin
 @using Radzen
 @using Radzen.Blazor
 
@@ -13,230 +16,81 @@
     <Tabs>
         @* USERS TAB *@
         <RadzenTabsItem Text="Users">
-            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="10px" class="mt-2 mb-4">
-                @* ADD NEW USER BUTTON *@
-                <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" Text="Add New User" Click="@InsertRow" Disabled="@(editMode == DataGridEditMode.Single && usersToInsert.Count() > 0)" />
-                
-                @* EDIT MODE BUTTON*@
-                <div style="white-space:nowrap; margin-left: 20px ">Edit Mode:</div>
-                <RadzenSelectBar @bind-Value="@editMode" TextProperty="Text" ValueProperty="Value" style="margin-right: 16px"
-                             Data="@(Enum.GetValues(typeof(DataGridEditMode)).Cast<DataGridEditMode>().Select(t => new { Text = $"{t}", Value = t }))" Size="ButtonSize.Small"
-                             Disabled="@(editMode == DataGridEditMode.Multiple && usersToInsert.Count() > 1)" />
-            </RadzenStack>
-
-            @* USER GRID DEFINED *@
-            <RadzenDataGrid @ref="usersGrid" AllowAlternatingRows="false" AllowFiltering="true" AllowPaging="true" PageSize="5" AllowSorting="true" EditMode="@editMode"
-                            Data="@users" TItem="UserOld" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow" Sort="@Reset" Page="@Reset" Filter="@Reset" ColumnWidth="200px">
-                <Columns>
-                    @* USER ID COLUMN *@
-                    <RadzenDataGridColumn TItem="UserOld" Property="UserId" Title="User ID" Width="120px" Frozen="true" />
-                    
-                    @* USER FIRST NAME COLUMN *@
-                    <RadzenDataGridColumn TItem="UserOld" Property="User.FirstName" Title="First Name" Width="280px"/>
-
-                     @* USER LAST NAME COLUMN *@
-                    <RadzenDataGridColumn TItem="UserOld" Property="User.LastName" Title="Last Name" Width="220px"/>
-
-                    @* USER CLASS YEAR COLUMN *@
-                    <RadzenDataGridColumn TItem="UserOld" Property="ClassYear" Title="Class Year" Width="200px"/>
-
-                    @* USER GENDER COLUMN *@
-                    <RadzenDataGridColumn TItem="UserOld" Property="Gender" Title="Gender"/>
-
-                    @* USER MAJOR COLUMN *@
-                    <RadzenDataGridColumn TItem="UserOld" Property="Major" Title="Major" />
-
-                    @* USER MINOR COLUMN *@
-                    <RadzenDataGridColumn TItem="UserOld" Property="Minor" Title="Minor"/>
-
-                    @* USER CURRENT POSITION COLUMN *@
-                    <RadzenDataGridColumn TItem="UserOld" Property="CurrentPosition" Title="Current Position"/>
-                </Columns>
-            </RadzenDataGrid>
-        
+            <UsersTable></UsersTable>
         </RadzenTabsItem>
-        
-        @* CHATS TAB *@
-        <RadzenTabsItem Text="Chats">
-            Chats
+
+        <RadzenTabsItem Text="UserDetails">
+            <UserDetailsTable />
         </RadzenTabsItem>
 
         @* MATCHES TAB *@
         <RadzenTabsItem Text="Matches">
-            Matches
+            <MatchesTable />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text="UserMatches">
+            <UserMatchesTable />
+        </RadzenTabsItem>
+
+        @* CHATS TAB *@
+        <RadzenTabsItem Text="MatchCommunicationDetails">
+            <MatchCommunicationDetailsTable/>
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text="Roles">
+            <RolesTable />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text="Roles">
+            <RolesTable />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text="UserRoles">
+            <UserRolesTable />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text="Schools">
+            <SchoolsTable />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text="JobTitles">
+            <JobTitlesTable />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text="Industries">
+            <IndustriesTable />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text="Countries">
+            <CountriesTable />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text="States">
+            <StatesTable />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text="Cities">
+            <CitiesTable />
         </RadzenTabsItem>
     </Tabs>
 </RadzenTabs>
 
 @code {
+    List<Role> userRoles;
+    User? loggedInUser;
+
     TabPosition tabPosition = TabPosition.Top;
-    RadzenDataGrid<UserOld> usersGrid;
-
-    @* EXAMPLE USER DATA FOR THE TABLE *@
-    IEnumerable<UserOld> users = new List<UserOld>
-    {
-        new UserOld
-        {
-            UserId = "1",
-            FirstName = "John",
-            LastName = "Doe",
-            Industry = "Software",
-            CurrentPosition = "Software Engineer",
-            Company = "Tech Corp",
-            Major = "Computer Science",
-            Minor = "Mathematics",
-            BusinessCountry = "USA",
-            BusinessState = "California",
-            BusinessCity = "San Francisco",
-            ClassYear = "2022",
-            Gender = "Male",
-            ProfilePicturePath = null
-        },
-        new UserOld
-        {
-            UserId = "2",
-            FirstName = "Jane",
-            LastName = "Smith",
-            Industry = "Finance",
-            CurrentPosition = "Financial Analyst",
-            Company = "Finance Corp",
-            Major = "Finance",
-            Minor = "Economics",
-            BusinessCountry = "USA",
-            BusinessState = "New York",
-            BusinessCity = "New York City",
-            ClassYear = "2021",
-            Gender = "Female",
-            ProfilePicturePath = null
-        },
-        new UserOld
-        {
-            UserId = "3",
-            FirstName = "Bob",
-            LastName = "Johnson",
-            Industry = "Marketing",
-            CurrentPosition = "Marketing Manager",
-            Company = "Marketing Corp",
-            Major = "Marketing",
-            Minor = "Business Administration",
-            BusinessCountry = "USA",
-            BusinessState = "Illinois",
-            BusinessCity = "Chicago",
-            ClassYear = "2020",
-            Gender = "Male",
-            ProfilePicturePath = null
-        }
-    };
-
-    IEnumerable<UserOld> users1;
-    IEnumerable<UserOld> users2;
-
-    DataGridEditMode editMode = DataGridEditMode.Single;
-
-    List<UserOld> usersToInsert = new List<UserOld>();
-    List<UserOld> usersToUpdate = new List<UserOld>();
-
     int selectedIndex = 0;
-
-
-    void Reset()
-    {
-        usersToInsert.Clear();
-        usersToUpdate.Clear();
-    }
-
-    void Reset(UserOld user)
-    {
-        usersToInsert.Remove(user);
-        usersToUpdate.Remove(user);
-    }
 
     protected override async Task OnInitializedAsync()
     {
+        loggedInUser = sessionService.SessionUser;
+        if (loggedInUser == null)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        userRoles = sessionService.Roles;
+
         await base.OnInitializedAsync();
-
-        // customers = dbContext.Customers;
-        // employees = dbContext.Employees;
-
-        // orders = dbContext.Orders.Include("Customer").Include("Employee");
-    }
-
-    async Task EditRow(UserOld user)
-    {
-        if (editMode == DataGridEditMode.Single && usersToInsert.Count() > 0)
-        {
-            Reset();
-        }
-
-        usersToUpdate.Add(user);
-        await usersGrid.EditRow(user);
-    }
-
-    void OnUpdateRow(UserOld user)
-    {
-        // Reset(order);
-
-        // dbContext.Update(order);
-
-        // dbContext.SaveChanges();
-    }
-
-    async Task SaveRow(UserOld user)
-    {
-        await usersGrid.UpdateRow(user);
-    }
-
-    void CancelEdit(UserOld user)
-    {
-        Reset(user);
-
-        usersGrid.CancelEditRow(user);
-
-        // var orderEntry = dbContext.Entry(user);
-        // if (orderEntry.State == EntityState.Modified)
-        // {
-        //     orderEntry.CurrentValues.SetValues(orderEntry.OriginalValues);
-        //     orderEntry.State = EntityState.Unchanged;
-        // }
-    }
-
-    async Task DeleteRow(UserOld user)
-    {
-        Reset(user);
-
-        // if (user.Contains(user))
-        // {
-        //     dbContext.Remove<Order>(order);
-
-        //     dbContext.SaveChanges();
-
-        //     await ordersGrid.Reload();
-        // }
-        // else
-        // {
-        //     ordersGrid.CancelEditRow(order);
-        //     await ordersGrid.Reload();
-        // }
-    }
-
-    async Task InsertRow()
-    {
-        if (editMode == DataGridEditMode.Single)
-        {
-            Reset();
-        }
-
-        // var order = new Order();
-        // ordersToInsert.Add(order);
-        // await ordersGrid.InsertRow(order);
-    }
-
-    void OnCreateRow(UserOld user)
-    {
-        // dbContext.Add(order);
-
-        // dbContext.SaveChanges();
-
-        // ordersToInsert.Remove(order);
     }
 }

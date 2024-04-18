@@ -1,0 +1,27 @@
+﻿@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
+@inject AdminPortalService adminPortalService
+@using Radzen
+@using Radzen.Blazor
+
+<style>
+    .rz-grid-table {
+        width: unset;
+    }
+</style>
+
+<RadzenGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@allIndustries" TItem="Industry">
+    <Columns>
+        <RadzenGridColumn TItem="Industry" Property="IndustryId" Title="Industry Id"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Industry" Property="IndustryName" Title="Industry Name"></RadzenGridColumn>
+    </Columns>
+</RadzenGrid>
+
+@code {
+    List<Industry>? allIndustries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allIndustries = await adminPortalService.GetAllIndustries();
+    }
+}

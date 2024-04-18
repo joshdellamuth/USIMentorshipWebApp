@@ -26,7 +26,7 @@
 
             <RadzenStack Orientation="Orientation.Vertical">
                 <RadzenFormField Text="First Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenTextBox @bind-Value="@user.FirstName" Name="FirstName" />
+                    <RadzenTextBox @bind-Value="@user.FirstName" MaxLength="45" Name="FirstName" />
                 </RadzenFormField>
                 <RadzenRequiredValidator Text="First name is required" Component="FirstName" />
             </RadzenStack>
@@ -35,7 +35,7 @@
 
             <RadzenStack Orientation="Orientation.Vertical">
                 <RadzenFormField Text="Last Name:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenTextBox @bind-Value="@user.LastName" Name="LastName" />
+                    <RadzenTextBox @bind-Value="@user.LastName" MaxLength="45" Name="LastName" />
                 </RadzenFormField>
                 <RadzenRequiredValidator Text="Last name is required" Component="LastName" />
             </RadzenStack>
@@ -45,7 +45,7 @@
         <RadzenRow class="mb-4" Gap="5">
             <RadzenStack Orientation="Orientation.Vertical">
                 <RadzenFormField Text="Email:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenTextBox @bind-Value="@user.EmailAddress" Name="EmailAddress" />
+                    <RadzenTextBox @bind-Value="@user.EmailAddress" MaxLength="45" Name="EmailAddress" />
                 </RadzenFormField>
                 <RadzenRequiredValidator Text="Email address is required" Component="EmailAddress" />
             </RadzenStack>
@@ -53,7 +53,7 @@
 
             <RadzenStack Orientation="Orientation.Vertical">
                 <RadzenFormField Text="Phone Number:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenTextBox @bind-Value="@user.PhoneNumber" Name="PhoneNumber" />
+                    <RadzenTextBox @bind-Value="@user.PhoneNumber" MaxLength="45" Name="PhoneNumber" />
                 </RadzenFormField>
                 <RadzenRequiredValidator Text="Phone number is required" Component="PhoneNumber" />
             </RadzenStack>
@@ -63,7 +63,7 @@
         <RadzenRow class="mb-4" Gap="5">
             <RadzenStack Orientation="Orientation.Vertical">
                 <RadzenFormField Text="LinkedIn Profile URL:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                    <RadzenTextBox @bind-Value="@user.LinkedInLink" Name="LinkedIn" />
+                    <RadzenTextBox @bind-Value="@user.LinkedInLink" MaxLength="45" Name="LinkedIn" />
                 </RadzenFormField>
                 <RadzenRequiredValidator Text="LinkedIn is required" Component="LinkedIn" />
             </RadzenStack>
@@ -84,15 +84,14 @@
                 <RadzenStack Orientation="Orientation.Vertical">
 
                     <RadzenFormField Text="Major:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                        <RadzenTextBox @bind-Value=@user.Major Name="Major" />
+                        <RadzenTextBox @bind-Value=@user.Major MaxLength="45" Name="Major" />
                     </RadzenFormField>
                     <RadzenRequiredValidator Text="Major is required" Component="Major" />
 
 
                     <RadzenFormField Text="Minor:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                        <RadzenTextBox @bind-Value="@user.Minor" Name="Minor" />
+                        <RadzenTextBox @bind-Value="@user.Minor" MaxLength="45" Name="Minor" />
                     </RadzenFormField>
-                    <RadzenRequiredValidator Text="Minor is required" Component="Minor" />
 
                 </RadzenStack>
             </RadzenRow>
@@ -108,12 +107,11 @@
                 <div class="our-column">
 @*                     <label>Self-Introduction</label> *@
                      <RadzenFormField Text="Self Introduction:" AllowFloatingLabel="false" Variant=Variant.Flat>
-                        <RadzenTextArea @bind-Value=@user.Bio Name="Bio" Cols="55" Rows="6" aria-label=Self-Introduction: />
+                    <RadzenTextArea @bind-Value=@user.Bio MaxLength="300" Name="Bio" Cols="40" Rows="6" aria-label=Self-Introduction: />
                     </RadzenFormField>
                     <RadzenRequiredValidator Text="Please enter a bio about yourself" Component="Bio"/>
                 </div>
             </RadzenRow>
-
 
 
         @* PASSWORD *@
@@ -153,9 +151,6 @@
 </div>
 
 @code {
-    List<Role> userRoles;
-    User loggedInUser;
-
     private User user = new User();
 
     private async Task OnSubmit()

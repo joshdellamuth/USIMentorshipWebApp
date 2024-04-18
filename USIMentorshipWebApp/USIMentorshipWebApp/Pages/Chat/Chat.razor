@@ -97,7 +97,7 @@
     [Parameter]
     public string? matchId { get; set; }
 
-    User loggedInUser;
+    User? loggedInUser;
 
     List<int> userMatchIdsWithChats;
 
@@ -125,6 +125,10 @@
     {
         // set the logged in User to example mentee 
         loggedInUser = sessionService.SessionUser;
+        if (loggedInUser == null)
+        {
+            NavigationManager.NavigateTo("/");
+        }
 
         // used to make the userSidebarCard objects 
         userSidebarCardData = await chatService.GetSidebarUserCardData(loggedInUser);

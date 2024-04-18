@@ -38,7 +38,7 @@
     IEnumerable<string> companyNames;
 
     List<Role> userRoles;
-    User loggedInUser;
+    User? loggedInUser;
 
     private User user = new User();
 
@@ -46,6 +46,10 @@
     protected override async Task OnInitializedAsync()
     {
         loggedInUser = sessionService.SessionUser;
+        if (loggedInUser == null)
+        {
+            NavigationManager.NavigateTo("/");
+        }
         userRoles = sessionService.Roles;
         await base.OnInitializedAsync();
 

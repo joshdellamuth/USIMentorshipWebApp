@@ -28,6 +28,8 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<RequestService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<ChatService>();
+builder.Services.AddScoped<AdminPortalService>();
+
 
 //maybe need the line below???
 builder.Services.AddScoped<RegistrationDataService>();

@@ -26,12 +26,16 @@
 
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     List<Role> userRoles;
-    User loggedInUser;
+    User? loggedInUser;
     public List<User> userList;
 
-    protected override async void OnInitialized() //On Page Load
+    protected override async Task OnInitializedAsync() //On Page Load
     {
         loggedInUser = sessionService.SessionUser;
+        if (loggedInUser == null)
+        {
+            NavigationManager.NavigateTo("/");
+        }
         userRoles = sessionService.Roles;     
     }
 

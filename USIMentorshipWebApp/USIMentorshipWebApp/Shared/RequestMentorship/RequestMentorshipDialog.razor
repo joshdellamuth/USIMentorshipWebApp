@@ -8,7 +8,7 @@
 
 @* Align Items centered the elements in the middle of the popup *@
 <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center">
-    <RadzenImage Path=@Mentor.ProfilePicutre Style="width: 180px; height: 180px; border-radius: 50%;" />
+    <RadzenImage Path=@Mentor.ProfilePicutre Style="width: 180px; height: 180px; border-radius: 50%;" AlternateText="@($"{Mentor.FirstName} {Mentor.LastName} profile picture")" />
     <RadzenButton Click="@SendMentorshipRequest" Variant="Variant.Outlined" Text="Send Request" Style="width: 120px" />
 </RadzenStack>
 
