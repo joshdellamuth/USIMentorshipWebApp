@@ -1,6 +1,7 @@
 ﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
 @inject UserService userService
+@inject SessionService sessionService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models
 @using System.Linq;
@@ -39,14 +40,15 @@
         </RadzenStack>
     </RadzenStack>
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="10">
-        <FullProfileButtonRequests/>
+        <CascadingValue Value="@RequestUser.UserId">
+            <FullProfileButtonRequests />
+        </CascadingValue>
     </RadzenStack>
 </RadzenCard>
 
 @code {
     [CascadingParameter]
-    int requestUserId { get; set; }
-
+    public int requestUserId { get; set; }
     User RequestUser = new User();
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     public List<User> userList;

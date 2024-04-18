@@ -1,6 +1,7 @@
 ﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
 @inject UserService userService
+@inject SessionService sessionService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models
 @using System.Linq;
@@ -57,10 +58,8 @@
 </body>
 
 @code {
-    [CascadingParameter]
-    int userMentorId { get; set; }
-
-    User userMentor = new User();
+    List<Role> userRoles;
+    User loggedInUser;
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     List<int> pendingList = new List<int>(); // Initialize pendingList
     List<int> declinedList = new List<int>(); // Initialize declinedList
@@ -72,11 +71,11 @@
     {
         userList = await userService.GetUsers();  //returning null exception now...
 
-        userMentor = userService.GetUserByIdAsync(userMentorId);
-        //userMentor = await userService.GetExampleMentorUser();
+        loggedInUser = sessionService.SessionUser;
+        userRoles = sessionService.Roles;
 
         matchId = _context.UserMatches
-                  .Where(ur => ur.UserId == userMentor.UserId)
+                  .Where(ur => ur.UserId == loggedInUser.UserId)
                       .Select(ur => ur.MatchId)
                       .FirstOrDefault();
         foreach (User user in userList) 
@@ -89,7 +88,7 @@
                   .Where(ur => ur.MatchId == matchedId)
                       .Select(ur => ur.Status)
                       .FirstOrDefault();
-            if (user.UserId != userMentor.UserId && matchedId == matchId)
+            if (user.UserId != loggedInUser.UserId && matchedId == matchId)
             {
                 if (status == "Pending")
                 {

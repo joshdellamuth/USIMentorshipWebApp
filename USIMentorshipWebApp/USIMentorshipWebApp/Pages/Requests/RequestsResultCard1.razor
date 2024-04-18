@@ -1,6 +1,7 @@
 ﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
 @inject UserService userService
+@inject SessionService sessionService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models
 @using System.Linq;
@@ -50,14 +51,13 @@
 
 @code {
     [CascadingParameter]
-    int requestUserId { get; set; }
-
+    public int requestUserId { get; set; }
     User RequestUser = new User();
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     public List<User> userList;
     public int? matchId;
 
-    protected override /*async*/ void OnInitialized()
+    protected override async void OnInitialized()
     {
         RequestUser = userService.GetUserByIdAsync(requestUserId);
     }
@@ -107,6 +107,7 @@
                 }
             }
         }
+        NavigationManager.NavigateTo("/profile");
         NavigationManager.NavigateTo("/requests");
     }
 }
