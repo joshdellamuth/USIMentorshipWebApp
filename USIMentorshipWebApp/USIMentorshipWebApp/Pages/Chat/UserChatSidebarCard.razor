@@ -2,6 +2,7 @@
 @using USIMentorshipWebApp.Models;
 @inject UserService userService;
 @inject ChatService chatService;
+@inject SessionService sessisonService;
 
 
 @* ADD A CLICK EVENT HERE *@
@@ -11,8 +12,9 @@
             <RadzenStack Orientation="Orientation.Horizontal">
                 @foreach (User user in usersInMatch)
                 {
-                    <RadzenImage Path=@user.ProfilePicutre Style="width: 90px; height: 90px; border-radius: 50%;" />
+                    <RadzenImage Path=@user.ProfilePicutre Style="width: 90px; height: 90px; border-radius: 50%;" AlternateText="@($"{user.FirstName} {user.LastName} profile picture")" />
                 }
+
                 <RadzenStack Gap=".5rem" Orientation="Orientation.Vertical">
                     @if (usersInMatch != null)
                     {
@@ -58,7 +60,7 @@
     protected override async Task OnInitializedAsync()
     {
         // set the logged in User to example mentee
-        loggedInUser = await userService.GetExampleMenteeUser();
+        loggedInUser = sessisonService.SessionUser;
         matchId = mostRecentChat.MatchId;
     }
 

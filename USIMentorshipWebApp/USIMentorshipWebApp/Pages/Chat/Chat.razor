@@ -5,6 +5,7 @@
 @inject ChatService chatService;
 @inject SessionService sessionService;
 @inject EmailService emailService;
+@inject NavigationManager NavigationManager
 @using USIMentorshipWebApp.Data
 @using USIMentorshipWebApp.Models
 
@@ -94,7 +95,7 @@
 
 @code {
     [Parameter]
-    public string matchId { get; set; }
+    public string? matchId { get; set; }
 
     User loggedInUser;
 
@@ -125,13 +126,16 @@
         // set the logged in User to example mentee 
         loggedInUser = sessionService.SessionUser;
 
+        // used to make the userSidebarCard objects 
         userSidebarCardData = await chatService.GetSidebarUserCardData(loggedInUser);
 
+        // variable for the matchId as a URL 
         int matchIdAsInt;
 
+        // grabs all the matchIds with Chats
         userMatchIdsWithChats = await chatService.GetMatchIdsWithChats(loggedInUser);
 
-        // if the URL is populated with a matchId
+        // if the URL is populated with a matchId (therefore not null)
         if (matchId != null)
         {
             // get the matchId string from the URL and make it an int to pass into GetUserMessagesData
@@ -178,12 +182,24 @@
     private async Task HandleCardClick(int? matchId)
     {
         _matchId = matchId;
-        // Now you can use _matchId in your parent component
-        // For example, you can pass it to another method
-        UserMessagesData = await chatService.GetUserMessagesData(_matchId);
+        // // Now you can use _matchId in your parent component
+        // // For example, you can pass it to another method
 
-        sendChatDisabled = false;
+        if (_matchId != null)
+        {
+            UserMessagesData = await chatService.GetUserMessagesData(_matchId);
 
+            // CHANGE THE URL AFTER THIS IS CLICKED
+            // then reload the sidebar and messages and things the names pull from
+
+            sendChatDisabled = false;
+
+            // make the matchId a string and navigate to it
+            string matchIdToString = _matchId.ToString();
+            NavigationManager.NavigateTo($"/chat/{matchIdToString}");
+        }
+
+        // this is used to display the names involved in the match at the top of the screen
         usersInMatch = await chatService.GetUsersFromMatchId(_matchId, loggedInUser.UserId);
 
         await InvokeAsync(StateHasChanged);
@@ -204,8 +220,15 @@
 
     public async Task SendChat()
     {
+        // 1. Make the chat as an entry on the database 
         await chatService.SendChat(_matchId, inputtedMessage, loggedInUser.UserId);
+        
+        // 2. Get the user's new message data to display in the main window
         UserMessagesData = await chatService.GetUserMessagesData(_matchId);
+        
+        // 3. update the sidebar card data for each user 
+        userSidebarCardData = await chatService.GetSidebarUserCardData(loggedInUser);
+
         await InvokeAsync(StateHasChanged);
 
         // send an email to all of the people who recieved the chat
