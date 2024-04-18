@@ -11,16 +11,16 @@
 
 <h1>Requests</h1>
 <h6>View your approved, pending, and denied requests</h6>
-<CascadingValue Value="@userProfileId">
-    @if (roleId == 2) //Mentee
+@* <CascadingValue Value="@userProfileId"> *@
+    @if (userRoles.Any(role => role.RoleName == "Mentee")) //Mentee
     {
         <MenteeRequestsLayout />    
     }
-    else if (roleId == 1) //Mentor
+    else if (userRoles.Any(role => role.RoleName == "Mentor")) //Mentor
     {
         <MentorRequestsLayout />
     }
-</CascadingValue>
+@* </CascadingValue> *@
    
    
 
@@ -28,22 +28,14 @@
 @code {
 
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
-    User userProfile = new User();
-    int userProfileId;
-    public int? roleId;
+    List<Role> userRoles;
+    User loggedInUser;
     public List<User> userList;
 
     protected override async void OnInitialized() //On Page Load
     {
-        userProfileId = 1;
-        userProfile = userService.GetUserByIdAsync(userProfileId);
-
-        //userProfile = await userService.GetExampleMentorUser();
-
-        roleId = _context.UserRoles
-                              .Where(ur => ur.UserId == userProfile.UserId)
-                              .Select(ur => ur.RoleId)
-                              .FirstOrDefault();
+        loggedInUser = sessionService.SessionUser;
+        userRoles = sessionService.Roles;     
     }
 
 }

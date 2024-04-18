@@ -1,6 +1,7 @@
 ﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
 @inject UserService userService
+@inject SessionService sessionService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models
 @using System.Linq;
@@ -42,24 +43,22 @@
 
 @code {
 
-    [CascadingParameter]
-    int userMenteeId { get; set; }
-
-    User userMentee = new User();
+    List<Role> userRoles;
+    User loggedInUser;
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     List<int> pendingList = new List<int>(); // Initialize pendingList
     List<int> declinedList = new List<int>(); // Initialize declinedList
     List<int> requestsList = new List<int>(); // Initialize requestsLis    //need to figure out why it keeps throwing a null exception!
-    public List<User> userList;
+    List<User> userList = new List<User>();
     public int? matchId;
 
     protected override async void OnInitialized()
     {
-        userMentee = userService.GetUserByIdAsync(userMenteeId);
-        //userMentee = await userService.GetExampleMenteeUser();
+        loggedInUser = sessionService.SessionUser;
+        userRoles = sessionService.Roles;
 
         matchId = _context.UserMatches
-                  .Where(ur => ur.UserId == userMentee.UserId)
+                  .Where(ur => ur.UserId == loggedInUser.UserId)
                       .Select(ur => ur.MatchId)
                       .FirstOrDefault();
         foreach (User user in userList)
@@ -72,7 +71,7 @@
                   .Where(ur => ur.MatchId == matchedId)
                       .Select(ur => ur.Status)
                       .FirstOrDefault();
-            if (user.UserId != userMentee.UserId && matchedId == matchId)
+            if (user.UserId != loggedInUser.UserId && matchedId == matchId)
             {
                 if (status == "Pending")
                 {

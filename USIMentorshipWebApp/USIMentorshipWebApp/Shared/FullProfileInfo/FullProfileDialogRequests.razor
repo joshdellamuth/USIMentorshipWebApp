@@ -1,5 +1,6 @@
 ﻿@inject NavigationManager NavigationManager
 @inject UserService userService
+@inject SessionService sessionService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Shared.RequestMentorship
 @using USIMentorshipWebApp.Models
@@ -55,11 +56,8 @@
 </RadzenStack>
 
 @code {
-    //must have this property for the cascading dropdown
-    [Parameter]
     [CascadingParameter]
     public int requestUserId { get; set; }
-
     User RequestUser = new User();
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     public List<User> userList;

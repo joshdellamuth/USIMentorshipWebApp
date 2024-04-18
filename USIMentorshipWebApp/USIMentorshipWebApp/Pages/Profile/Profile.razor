@@ -13,16 +13,12 @@
 <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center">
     <div class="container">
         <div class="fixed-column; justify-content-center">
-            <center><h2>@userProfile.FullName</h2></center>
-                <CascadingValue Value="@userProfileId">
-                <RadzenImage Path="@userProfile.ProfilePicutre" width="180" height="180" />
-                </CascadingValue>
+            <center><h2>@loggedInUser.FullName</h2></center>
+                <RadzenImage Path="@loggedInUser.ProfilePicutre" width="180" height="180" />
             <RadzenUpload Url="upload/single" ChooseText="Change Profile Picture" Style="width:180px; text-align:center;" Accept="image/*"></RadzenUpload>
         </div>
         <div class="flex-column">
-            <CascadingValue Value="@userProfileId">
                 <ProfileInfo />
-            </CascadingValue>
         </div>
     </div>
 </RadzenStack>
@@ -32,15 +28,11 @@
 
 @code {
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
-    int userProfileId;
-    User userProfile = new User();
+    User loggedInUser;
 
     protected override async void OnInitialized() //On Page Load
     {
-        userProfileId = 1;
-        userProfile = userService.GetUserByIdAsync(userProfileId);
-
-        //userProfile = await userService.GetExampleMentorUser();
+        loggedInUser = sessionService.SessionUser;
     }
 
 
