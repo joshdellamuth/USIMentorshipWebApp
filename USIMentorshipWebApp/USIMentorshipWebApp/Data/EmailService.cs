@@ -12,7 +12,7 @@ namespace USIMentorshipWebApp.Data
             {
                 using (MailMessage mail = new MailMessage())
                 {
-                    mail.From = new MailAddress("bigb60690@gmail.com"); //from address
+                    mail.From = new MailAddress("USIMentorshipProgram@gmail.com"); //from address
                     mail.To.Add(emailAddress); //where its going to go to
                     mail.Subject = subject; //subject line
                     mail.Body = messageContent; // body of mail
@@ -21,8 +21,7 @@ namespace USIMentorshipWebApp.Data
                     using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)) // this is the smtp of the mail address along with the port
                                                                                     //(port is the same for gmail and outlook I believe)
                     {
-                        smtp.Credentials = new System.Net.NetworkCredential("bigb60690@gmail.com", "kzmb dsgq aidx szfp");  //from address and the 2 factor code for using another app
-                                                                                                                            // pw for the email is rainman1234
+                        smtp.Credentials = new System.Net.NetworkCredential("USIMentorshipProgram@gmail.com", "utvf osye okrn sizw");  //from address and the 2 factor code for using another app                                                                                                  
                         smtp.EnableSsl = true; // enabling of Ssl
                         await smtp.SendMailAsync(mail); // sending in smtp asynchronously
                         Message = "Mail Sent"; // button text

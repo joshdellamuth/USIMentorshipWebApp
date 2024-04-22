@@ -63,6 +63,7 @@
 
     protected override async void OnInitialized()
     {
+        // get all of the users
         userList = await userService.GetUsers();
 
         loggedInUser = sessionService.SessionUser;
