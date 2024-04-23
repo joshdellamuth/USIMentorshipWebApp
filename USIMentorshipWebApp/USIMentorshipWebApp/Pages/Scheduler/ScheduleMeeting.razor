@@ -3,6 +3,7 @@
 @inject DialogService DialogService
 @inject NotificationService NotificationService
 @inject SessionService sessionService
+@inject NavigationManager NavigationManager
 @using USIMentorshipWebApp.Models
 @using USIMentorshipWebApp.Data
 
@@ -111,10 +112,19 @@
         IsCollapsed = !IsCollapsed;
     }
 
-
+    List<Role> userRoles;
+    User? loggedInUser;
     // ************************************************************************************************************
 
-
+    protected override async Task OnInitializedAsync()
+    {
+        loggedInUser = sessionService.SessionUser;
+        if (loggedInUser == null)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        userRoles = sessionService.Roles;
+    }
 
     RadzenScheduler<Appointment> scheduler;
     Dictionary<DateTime, string> events = new Dictionary<DateTime, string>();
@@ -197,10 +207,4 @@
             args.Attributes["style"] = "background: red";
         }
     }
-
-    
-
-
-    
-    
 }

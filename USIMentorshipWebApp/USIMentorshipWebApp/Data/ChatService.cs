@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace USIMentorshipWebApp.Data
                     mcd => mcd.MatchId,
                     (um, mcd) => new { um, mcd })
                 .Where(joined => joined.mcd.CommunicationType == "Chat")
+                .OrderByDescending(joined => joined.mcd.DateOfCommunication)
                 .Select(joined => joined.um.MatchId)
                 .Distinct()
                 .ToListAsync();

@@ -83,7 +83,7 @@
 
     @* PROFILE PICTURE AND NAME *@
     <div class="our-row mt-1 mb-1" style="background-color:#001e40; border-radius:5px; padding:10px;">
-        <img src=@loggedInUser.ProfilePicutre class="circle-image" style="height:100px; width:100px;" alt="Profile Picture" />
+        <img src=@loggedInUser.ProfilePicutre class="circle-image" style="height:100px; width:100px;" alt="@($"{loggedInUser.FirstName} {loggedInUser.LastName}'s profile picture")">
         <div class="our-column ps-2">
             <h3 style="color:white;">@loggedInUser.FirstName @loggedInUser.LastName </h3>
             <div style="color:white; font-size:15px;">@loggedInUser.EmailAddress</div>
@@ -134,6 +134,17 @@
             </div>
         </a>
 
+        @if (userRoles.Any(role => role.RoleName == "Admin"))
+        {
+            @* ADMIN (if they have that role) *@
+            <a class="hamburger-menu-item mb-3" @onclick="ToggleNavMenu" href="/admin-portal">
+                <div class="our-row">
+                    <span class="oi oi-key" />
+                    <div class="underline-on-hover ps-3">Admin Portal</div>
+                </div>
+            </a>
+        }
+
         @* TESTING *@
         <a class="hamburger-menu-item mb-3" @onclick="ToggleNavMenu" href="/testing">
             <div class="our-row">
@@ -143,7 +154,7 @@
         </a>
 
         @* LOGOUT *@
-        <a class="hamburger-menu-item-logout mb-3" @onclick="@Logout">
+        <a class="hamburger-menu-item-logout mb-3 hover-pointer" @onclick="@Logout">
             <div class="our-row" style="justify-content:space-between;">
                 <span class="oi oi-account-logout" />
                 <div class="underline-on-hover ps-3">Logout</div>
@@ -160,11 +171,9 @@
 </div>
 
 @code {
-
     List<Role> userRoles;
     User loggedInUser;
     string displayRoles;
-
 
     protected override void OnInitialized()
     {

@@ -1,8 +1,10 @@
 ﻿@using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models;
 @using USIMentorshipWebApp.Pages.Chat;
+@using USIMentorshipWebApp.Shared.FullProfileInfo
 @inject UserService userService;
 @inject ChatService chatService;
+@inject SessionService sessionService;
 
 @page "/testing"
 @layout MainLayout
@@ -21,6 +23,10 @@
 <h1>Testing Page</h1>
 <h5>Put code in here that you need to test. Sandbox basically. Thanks! - Josh D</h5>
 
+<CascadingValue Value="@loggedInUser">
+    <FullProfileButton />
+</CascadingValue>
+
 <RadzenDropDown @bind-Value=@value Data=@companyNames Style="width:200px; max-width: 400px;">
     <ValueTemplate>
         <RadzenTextBox @bind-Value=@value Style="width:220px; margin:-8px;" />
@@ -31,11 +37,20 @@
     string value = "";
     IEnumerable<string> companyNames;
 
+    List<Role> userRoles;
+    User? loggedInUser;
+
     private User user = new User();
 
 
     protected override async Task OnInitializedAsync()
     {
+        loggedInUser = sessionService.SessionUser;
+        if (loggedInUser == null)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        userRoles = sessionService.Roles;
         await base.OnInitializedAsync();
 
         companyNames = new List<string> { "Facebook", "ESPN", "Tesla", "Google" };

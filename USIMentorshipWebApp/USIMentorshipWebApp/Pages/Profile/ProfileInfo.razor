@@ -1,6 +1,7 @@
 ﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
 @inject UserService userService
+@inject SessionService sessionService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Shared.FullProfileInfo;
 @using USIMentorshipWebApp.Shared.RequestMentorship;
@@ -13,31 +14,31 @@
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Email</RadzenText>
-                <RadzenTextBox MaxLength="30" Disabled="true" @bind-Value=@userProfile.EmailAddress class="w-100" />
+                <RadzenTextBox MaxLength="30" Disabled="true" @bind-Value=@loggedInUser.EmailAddress class="w-100" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Phone Number</RadzenText>
-                <RadzenTextBox class="w-100" MaxLength="10" @bind-Value=@userProfile.PhoneNumber /> 
+                <RadzenTextBox class="w-100" MaxLength="10" @bind-Value=@loggedInUser.PhoneNumber />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard Style="width:100">
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Major</RadzenText>
-                <RadzenTextBox MaxLength="30" class="w-100" @bind-Value="@userProfile.Major" />
+                <RadzenTextBox MaxLength="30" class="w-100" @bind-Value="@loggedInUser.Major" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard Style="width:100">
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Minor</RadzenText>
-                <RadzenTextBox class="w-100" @bind-Value="@userProfile.Minor" />
+                <RadzenTextBox class="w-100" @bind-Value="@loggedInUser.Minor" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Current Position</RadzenText>
-                <RadzenTextBox MaxLength="30" class="w-100" @bind-Value="@userProfile.CurrentPosition" />
+                <RadzenTextBox MaxLength="30" class="w-100" @bind-Value="@loggedInUser.CurrentPosition" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
@@ -49,7 +50,7 @@
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Gender</RadzenText>
-                <RadzenTextBox MaxLength="8" class="w-100" @bind-Value="@userProfile.Gender" />
+                <RadzenTextBox MaxLength="8" class="w-100" @bind-Value="@loggedInUser.Gender" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
@@ -61,7 +62,7 @@
         <div class="col-md-12 col-lg-12 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">About</RadzenText>
-                <RadzenTextArea class="col-md-6 col-lg-12 p-3 w-100 h-50" Style="resize:vertical" @bind-Value=@userProfile.Bio Cols="77"></RadzenTextArea>
+                <RadzenTextArea class="col-md-6 col-lg-12 p-3 w-100 h-50" Style="resize:vertical" @bind-Value=@loggedInUser.Bio Cols="77"></RadzenTextArea>
             </RadzenCard>
         </div>
     </div>
@@ -73,35 +74,37 @@
 
 
 @code {
-    [CascadingParameter]
-    int userId { get; set; }
-
+    List<Role> userRoles;
+    User loggedInUser;
     public string? exampleGraduationYear;  
-
     private UserService _userService = new UserService();
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
-    User userProfile = new User();
     public string? roleName;
 
     protected override async void OnInitialized() //On Page Load
     {
-        userProfile = userService.GetUserByIdAsync(userId);
-        //userProfile = await userService.GetExampleMentorUser();
+        loggedInUser = sessionService.SessionUser;
+        userRoles = sessionService.Roles;
 
-        exampleGraduationYear = userProfile.GraduationYear.ToString();
-        roleName = _context.Roles
-                              .Where(ur => ur.RoleId == userId)
-                              .Select(ur => ur.RoleName)
-                              .FirstOrDefault();
+        exampleGraduationYear = loggedInUser.GraduationYear.ToString();
+        if (userRoles.Any(role => role.RoleName == "Mentee")) //Mentee
+        {
+            roleName = "Mentee";
+        }
+        else if (userRoles.Any(role => role.RoleName == "Mentor")) //Mentor
+        {
+            roleName = "Mentor";
+        }
     }
 
     void SignOut(MouseEventArgs args)
     {
+        sessionService.Logout();
         NavigationManager.NavigateTo("/");
     }
 
     void SaveChanges()
     {
-        _userService.UpdateUser(userProfile);
+        _userService.UpdateUser(loggedInUser);
     }
 }

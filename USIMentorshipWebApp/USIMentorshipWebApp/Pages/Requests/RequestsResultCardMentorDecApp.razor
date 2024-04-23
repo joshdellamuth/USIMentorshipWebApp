@@ -1,20 +1,19 @@
 ﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
 @inject UserService userService
+@inject SessionService sessionService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models
 @using System.Linq;
 @using USIMentorshipWebApp.Shared.FullProfileInfo;
 @using USIMentorshipWebApp.Shared.RequestMentorship;
 
-<RadzenCard Class="rz-p-3 default-margin" Style="max-width: 500px;">
+<RadzenCard Class="rz-p-3 default-margin" Style="max-width:350px;">
     @* rz-p-2 applies padding to all sides of an element to radzen stack *@
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
         @* PROFILE PICTURE AND CLASS YEAR *@
         <RadzenStack Orientation="Orientation.Vertical" Style="max-width:160px;">
             <RadzenImage Path=@RequestUser.ProfilePicutre Style="width: 160px; height: 160px; border-radius: 50%;" />
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Class Of</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.GraduationYear</b></RadzenText>
         </RadzenStack>
         @* Gap is the size of the gap between the child items of RadzenStack *@
         <RadzenStack Gap="4">
@@ -29,24 +28,22 @@
             <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Major</RadzenText>
             <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.Major</b></RadzenText>
 
-            @* MINOR *@
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Minor</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.Minor</b></RadzenText>
+            @* GRADUATION DATE *@
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Class Of</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@(RequestUser.GraduationYear.HasValue ? RequestUser.GraduationYear.Value.ToString("MM/yyyy") : "N/A")</b></RadzenText>
 
-            @* MENTORSHIP LENGTH *@
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Mentorship Length</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>6 months</b></RadzenText>
         </RadzenStack>
     </RadzenStack>
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="10">
-        <FullProfileButtonRequests/>
+        <CascadingValue Value="@RequestUser">
+        <FullProfileButton/>
+        </CascadingValue>
     </RadzenStack>
 </RadzenCard>
 
 @code {
     [CascadingParameter]
-    int requestUserId { get; set; }
-
+    public int requestUserId { get; set; }
     User RequestUser = new User();
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     public List<User> userList;

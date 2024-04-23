@@ -1,0 +1,29 @@
+﻿@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
+@inject AdminPortalService adminPortalService
+@using Radzen
+@using Radzen.Blazor
+
+<style>
+    .rz-grid-table {
+        width: unset;
+    }
+</style>
+
+<RadzenGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@allUserDetails" TItem="UserDetail">
+    <Columns>
+        <RadzenGridColumn TItem="UserDetail" Property="UserDetail" Title="User Detail"></RadzenGridColumn>
+        <RadzenGridColumn TItem="UserDetail" Property="UserId" Title="User Id"></RadzenGridColumn>
+        <RadzenGridColumn TItem="UserDetail" Property="DetailName" Title="Detail Name"></RadzenGridColumn>
+        <RadzenGridColumn TItem="UserDetail" Property="Detail Value" Title="Detail Value"></RadzenGridColumn>
+    </Columns>
+</RadzenGrid>
+
+@code {
+    List<UserDetail>? allUserDetails;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allUserDetails = await adminPortalService.GetAllUserDetails();
+    }
+}

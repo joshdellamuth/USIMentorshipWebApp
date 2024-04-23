@@ -1,0 +1,29 @@
+﻿@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
+@inject AdminPortalService adminPortalService
+@using Radzen
+@using Radzen.Blazor
+
+<style>
+    .rz-grid-table {
+        width: unset;
+    }
+</style>
+
+<RadzenGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@allMatches" TItem="Match">
+    <Columns>
+        <RadzenGridColumn TItem="Match" Property="MatchId" Title="Match Id"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Match" Property="Status" Title="Status"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Match" Property="StartDate" Title="Start Date"></RadzenGridColumn>
+        <RadzenGridColumn TItem="Match" Property="EndDate" Title="End Date"></RadzenGridColumn>
+    </Columns>
+</RadzenGrid>
+
+@code {
+    List<Match>? allMatches;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allMatches = await adminPortalService.GetAllMatches();
+    }
+}

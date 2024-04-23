@@ -173,7 +173,7 @@
         // setting the dropdown data based on the database when the page loads
         industries = await userService.GetMentorIndustries();
         currentPositions = await userService.GetMentorCurrentPositions();
-        majorsList = await userService.GetMentorIndustries();
+        majorsList = await userService.GetMentorMajors();
         companies = await userService.GetMentorCompanies();
         businessCountries = await userService.GetMentorCountriesGivenAllMentorsAsync(allMentors);
         businessStates = await userService.GetMentorStatesGivenAllMentorsAsync(allMentors);

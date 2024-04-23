@@ -1,0 +1,48 @@
+﻿@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models
+@inject AdminPortalService adminPortalService
+@using Radzen
+@using Radzen.Blazor
+
+<style>
+    .rz-grid-table {
+        width: unset;
+    }
+</style>
+
+<RadzenGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@allUsers" TItem="User">
+    <Columns>
+        <RadzenGridColumn TItem="User" Property="UserId" Title="User ID"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="FirstName" Title="First Name"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="LastName" Title="Last Name"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="Password" Title="Password"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="PhoneNumber" Title="Phone Number"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="EmailAddress" Title="Email Address"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="ProfilePicture" Title="Email Address"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="LinkedInLink" Title="LinkedIn Link"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="Bio" Title="Bio"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="Status" Title="Account Status"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="Major" Title="Major"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="Minor" Title="Minor"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="Industry" Title="Industry"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="Company" Title="Company"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="CurrentPosition" Title="Current Position"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="DateOfBirth" Title="Date Of Birth"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="GraduationYear" Title="Graduation Year"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="Gender" Title="Gender"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="School" Title="School"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="MenteesPerSemester" Title="Mentees Per Semester"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="BusinessCityId" Title="Business City Id"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="BusinessStateCode" Title="Business State Code"></RadzenGridColumn>
+        <RadzenGridColumn TItem="User" Property="BusinessCountryCode" Title="Business Country Code"></RadzenGridColumn>
+    </Columns>
+</RadzenGrid>
+
+@code {
+    List<User>? allUsers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allUsers = await adminPortalService.GetAllUsers();
+    }
+}

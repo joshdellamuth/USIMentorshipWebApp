@@ -4,21 +4,15 @@
 @using USIMentorshipWebApp.Data
 @using USIMentorshipWebApp.Models
 @inject SessionService sessionService
+@inject NavigationManager navigationManager
 
-@*
-    Make sure to add css to where display is none on the mobile mockup for
-    the details. The user can then click the mentor to see more details.
-    Maybe add a search button to this page so the database is queried
-    less?
-*@
 
 <PageTitle>Mentor Match - USI Mentorship Program</PageTitle>
 
 <h1>Mentor Match</h1>
 
-@if (userRoles.Any(role => role.RoleName == "Mentee"))
+@if (userRoles.Any(role => role.RoleName == "Mentee" || role.RoleName == "Admin"))
 {
-
     <h6>Find the right mentor for you with the options below!</h6>
     <MentorMatchSearchFields />
 }
@@ -30,11 +24,15 @@
 
 @code {
     List<Role> userRoles;
-    User loggedInUser;
+    User? loggedInUser;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         loggedInUser = sessionService.SessionUser;
+        if (loggedInUser == null)
+        {
+            navigationManager.NavigateTo("/", true);
+        }
         userRoles = sessionService.Roles; 
     }
 }

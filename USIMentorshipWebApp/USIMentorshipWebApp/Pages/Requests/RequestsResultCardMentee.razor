@@ -1,20 +1,19 @@
 ﻿@inject NavigationManager NavigationManager
 @inject DialogService DialogService
 @inject UserService userService
+@inject SessionService sessionService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models
 @using System.Linq;
 @using USIMentorshipWebApp.Shared.FullProfileInfo;
 @using USIMentorshipWebApp.Shared.RequestMentorship;
 
-<RadzenCard Class="rz-p-3 default-margin" Style="max-width: 500px;">
+<RadzenCard Class="rz-p-3 default-margin" Style="max-width:350px;">
     @* rz-p-2 applies padding to all sides of an element to radzen stack *@
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
         @* PROFILE PICTURE AND MENTORSHIP LENGTH *@
         <RadzenStack Orientation="Orientation.Vertical" Style="max-width:160px;">
             <RadzenImage Path=@RequestUser.ProfilePicutre Style="width: 160px; height: 160px; border-radius: 50%;" />
-            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Mentorship Length</RadzenText>
-            <RadzenText TextStyle="TextStyle.Body1"><b>6 months</b></RadzenText>
         </RadzenStack>
         @* Gap is the size of the gap between the child items of RadzenStack *@
         <RadzenStack Gap="4">
@@ -39,19 +38,20 @@
         </RadzenStack>
     </RadzenStack>
     <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="10">
-        <FullProfileButtonRequests/>
+        <CascadingValue Value="@RequestUser">
+            <FullProfileButton />
+        </CascadingValue>
     </RadzenStack>
 </RadzenCard>
 
 @code {
     [CascadingParameter]
-    int requestUserId { get; set; }
-
+    public int requestUserId { get; set; }
     User RequestUser = new User();
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     public List<User> userList;
 
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
         RequestUser = userService.GetUserByIdAsync(requestUserId);
     }

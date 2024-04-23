@@ -14,10 +14,6 @@
         <RadzenText TextStyle="TextStyle.Overline" class="rz-mt-2 rz-my-0">Major</RadzenText>
         <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.Major</b></RadzenText>
 
-        @* MENTORSHIP LENGTH *@
-        <RadzenText TextStyle="TextStyle.Overline" class="rz-mt-2 rz-my-0">Mentorship Length</RadzenText>
-        <RadzenText TextStyle="TextStyle.Body1"><b>6 months</b></RadzenText>
-
     </RadzenStack>
     @* Gap is the size of the gap between the child items of RadzenStack *@
     <RadzenStack Orientation="Orientation.Vertical" Gap="4">
@@ -29,8 +25,12 @@
         <RadzenText TextStyle="TextStyle.Body1"><b>@(RequestUser.FullName)</b></RadzenText>
 
         @* CURRENT POSITION *@
-        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Position</RadzenText>
-        <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.CurrentPosition</b></RadzenText>
+        @if (RequestUser.CurrentPosition != null)
+        {
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Position</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@RequestUser.CurrentPosition</b></RadzenText>
+        }
+
 
         @* COMPANY *@
         <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Company</RadzenText>
@@ -46,7 +46,7 @@
     </RadzenStack>
 </RadzenStack>
 
-@* BIO (it spans he width of both rows at the bottom) *@
+@* BIO (it spans the width of both rows at the bottom) *@
 <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="4" class="rz-p-2">
     <RadzenStack Orientation="Orientation.Vertical">
         <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Bio</RadzenText>
@@ -56,10 +56,8 @@
 
 @code {
     //must have this property for the cascading dropdown
-    [Parameter]
     [CascadingParameter]
     public int requestUserId { get; set; }
-
     User RequestUser = new User();
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     public List<User> userList;
