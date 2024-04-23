@@ -10,6 +10,8 @@
 @using USIMentorshipWebApp.Models;
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Shared.Dropdowns;
+@using System.IO
+@using Microsoft.AspNetCore.Components.Forms
 
 <PageTitle>Mentor Sign Up - USI Mentorship Program</PageTitle>
 
@@ -72,7 +74,7 @@
 
             @* UPLOAD PROFILE PICTURE *@
             <RadzenRow class="mb-4">
-                <RadzenUpload Url="upload/single" ChooseText="Upload Profile Picture" Style="width:180px; text-align:center;" Accept="image/*"></RadzenUpload>
+                <InputFile OnChange="UploadFile"></InputFile>
             </RadzenRow>
 
             @* SCHOOL, MAJOR, MINOR, GRADUATION YEAR *@
@@ -261,7 +263,7 @@
     {
         industries = await RegistrationDataService.GetIndustriesAsync();
         jobTitles = await RegistrationDataService.GetJobTitlesAsync();
-        schools = await RegistrationDataService.GetSchoolsAsync();
+        schools = await RegistrationDataService.GetUniversityNamesAsync();
     }
 
     // graduation year current date changed and for the birthdate changed
@@ -277,19 +279,19 @@
     private async Task OnSubmit()
     {
         // grab what is filled out for the business location (have to reference shared component since it is not defined in this file)
-        if (businessLocationDropdown.countrySelected != null)
-        {
-            user.BusinessCountryCode = businessLocationDropdown.countrySelected;
-            if (businessLocationDropdown.stateSelected != null)
-            {
-                user.BusinessStateCode = businessLocationDropdown.stateSelected;
+        // if (businessLocationDropdown.countrySelected != null)
+        // {
+        //     user.BusinessCountryCode = businessLocationDropdown.countrySelected;
+        //     if (businessLocationDropdown.stateSelected != null)
+        //     {
+        //         user.BusinessStateCode = businessLocationDropdown.stateSelected;
 
-                if (businessLocationDropdown.citySelected != null)
-                {
-                    user.BusinessCityId = businessLocationDropdown.citySelected;
-                }
-            }
-        }
+        //         if (businessLocationDropdown.citySelected != null)
+        //         {
+        //             user.BusinessCityId = businessLocationDropdown.citySelected;
+        //         }
+        //     }
+        // }
         
         
 
@@ -312,5 +314,21 @@
     void GoToLogin(MouseEventArgs args)
     {
         NavigationManager.NavigateTo("/");
+    }
+
+    // variables and methods for file upload
+    private async Task UploadFile(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file != null)
+        {
+            using var stream = file.OpenReadStream(maxAllowedSize: 1024 * 1024);
+            using var memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+            var bytes = memoryStream.ToArray();
+
+            // Now you can save the byte array to your database
+            // Make sure to use an async method to avoid blocking the thread
+        }
     }
 }

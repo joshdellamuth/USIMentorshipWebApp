@@ -28,9 +28,12 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<RequestService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<ChatService>();
+builder.Services.AddScoped<AdminPortalService>();
+builder.Services.AddScoped<RegistrationDataService>();
+
 
 //maybe need the line below???
-builder.Services.AddScoped<RegistrationDataService>();
+builder.Services.AddHttpClient<RegistrationDataService>();
 
 // GetConnectionString pulls the connection string from appsettings.json
 builder.Services.AddDbContext<UsiMentorshipApplicationContext>(options =>

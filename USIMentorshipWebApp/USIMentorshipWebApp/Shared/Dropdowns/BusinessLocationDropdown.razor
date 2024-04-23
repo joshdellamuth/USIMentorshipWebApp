@@ -1,4 +1,5 @@
 ﻿@inject UserService UserService;
+@inject RegistrationDataService registrationDataService;
 @using USIMentorshipWebApp.Data
 @using USIMentorshipWebApp.Models;
 
@@ -9,7 +10,7 @@
         <div class="our-column mb-2">
             <label>Business Country:</label>
             <RadzenDropDown @bind-SearchText=@countriesSearchText FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
-                            Data=@countries TextProperty="CountryName" ValueProperty="CountryCode" Change="@(args => CountryChanged(args))"
+                            Data=@countries Change="@(args => CountryChanged(args))"
                             AllowClear="true" @bind-Value=@countrySelected Style="width: 100%; max-width: 220px;" />
         </div>
 
@@ -35,7 +36,7 @@
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
 
     // countries variables
-    public List<Country> countries;
+    public List<string> countries;
     public string countriesSearchText;
     public string? countrySelected;
 
@@ -55,7 +56,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        countries = _context.Countries.ToList();
+        countries = await registrationDataService.GetAllCountriesAsync();
     }
 
     // this is triggered when the selected value changes and args is the newly selected value
