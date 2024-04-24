@@ -57,17 +57,11 @@ public partial class User
 
     public string? BusinessCountryCode { get; set; }
 
-    public virtual City? BusinessCity { get; set; }
+    public byte[]? ProfilePictures { get; set; }
 
-    public virtual Country? BusinessCountryCodeNavigation { get; set; }
+    public string? BusinessCity { get; set; }
 
-    public virtual State? BusinessStateCodeNavigation { get; set; }
+    public string? BusinessState { get; set; }
 
-    public virtual ICollection<MatchCommunicationDetail> MatchCommunicationDetails { get; set; } = new List<MatchCommunicationDetail>();
-
-    public virtual ICollection<UserDetail> UserDetails { get; set; } = new List<UserDetail>();
-
-    public virtual ICollection<UserMatch> UserMatches { get; set; } = new List<UserMatch>();
-
-    public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+    public string? BusinessCountry { get; set; }
 }

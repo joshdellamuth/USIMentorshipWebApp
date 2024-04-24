@@ -89,6 +89,14 @@ namespace USIMentorshipWebApp.Data
             return universityNames.ToList();
         }
 
+        // get state by country if it has any (null if not)
+
+
+
+        // get city by state 
+
+        //get city by country if the city does not have a state 
+
         public class CountryTest
         {
             public string iso2 { get; set; }

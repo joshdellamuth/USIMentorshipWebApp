@@ -84,7 +84,7 @@
                     <label>School:</label>
                     <RadzenDropDown @bind-SearchText=@schoolsSearchText @bind-Value=@user.School
                                     AllowFiltering="true" Data=@schools FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                    AllowClear="true" Style="max-width:190px;" Name="School">
+                                    AllowClear="true" Style="max-width:240px;" Name="School">
                         <ValueTemplate Context="customContext">
                             <RadzenTextBox @bind-Value=@user.School Style="width:280px; margin:-8px;" />
                         </ValueTemplate>
