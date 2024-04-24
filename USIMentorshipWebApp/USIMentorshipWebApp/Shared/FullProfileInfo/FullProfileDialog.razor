@@ -115,11 +115,11 @@
     City displayedCity;
     Country displayedCountry;
 
-    int newOrExistingMatchId;
+    int? newOrExistingMatchId;
     User loggedInUser;
 
     // make a new empty list
-    List<int> listOfUserIds = new List<int>();
+    List<int?> listOfUserIds = new List<int?>();
 
     public async Task GoToThatMentorsChat(MouseEventArgs args)
     {

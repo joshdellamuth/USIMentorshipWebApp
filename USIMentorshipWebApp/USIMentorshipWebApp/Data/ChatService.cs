@@ -19,7 +19,7 @@ namespace USIMentorshipWebApp.Data
         }
 
         // this works and is good
-        public async Task<List<int>> GetMatchIdsWithChats(User user)
+        public async Task<List<int?>> GetMatchIdsWithChats(User user)
         {
             var matchIds = await _chatContext.UserMatches
                 .Where(um => um.UserId == user.UserId)
@@ -92,7 +92,7 @@ namespace USIMentorshipWebApp.Data
             return users;
         }
 
-        public async Task<List<int>> GetUserIdsFromMatchId(int? matchId, int? userId)
+        public async Task<List<int?>> GetUserIdsFromMatchId(int? matchId, int? userId)
         {
             // the userId parameter is the paramter we do not want to get since they're logged in 
             var userIds = await _chatContext.UserMatches
@@ -163,7 +163,7 @@ namespace USIMentorshipWebApp.Data
             chatContext2.SaveChanges();
         }
 
-        public async Task<int> GetOrCreateMatch(int loggedInUserId, List<int> userIds)
+        public async Task<int?> GetOrCreateMatch(int? loggedInUserId, List<int?> userIds)
         {
             using UsiMentorshipApplicationContext chatContext = new UsiMentorshipApplicationContext();
 
