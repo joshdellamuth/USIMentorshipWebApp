@@ -15,7 +15,6 @@ public partial class User
     // this will be used to show the full name of a user
     [NotMapped]
     public string FullName => $"{FirstName} {LastName}";
-
     public string? PhoneNumber { get; set; }
 
     public string? EmailAddress { get; set; }

@@ -261,7 +261,7 @@ public partial class UsiMentorshipApplicationContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.School)
-                .HasMaxLength(80)
+                .HasMaxLength(150)
                 .IsUnicode(false);
             entity.Property(e => e.Status)
                 .HasMaxLength(45)

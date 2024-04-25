@@ -74,10 +74,12 @@ namespace USIMentorshipWebApp.Data
             public string state_province { get; set; }
         }
 
-        public async Task<List<string>> GetUniversityNamesAsync()
+        public async Task<List<string>> GetUniversityNamesAsync(string? countryName)
         {
             var httpClient = new HttpClient();
-            var response = await httpClient.GetStringAsync("https://raw.githubusercontent.com/Hipo/university-domains-list/master/world_universities_and_domains.json");
+            // formats the countryName to go in the URL
+            var formattedURLName = countryName.Replace(" ", "%20").ToLower();
+            var response = await httpClient.GetStringAsync($"http://universities.hipolabs.com/search?country={formattedURLName}");
             var universities = JsonConvert.DeserializeObject<List<University>>(response);
             var universityNames = new HashSet<string>();
 
@@ -87,6 +89,22 @@ namespace USIMentorshipWebApp.Data
             }
 
             return universityNames.ToList();
+        }
+
+        // get University countries
+        public async Task<List<string>> GetUniversityCountryNamesAsync()
+        {
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetStringAsync("http://universities.hipolabs.com/search");
+            var universities = JsonConvert.DeserializeObject<List<University>>(response);
+            var countryNames = new HashSet<string>();
+
+            foreach (var university in universities)
+            {
+                countryNames.Add(university.country);
+            }
+
+            return countryNames.ToList();
         }
 
         // get state by country if it has any (null if not)

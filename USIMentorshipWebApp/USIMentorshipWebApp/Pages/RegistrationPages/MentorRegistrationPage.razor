@@ -80,18 +80,8 @@
             @* SCHOOL, MAJOR, MINOR, GRADUATION YEAR *@
             <h3>Education Information:</h3>
             <RadzenRow class="mb-4 mt-4" AlignItems="AlignItems.Center" Gap="5">
-                <div class="our-column mb-2">
-                    <label>School:</label>
-                    <RadzenDropDown @bind-SearchText=@schoolsSearchText @bind-Value=@user.School
-                                    AllowFiltering="true" Data=@schools FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                    AllowClear="true" Style="max-width:240px;" Name="School">
-                        <ValueTemplate Context="customContext">
-                            <RadzenTextBox @bind-Value=@user.School Style="width:280px; margin:-8px;" />
-                        </ValueTemplate>
-                    </RadzenDropDown>
-
-                    <RadzenRequiredValidator Text="School is Required" Component="School" />
-                </div>
+                
+                <SchoolDropdown></SchoolDropdown>
 
 
                 <RadzenStack Orientation="Orientation.Vertical">
@@ -242,7 +232,7 @@
     User loggedInUser;
 
     private User user = new User();
-    
+
     BusinessLocationDropdown businessLocationDropdown;
 
     private string schoolsSearchText = "";
@@ -262,7 +252,7 @@
     {
         industries = await RegistrationDataService.GetIndustriesAsync();
         jobTitles = await RegistrationDataService.GetJobTitlesAsync();
-        schools = await RegistrationDataService.GetUniversityNamesAsync();
+        schools = await RegistrationDataService.GetUniversityNamesAsync("Canada");
     }
 
     // graduation year current date changed and for the birthdate changed
