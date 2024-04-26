@@ -3,6 +3,7 @@
 @inject AdminPortalService adminPortalService
 @using Radzen
 @using Radzen.Blazor
+@using Microsoft.EntityFrameworkCore
 
 
 <style>
@@ -17,7 +18,7 @@
     <Columns>
         <RadzenDataGridColumn TItem="User" Property="UserId" Title="User ID">
             <EditTemplate>
-                <RadzenText>Hi</RadzenText>
+                <RadzenText Text="Hi i am indicator text"></RadzenText>
             </EditTemplate>
         </RadzenDataGridColumn>
 
@@ -109,7 +110,19 @@
     RadzenDataGrid<User> usersGrid;
     List<User>? allUsers;
     List<User> usersToUpdate = new List<User>();
+    List<User> usersToInsert = new List<User>();
 
+    void Reset()
+    {
+        usersToInsert.Clear();
+        usersToUpdate.Clear();
+    }
+
+    void Reset(User user)
+    {
+        usersToInsert.Remove(user);
+        usersToUpdate.Remove(user);
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -122,7 +135,7 @@
     {
         if (editMode == DataGridEditMode.Single)
         {
-            // Reset();
+            Reset();
         }
 
         usersToUpdate.Add(user);
@@ -131,7 +144,7 @@
 
     void OnUpdateRow(User user)
     {
-        //Reset(user);
+        Reset(user);
 
         //dbContext.Update(user);
 
@@ -145,27 +158,17 @@
 
     void CancelEdit(User user)
     {
-        //Reset(user);
+         Reset(user);
 
-        usersGrid.CancelEditRow(user);
+         usersGrid.CancelEditRow(user);
 
-        // var orderEntry = dbContext.Entry(user);
-        // if (orderEntry.State == EntityState.Modified)
-        // {
-        //     orderEntry.CurrentValues.SetValues(orderEntry.OriginalValues);
-        //     orderEntry.State = EntityState.Unchanged;
-        // }
+         // var orderEntry = dbContext.Entry(user);
+         // if (orderEntry.State == EntityState.Modified)
+         // {
+         //     orderEntry.CurrentValues.SetValues(orderEntry.OriginalValues);
+         //     orderEntry.State = EntityState.Unchanged;
+         // }
 
-        // void Reset()
-        // {
-        //     ordersToInsert.Clear();
-        //     ordersToUpdate.Clear();
-        // }
-
-        // void Reset(Order order)
-        // {
-        //     ordersToInsert.Remove(order);
-        //     ordersToUpdate.Remove(order);
-        // }
+         
     }
 }
