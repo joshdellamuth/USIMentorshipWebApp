@@ -10,39 +10,60 @@
     }
 </style>
 
-<RadzenGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@allUsers" TItem="User">
+<RadzenDataGrid @ref="usersGrid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@allUsers" TItem="User" EditMode="@editMode">
     <Columns>
-        <RadzenGridColumn TItem="User" Property="UserId" Title="User ID"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="FirstName" Title="First Name"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="LastName" Title="Last Name"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="Password" Title="Password"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="PhoneNumber" Title="Phone Number"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="EmailAddress" Title="Email Address"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="ProfilePicture" Title="Email Address"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="LinkedInLink" Title="LinkedIn Link"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="Bio" Title="Bio"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="Status" Title="Account Status"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="Major" Title="Major"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="Minor" Title="Minor"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="Industry" Title="Industry"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="Company" Title="Company"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="CurrentPosition" Title="Current Position"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="DateOfBirth" Title="Date Of Birth"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="GraduationYear" Title="Graduation Year"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="Gender" Title="Gender"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="School" Title="School"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="MenteesPerSemester" Title="Mentees Per Semester"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="BusinessCityId" Title="Business City Id"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="BusinessStateCode" Title="Business State Code"></RadzenGridColumn>
-        <RadzenGridColumn TItem="User" Property="BusinessCountryCode" Title="Business Country Code"></RadzenGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="UserId" Title="User ID"> 
+            <EditTemplate>
+                <RadzenText>Hi</RadzenText>
+            </EditTemplate>
+        </RadzenDataGridColumn>
+            
+        <RadzenDataGridColumn TItem="User" Property="FirstName" Title="First Name"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="LastName" Title="Last Name"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="Password" Title="Password"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="PhoneNumber" Title="Phone Number"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="EmailAddress" Title="Email Address"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="ProfilePicture" Title="Email Address"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="LinkedInLink" Title="LinkedIn Link"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="Bio" Title="Bio"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="Status" Title="Account Status"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="Major" Title="Major"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="Minor" Title="Minor"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="Industry" Title="Industry"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="Company" Title="Company"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="CurrentPosition" Title="Current Position"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="DateOfBirth" Title="Date Of Birth"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="GraduationYear" Title="Graduation Year"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="Gender" Title="Gender"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="School" Title="School"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="MenteesPerSemester" Title="Mentees Per Semester"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="BusinessCityId" Title="Business City Id"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="BusinessStateCode" Title="Business State Code"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="User" Property="BusinessCountryCode" Title="Business Country Code"></RadzenDataGridColumn>
     </Columns>
-</RadzenGrid>
+</RadzenDataGrid>
 
 @code {
+    RadzenDataGrid<User> usersGrid;
     List<User>? allUsers;
+    List<User> usersToUpdate = new List<User>(); 
+
 
     protected override async Task OnInitializedAsync()
     {
         allUsers = await adminPortalService.GetAllUsers();
+    }
+
+    DataGridEditMode editMode = DataGridEditMode.Single;
+
+    async Task EditRow(User user)
+    {
+        if (editMode == DataGridEditMode.Single)
+        {
+           // Reset();
+        }
+
+        usersToUpdate.Add(user);
+        await usersGrid.EditRow(user);
     }
 }
