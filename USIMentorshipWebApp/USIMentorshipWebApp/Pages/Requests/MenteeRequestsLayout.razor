@@ -59,6 +59,7 @@
     List<int> declinedList = new List<int>(); // Initialize declinedList
     List<int> requestsList = new List<int>(); // Initialize requestsLis
     List<User> userList = new List<User>();
+    List<UserMatch> userMatch = new List<UserMatch>();
     public int? matchId;
 
     protected override async void OnInitialized()
@@ -70,19 +71,20 @@
         userRoles = sessionService.Roles;
 
         matchId = _context.UserMatches
-                  .Where(ur => ur.UserId == loggedInUser.UserId)
-                      .Select(ur => ur.MatchId)
-                      .FirstOrDefault();
+                .Where(ur => ur.UserId == loggedInUser.UserId)
+                    .Select(ur => ur.MatchId)
+                    .FirstOrDefault();
+
         foreach (User user in userList)
         {
             int? matchedId = _context.UserMatches
-                  .Where(ur => ur.UserId == user.UserId)
-                      .Select(ur => ur.MatchId)
-                      .FirstOrDefault();
+                    .Where(ur => ur.UserId == user.UserId)
+                        .Select(ur => ur.MatchId)
+                        .FirstOrDefault();
             string? status = _context.Matches
-                  .Where(ur => ur.MatchId == matchedId)
-                      .Select(ur => ur.Status)
-                      .FirstOrDefault();
+                    .Where(ur => ur.MatchId == matchedId)
+                        .Select(ur => ur.Status)
+                        .FirstOrDefault();
             if (user.UserId != loggedInUser.UserId && matchedId == matchId)
             {
                 if (status == "Pending")
