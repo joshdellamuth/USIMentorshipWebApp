@@ -1,9 +1,8 @@
 ﻿@using USIMentorshipWebApp.Data
 @using USIMentorshipWebApp.Models
 @inject AdminPortalService adminPortalService
-@using Radzen
-@using Radzen.Blazor
 @using Microsoft.EntityFrameworkCore
+@using USIMentorshipWebApp.Shared.Dropdowns
 
 
 <style>
@@ -17,9 +16,7 @@
 
     <Columns>
         <RadzenDataGridColumn TItem="User" Property="UserId" Title="User ID">
-            <EditTemplate>
-                <RadzenText Text="Hi i am indicator text"></RadzenText>
-            </EditTemplate>
+            
         </RadzenDataGridColumn>
 
         <RadzenDataGridColumn TItem="User" Property="FirstName" Title="First Name">
@@ -74,7 +71,9 @@
 
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="User" Property="School" Title="School">
-
+            <EditTemplate>
+                <SchoolDropdown ></SchoolDropdown>
+            </EditTemplate>
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="User" Property="MenteesPerSemester" Title="Mentees Per Semester">
 
@@ -92,12 +91,12 @@
 
         <RadzenDataGridColumn TItem="User" Context="user" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Frozen="true" FrozenPosition="FrozenColumnPosition.Right">
             <Template>
-                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium"></RadzenButton>
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(user))" @onclick:stopPropagation="true"></RadzenButton>
             </Template>
             <EditTemplate>
-                <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.Medium"></RadzenButton>
+                <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => SaveRow(user))"></RadzenButton>
 
-                <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1"> </RadzenButton>
+                <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@((args) => CancelEdit(user))"> </RadzenButton>
             </EditTemplate>
         </RadzenDataGridColumn>
 
@@ -111,6 +110,8 @@
     List<User>? allUsers;
     List<User> usersToUpdate = new List<User>();
     List<User> usersToInsert = new List<User>();
+
+    private UsiMentorshipApplicationContext dbContext = new UsiMentorshipApplicationContext();
 
     void Reset()
     {
@@ -146,9 +147,9 @@
     {
         Reset(user);
 
-        //dbContext.Update(user);
+        dbContext.Update(user);
 
-        //dbContext.SaveChanges();
+        dbContext.SaveChanges();
     }
 
     async Task SaveRow(User user)
@@ -162,12 +163,12 @@
 
          usersGrid.CancelEditRow(user);
 
-         // var orderEntry = dbContext.Entry(user);
-         // if (orderEntry.State == EntityState.Modified)
-         // {
-         //     orderEntry.CurrentValues.SetValues(orderEntry.OriginalValues);
-         //     orderEntry.State = EntityState.Unchanged;
-         // }
+         var orderEntry = dbContext.Entry(user);
+         if (orderEntry.State == EntityState.Modified)
+         {
+              orderEntry.CurrentValues.SetValues(orderEntry.OriginalValues);
+              orderEntry.State = EntityState.Unchanged;
+         }
 
          
     }
