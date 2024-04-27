@@ -57,7 +57,7 @@
 
     [Parameter]
     // when clicked, pass the MatchId to the parent component
-    public EventCallback<bool> OnUpdatedRequest { get; set; }
+    public EventCallback OnUpdatedRequest { get; set; }
 
     User? requestUser;
     Match? requestMatch;
@@ -71,16 +71,18 @@
     public async Task Approved()
     {
         await requestService.UpdateMatchToApprovedAsync(MatchAndUser.CorrespondingMatch.MatchId);
-
+        await UpdateMatches();
     }
 
     public async Task Declined()
     {
         await requestService.UpdateMatchToDeclinedAsync(MatchAndUser.CorrespondingMatch.MatchId);
+        await UpdateMatches();
     }
 
     public async Task UpdateMatches()
     {
-        
+        // invoke Async is used to trigger the corresponding callback
+        await OnUpdatedRequest.InvokeAsync();
     }
 }

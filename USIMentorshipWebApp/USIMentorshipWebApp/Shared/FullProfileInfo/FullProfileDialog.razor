@@ -75,10 +75,10 @@
         }
 
         @* BUSINESS LOCATION *@
-        @if (Mentor.BusinessCityId != null && Mentor.BusinessCountryCode != null && Mentor.BusinessStateCode != null)
+        @if (Mentor.BusinessCity != null && Mentor.BusinessCountry != null && Mentor.BusinessState != null)
         {
             <RadzenText TextStyle="TextStyle.Overline" class="rz-text-wrap rz-mt-1 rz-my-0">Business Location</RadzenText>
-            <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@((displayedCity?.CityName ?? "") + (displayedState?.StateName != null ? ", " + displayedState.StateName : "") + (displayedCountry?.CountryName != null ? ", " + displayedCountry.CountryName : ""))</b></RadzenText>
+            <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@((Mentor.BusinessCity ?? "") + (Mentor.BusinessState != null ? ", " + Mentor.BusinessState : "") + (Mentor.BusinessCountry != null ? ", " + Mentor.BusinessCountry : ""))</b></RadzenText>
         }
            
             
@@ -111,10 +111,6 @@
     [Parameter]
     public User Mentor { get; set; }
 
-    State displayedState;
-    City displayedCity;
-    Country displayedCountry;
-
     int? newOrExistingMatchId;
     User loggedInUser;
 
@@ -131,8 +127,5 @@
     protected override async Task OnInitializedAsync()
     {
         loggedInUser = sessionService.SessionUser;
-        displayedState = await userService.GetStateByIdAsync(Mentor.BusinessStateCode);
-        displayedCity = await userService.GetCityByIdAsync(Mentor.BusinessCityId);
-        displayedCountry = await userService.GetCountryByIdAsync(Mentor.BusinessCountryCode);
     }
 }
