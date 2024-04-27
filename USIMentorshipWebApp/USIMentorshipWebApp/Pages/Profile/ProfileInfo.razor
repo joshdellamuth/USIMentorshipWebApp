@@ -1,4 +1,5 @@
 ﻿@inject NavigationManager NavigationManager
+@inject RegistrationDataService RegistrationDataService
 @inject DialogService DialogService
 @inject UserService userService
 @inject SessionService sessionService
@@ -9,7 +10,7 @@
 @using Radzen
 @using System.Text.Json
 
-<div class="container-fluid">
+<div class="container">
     <div class="row px-3">
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
@@ -59,10 +60,24 @@
                 <RadzenTextBox MaxLength="8" Disabled="true" class="w-100" @bind-Value="@roleName" />
             </RadzenCard>
         </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">LinkedIn</RadzenText>
+                <RadzenTextBox MaxLength="8" class="w-100" @bind-Value="@loggedInUser.LinkedInLink" />
+            </RadzenCard>
+        </div>
+        @* <div>
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Industry</RadzenText>
+                <RadzenDropDown @bind-SearchText=@industriesSearchText @bind-Value=@loggedInUser.Industry
+                            AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                            Data=@industries AllowClear="true" Style="max-width:190px;" Name="Industry" />
+            </RadzenCard>
+        </div> *@
         <div class="col-md-12 col-lg-12 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">About</RadzenText>
-                <RadzenTextArea class="col-md-6 col-lg-12 p-3 w-100 h-50" Style="resize:vertical" @bind-Value=@loggedInUser.Bio Cols="77"></RadzenTextArea>
+                <RadzenTextArea class="col-md-6 col-lg-12 p-3 w-100 h-50" MaxLength="300" Style="resize:vertical" @bind-Value=@loggedInUser.Bio Cols="77"></RadzenTextArea>
             </RadzenCard>
         </div>
     </div>
@@ -81,8 +96,12 @@
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     public string? roleName;
 
+    // private string industriesSearchText = "";
+    // public List<string> industries = new List<string>();
+
     protected override async void OnInitialized() //On Page Load
     {
+        // industries = await RegistrationDataService.GetIndustriesAsync();
         loggedInUser = sessionService.SessionUser;
         userRoles = sessionService.Roles;
 
