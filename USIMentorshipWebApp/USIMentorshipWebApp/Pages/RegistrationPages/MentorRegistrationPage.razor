@@ -80,9 +80,8 @@
             @* SCHOOL, MAJOR, MINOR, GRADUATION YEAR *@
             <h3>Education Information:</h3>
             <RadzenRow class="mb-4 mt-4" AlignItems="AlignItems.Center" Gap="5">
-                
-                <SchoolDropdown></SchoolDropdown>
 
+            <SchoolDropdown @ref="schoolDropdown"/>
 
                 <RadzenStack Orientation="Orientation.Vertical">
                 
@@ -127,7 +126,6 @@
                                     AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                     Data=@jobTitles AllowClear="true" Style="max-width:190px;" Name="CurrentPosition"/>
                     <RadzenRequiredValidator Text="Current Position is Required" Component="CurrentPosition" />
-
                 </div>
             
 
@@ -189,8 +187,6 @@
 
 
 
-
-
             @* PASSWORD *@
             <RadzenRow class="mb-4 mt-4" Gap="5">
                 <RadzenStack Orientation="Orientation.Vertical">
@@ -234,6 +230,8 @@
     private User user = new User();
 
     BusinessLocationDropdown businessLocationDropdown;
+
+    SchoolDropdown schoolDropdown;
 
     private string schoolsSearchText = "";
     private string industriesSearchText = ""; // Add this line
@@ -280,8 +278,11 @@
                 }
             }
         }
-        
-        
+
+        if (schoolDropdown.schoolSelected != null)
+        {
+            user.School = schoolDropdown.schoolSelected;
+        }
 
         // Assume AddUser is updated to handle async operation if necessary
         await UserService.AddUserAsync(user, "Mentor");

@@ -1,0 +1,75 @@
+﻿@inject UserService UserService;
+@inject SessionService sessionService
+@inject RegistrationDataService registrationDataService;
+@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models;
+
+@* Note on the data shown *@
+<RadzenStack Orientation="Orientation.Horizontal">
+    @* COUNTRY DROPDOWN *@
+    <div class="flex-wrap">
+        <div class="row; pb-1">
+            <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Country of School</RadzenText>
+        <RadzenDropDown @bind-SearchText=@countriesSearchText FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
+                        Data=@countries Change="@(args => CountryChanged(args))"
+                        AllowClear="true" @bind-Value=@countrySelected Style="width: 100%; max-width: 220px;" />
+        </div>
+        <div class="row; pt-1">
+            <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">School</RadzenText>
+        <RadzenDropDown @bind-SearchText=@schoolsSearchText @bind-Value=@schoolSelected
+                        AllowFiltering="true" Disabled="@schoolDropdownDisabled" 
+                        Data=@schools FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                        AllowClear="true" Style="max-width:240px;" Name="School">
+        </RadzenDropDown>
+        </div>
+    </div>
+
+</RadzenStack>
+
+@code {
+    User loggedInUser;
+    // countries data
+    public List<string> countries;
+    public string countriesSearchText;
+    public string? countrySelected;
+
+    // schools data
+    private string schoolsSearchText = "";
+    public List<string> schools = new List<string>();
+    public string? schoolSelected;
+    public bool schoolDropdownDisabled = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        loggedInUser = sessionService.SessionUser;
+        countries = await registrationDataService.GetUniversityCountryNamesAsync();
+
+        if (loggedInUser.BusinessCountry != null)
+        {
+            countrySelected = loggedInUser.BusinessCountry;
+        }
+        if (loggedInUser.School != null)
+        {
+            schoolDropdownDisabled = false;
+            schools = await registrationDataService.GetUniversityNamesAsync(countrySelected);
+            schoolSelected = loggedInUser.School;
+        }
+    }
+
+    // this is triggered when the selected value changes and args is the newly selected value
+    public async Task CountryChanged(object value)
+    {
+        // disable the city and state dropdown if country is cleared and clear other dropdowns
+        if (countrySelected == null)
+        {
+            schoolSelected = null;
+            schoolDropdownDisabled = true;
+        }
+        else
+        {
+            schoolDropdownDisabled = false;
+            schools = await registrationDataService.GetUniversityNamesAsync(countrySelected);
+        }
+    }
+}

@@ -2,6 +2,7 @@
 @inject DialogService DialogService
 @inject UserService userService
 @inject SessionService sessionService
+@inject RequestService requestService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models
 @using System.Linq;
@@ -45,14 +46,18 @@
         <CascadingValue Value="@requestUser">
             <FullProfileButton />
         </CascadingValue>
-        <RadzenButton Shade="Shade.Dark" ButtonStyle="ButtonStyle.Success" Variant="Variant.Filled" Style="font-size:12px" Text="Accept" Click="@Accept" />
-        <RadzenButton Shade="Shade.Dark" ButtonStyle="ButtonStyle.Danger" Variant="Variant.Filled" Style="font-size:12px" Text="Decline" Click="@Decline" />
+        <RadzenButton Shade="Shade.Dark" ButtonStyle="ButtonStyle.Success" Variant="Variant.Filled" Style="font-size:12px" Text="Accept" Click="@Approved" />
+        <RadzenButton Shade="Shade.Dark" ButtonStyle="ButtonStyle.Danger" Variant="Variant.Filled" Style="font-size:12px" Text="Decline" Click="@Declined" />
     </RadzenStack>
 </RadzenCard>
 
 @code {
     [CascadingParameter]
     public MatchRequestDisplayCardObject MatchAndUser { get; set; }
+
+    [Parameter]
+    // when clicked, pass the MatchId to the parent component
+    public EventCallback OnUpdatedRequest { get; set; }
 
     User? requestUser;
     Match? requestMatch;
@@ -63,19 +68,21 @@
         requestMatch = MatchAndUser.CorrespondingMatch;
     }
 
-    void Accept()
+    public async Task Approved()
     {
-        int update = 1;
-        UpdateMatchesTable(update);
-    }
-    void Decline()
-    {
-        int update = 0;
-        UpdateMatchesTable(update);
+        await requestService.UpdateMatchToApprovedAsync(MatchAndUser.CorrespondingMatch.MatchId);
+        await UpdateMatches();
     }
 
-    void UpdateMatchesTable(int update)
+    public async Task Declined()
     {
-        
+        await requestService.UpdateMatchToDeclinedAsync(MatchAndUser.CorrespondingMatch.MatchId);
+        await UpdateMatches();
+    }
+
+    public async Task UpdateMatches()
+    {
+        // invoke Async is used to trigger the corresponding callback
+        await OnUpdatedRequest.InvokeAsync();
     }
 }

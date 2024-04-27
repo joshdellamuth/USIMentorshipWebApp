@@ -80,7 +80,14 @@ namespace USIMentorshipWebApp.Data
                     .Where(m => m.Status == "Pending")
                     .ToListAsync();
 
-                return matches;
+                if (matches.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return matches;
+                }
             }
         }
 
@@ -97,13 +104,14 @@ namespace USIMentorshipWebApp.Data
                     .Where(m => m.Status == "Approved")
                     .ToListAsync();
 
-                // Check if matches list is empty
                 if (matches.Count == 0)
                 {
                     return null;
                 }
-
-                return matches;
+                else
+                {
+                    return matches;
+                }
             }
         }
 
@@ -120,7 +128,14 @@ namespace USIMentorshipWebApp.Data
                     .Where(m => m.Status == "Declined")
                     .ToListAsync();
 
-                return matches;
+                if (matches.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return matches;
+                }
             }
         }
 
@@ -156,6 +171,10 @@ namespace USIMentorshipWebApp.Data
             if (statusString == "Pending") 
             {
                 matchIds = await GetPendingMatchesByUserId(loggedInUserId);
+                if (matchIds == null)
+                {
+                    return null;
+                }
             }
             else if (statusString == "Approved")
             {
@@ -169,6 +188,10 @@ namespace USIMentorshipWebApp.Data
             else
             {
                 matchIds = await GetDeclinedMatchesByUserId(loggedInUserId);
+                if (matchIds == null)
+                {
+                    return null;
+                }
             }
 
             matchRequestDisplayCardObjects = new List<MatchRequestDisplayCardObject>();
@@ -188,6 +211,83 @@ namespace USIMentorshipWebApp.Data
             }
 
             return matchRequestDisplayCardObjects;
+        }
+
+        public async Task UpdateMatchToPendingAsync(int? matchId)
+        {
+            using UsiMentorshipApplicationContext requestContext = new UsiMentorshipApplicationContext();
+
+            if (matchId != null)
+            {
+                var updatedMatch = requestContext.Matches.FirstOrDefault(m => m.MatchId == matchId);
+
+                if (updatedMatch != null)
+                {
+                    updatedMatch.Status = "Pending";
+                    requestContext.SaveChanges();
+
+                }
+                else
+                {
+                    // do nothing
+                }
+            }
+            else
+            {
+                // do nothing and return 
+                return;
+            }
+        }
+
+        public async Task UpdateMatchToApprovedAsync(int? matchId)
+        {
+            using UsiMentorshipApplicationContext requestContext = new UsiMentorshipApplicationContext();
+
+            if (matchId != null)
+            {
+                var updatedMatch = requestContext.Matches.FirstOrDefault(m => m.MatchId == matchId);
+
+                if (updatedMatch != null)
+                {
+                    updatedMatch.Status = "Approved";
+                    requestContext.SaveChanges();
+                }
+                else
+                {
+                    // do nothing
+                }
+            }
+            else
+            {
+                // do nothing and return 
+                return;
+            }
+        }
+
+        public async Task UpdateMatchToDeclinedAsync(int? matchId)
+        {
+            using UsiMentorshipApplicationContext requestContext = new UsiMentorshipApplicationContext();
+
+            if (matchId != null)
+            {
+                var updatedMatch = requestContext.Matches.FirstOrDefault(m => m.MatchId == matchId);
+
+                if (updatedMatch != null)
+                {
+                    updatedMatch.Status = "Declined";
+                    requestContext.SaveChanges();
+
+                }
+                else
+                {
+                    // do nothing
+                }
+            }
+            else
+            {
+                // do nothing and return 
+                return;
+            }
         }
 
     }

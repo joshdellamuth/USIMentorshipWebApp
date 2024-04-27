@@ -1,0 +1,11 @@
+﻿<button @onclick="ButtonClicked">Click me!</button>
+
+@code {
+    [Parameter] 
+    public EventCallback OnButtonClicked { get; set; }
+
+    private async Task ButtonClicked()
+    {
+        await OnButtonClicked.InvokeAsync();
+    }
+}

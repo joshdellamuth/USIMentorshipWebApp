@@ -33,6 +33,10 @@
     </ValueTemplate>
 </RadzenDropDown>
 
+<CallbackTestingComponent OnButtonClicked="HandleButtonClick" />
+
+<p>@displayText</p>
+
 @code {
     string value = "";
     IEnumerable<string> companyNames;
@@ -42,6 +46,12 @@
 
     private User user = new User();
 
+    private string displayText = "Waiting for callback...";
+
+    private void HandleButtonClick()
+    {
+        displayText = "Yay, you used a callback!";
+    }
 
     protected override async Task OnInitializedAsync()
     {

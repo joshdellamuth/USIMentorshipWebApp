@@ -1,0 +1,146 @@
+﻿@inject UserService userService;
+@inject SessionService sessionService
+@inject RegistrationDataService registrationDataService;
+@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models;
+
+@* Note on the data shown *@
+<div class="flex-wrap">
+    @* COUNTRY DROPDOWN *@
+        <label class="p-1">Business Country:</label>
+        <RadzenDropDown @bind-SearchText=@countriesSearchText FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
+                        Data=@countries Change="@(args => CountryChanged(args))"
+                        AllowClear="true" @bind-Value=@countrySelected Style="width: 100%; max-width: 220px;" />
+
+    @* STATE DROPDOWN *@
+    <label class="p-1">Business State/Providence:</label>
+        <RadzenDropDown @bind-SearchText=@stateSearchText FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
+                        Data=@states Disabled=@stateDropdownDisabled Change="@(args => StateChanged(args))"
+                        AllowClear="true" @bind-Value=@stateSelected Style="width: 100%; max-width: 220px;" />
+
+    @* CITY DROPDOWN *@
+    <label class="p-1">Business City:</label>
+        <RadzenDropDown @bind-SearchText=@citySearchText FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
+                        Data=@cities Disabled=@cityDropdownDisabled Change="@(args => CityChanged(args))"
+                        AllowClear="true" @bind-Value=@citySelected Style="width: 100%; max-width: 220px;" />
+</div>
+
+@code {
+    private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
+    User loggedInUser;
+
+    // countries variables
+    public List<string>? countries;
+    public string? countriesSearchText;
+    public string? countrySelected;
+    public Country? userCountry;
+
+    // states variables
+    public bool stateDropdownDisabled = true;
+    public List<string>? states;
+    public string? stateSearchText;
+    public string? stateSelected;
+    public State? userState;
+
+    // cities variables
+    public bool cityDropdownDisabled = true;
+    public List<string>? cities;
+    public string? citySearchText;
+    public string? citySelected;
+    public City? userCity;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        loggedInUser = sessionService.SessionUser;
+        countries = await registrationDataService.GetAllCountriesAsync();
+
+
+        if (loggedInUser.BusinessCountry != null)
+        {
+            countrySelected = loggedInUser.BusinessCountry;
+            cities = await registrationDataService.GetCityByCountryAsync(countrySelected);
+            if (loggedInUser.BusinessState != null)
+            {
+                var countryStates = await registrationDataService.GetStatesByCountryAsync(countrySelected);
+                states = countryStates;
+                stateDropdownDisabled = false;
+                stateSelected = loggedInUser.BusinessState;
+                var stateCities = await registrationDataService.GetCityByStateAndCountryAsync(countrySelected, stateSelected);
+                cities = stateCities;
+            }
+            if (loggedInUser.BusinessCity != null)
+            {
+                cityDropdownDisabled = false;
+                citySelected = loggedInUser.BusinessCity;
+            }
+        }
+    }
+
+    // this is triggered when the selected value changes and args is the newly selected value
+    public async Task CountryChanged(object value)
+    {
+        // disable the city and state dropdown if country is cleared and clear other dropdowns
+        if (countrySelected == null)
+        {
+            // set everything to null
+            citySelected = null;
+            stateSelected = null;
+            stateDropdownDisabled = true;
+            cityDropdownDisabled = true;
+        }
+
+        else
+        {
+            // get the states in the country
+            var countryStates = await registrationDataService.GetStatesByCountryAsync(countrySelected);
+
+            // see if country states was null
+            if (countryStates == null)
+            {
+                // if it is, deactivate states dropdown and activate the cites and set cities to the get country by cities
+                stateDropdownDisabled = true;
+                stateSelected = null;
+                cities = await registrationDataService.GetCityByCountryAsync(countrySelected);
+                cityDropdownDisabled = false;
+            }
+            else
+            {
+                states = countryStates;
+                stateDropdownDisabled = false;
+            }
+        }
+    }
+
+    // this is triggered when the selected value changes and args is the newly selected value
+    public async Task StateChanged(object value)
+    {
+        // disable the city dropdown when state is cleared
+        if (stateSelected == null)
+        {
+            cityDropdownDisabled = true;
+            citySelected = null;
+        }
+        else
+        {
+            var stateCities = await registrationDataService.GetCityByStateAndCountryAsync(countrySelected, stateSelected);
+            if (stateCities != null)
+            {
+                cityDropdownDisabled = false;
+                cities = stateCities;
+            }
+            else
+            {
+                cityDropdownDisabled = true;
+                citySelected = null;
+            }
+        }
+    }
+
+    public async Task CityChanged(object value)
+    {
+
+
+    }
+}

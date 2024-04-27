@@ -103,30 +103,6 @@ namespace USIMentorshipWebApp.Data
             }
         }
 
-        //public async Task<List<User?>> GetAllMentors()
-        //{
-        //    using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
-
-        //    var allMentors = await userContext.Users
-        //        .Join(
-        //            userContext.UserRoles,
-        //            user => user.UserId,
-        //            userRole => userRole.UserId,
-        //            (user, userRole) => new { User = user, UserRole = userRole }
-        //            )
-        //        .Join(
-        //            userContext.Roles,
-        //            combined => combined.UserRole.RoleId,
-        //            role => role.RoleId,
-        //            (combined, role) => new { User = combined.User, Role = role }
-        //            )
-        //        .Where(combined => combined.Role.RoleName == "Mentor")
-        //        .Select(combined => combined.User)
-        //        .ToListAsync();
-
-        //    return allMentors;
-        //}
-
         public async Task<List<User>> GetAllMentors()
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
@@ -244,7 +220,7 @@ namespace USIMentorshipWebApp.Data
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
-            var country = userContext.Countries
+            Country? country = userContext.Countries
                     .Where(c => c.CountryCode == countryCode)
                     .FirstOrDefault();
 
@@ -255,7 +231,7 @@ namespace USIMentorshipWebApp.Data
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
-            var country = userContext.States
+            State? country = userContext.States
                     .Where(c => c.StateCode == stateCode)
                     .FirstOrDefault();
 
@@ -266,7 +242,7 @@ namespace USIMentorshipWebApp.Data
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
-            var country = userContext.Cities
+            City? country = userContext.Cities
                     .Where(c => c.CityId == cityCode)
                     .FirstOrDefault();
 
