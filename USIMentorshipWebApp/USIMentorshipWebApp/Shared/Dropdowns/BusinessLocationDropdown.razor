@@ -16,17 +16,17 @@
 
         @* STATE DROPDOWN *@
         <div class="our-column mb-2">
-            <label>Business State:</label>
+            <label>Business State/Providence:</label>
             <RadzenDropDown @bind-SearchText=@stateSearchText FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
-                            TextProperty="StateName" Data=@states Disabled=@stateDropdownDisabled Change="@(args => StateChanged(args))" 
-                            ValueProperty="StateCode" AllowClear="true" @bind-Value=@stateSelected Style="width: 100%; max-width: 220px;" />
+                            Data=@states Disabled=@stateDropdownDisabled Change="@(args => StateChanged(args))" 
+                            AllowClear="true" @bind-Value=@stateSelected Style="width: 100%; max-width: 220px;" />
         </div>
 
         @* CITY DROPDOWN *@
         <div class="our-column mb-2">
             <label>Business City:</label>
             <RadzenDropDown @bind-SearchText=@citySearchText FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
-                            Data=@cities Disabled=@cityDropdownDisabled TextProperty="CityName" ValueProperty="CityId" Change="@CityChanged" AllowClear="true" @bind-Value=@citySelected Style="width: 100%; max-width: 220px;" />
+                            Data=@cities Disabled=@cityDropdownDisabled Change="@CityChanged" AllowClear="true" @bind-Value=@citySelected Style="width: 100%; max-width: 220px;" />
         </div>
     </RadzenStack>
     <label>Note: City and State data only shows for United States. Puerto Rican cities also supported.</label>
@@ -36,21 +36,22 @@
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
 
     // countries variables
-    public List<string> countries;
-    public string countriesSearchText;
+    public List<string>? countries;
+    public string? countriesSearchText;
     public string? countrySelected;
 
     // states variables
     public bool stateDropdownDisabled = true;
-    public List<State> states;
-    public string stateSearchText;
+
+    public List<string>? states;
+    public string? stateSearchText;
     public string? stateSelected;
 
     // cities variables
     public bool cityDropdownDisabled = true;
-    public int? citySelected;
-    public List<City> cities;
-    public string citySearchText;
+    public string? citySelected;
+    public List<string>? cities;
+    public string? citySearchText;
 
 
     protected override async Task OnInitializedAsync()
@@ -60,44 +61,67 @@
     }
 
     // this is triggered when the selected value changes and args is the newly selected value
-    void StateChanged(object value)
-    {
-        // disable the city dropdown when state is cleared 
-        if (stateSelected == null)
-        {
-            cityDropdownDisabled = true;
-            citySelected = null;
-        }
-        // converts the value variable to a string
-        stateSelected = (string)value;
-        cities = _context.Cities.Where(c => c.StateCode == stateSelected).ToList();
-        // .Any() returns if there are any cities in the collection, returns true if so
-        cityDropdownDisabled = !cities.Any();
-    }
-
-    // this is triggered when the selected value changes and args is the newly selected value
-    void CountryChanged(object value)
+    public async Task CountryChanged(object value)
     {
         // disable the city and state dropdown if country is cleared and clear other dropdowns
         if (countrySelected == null)
         {
+            // set everything to null
             citySelected = null;
             stateSelected = null;
             stateDropdownDisabled = true;
             cityDropdownDisabled = true;
         }
 
-        // converts the value variable to a string 
-        countrySelected = (string)value;
-        states = _context.States.Where(c => c.CountryCode == countrySelected).ToList();
-        // .Any() returns if there are any cities in the cities, returns true if so
-        stateDropdownDisabled = !states.Any();
+        else
+        {
+            // get the states in the country
+            var countryStates = await registrationDataService.GetStatesByCountryAsync(countrySelected);
+
+            // see if country states was null
+            if (countryStates == null)
+            {
+                // if it is, deactivate states dropdown and activate the cites and set cities to the get country by cities
+                stateDropdownDisabled = true;
+                stateSelected = null;
+                cities = await registrationDataService.GetCityByCountryAsync(countrySelected);
+                cityDropdownDisabled = false;
+            }
+            else
+            {
+                states = countryStates;
+                stateDropdownDisabled = false;
+            }
+        }
     }
 
-    void CityChanged(object value)
+    // this is triggered when the selected value changes and args is the newly selected value
+    public async Task StateChanged(object value)
+    {
+        // disable the city dropdown when state is cleared 
+        if (stateSelected == null)
+        {
+            
+        }
+        else
+        {
+            var stateCites = await registrationDataService.GetCityByStateAndCountryAsync(countrySelected, stateSelected);
+            if (stateCites != null)
+            {
+                cityDropdownDisabled = false;
+                cities = stateCites;
+            }
+            else
+            {
+                cityDropdownDisabled = true;
+                citySelected = null;
+            }
+        }
+    }
+
+    public async Task CityChanged(object value)
     {
         
-        //city = _context.States.Where(c => c.CountryCode == countrySelected).ToList();
-        
+                
     }
 }

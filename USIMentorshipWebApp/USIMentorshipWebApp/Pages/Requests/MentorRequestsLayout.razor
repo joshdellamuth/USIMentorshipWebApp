@@ -2,6 +2,7 @@
 @inject DialogService DialogService
 @inject UserService userService
 @inject SessionService sessionService
+@inject RequestService requestService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Models
 @using System.Linq;
@@ -9,99 +10,82 @@
 @using USIMentorshipWebApp.Shared.RequestMentorship;
 
 @*************Pending Requests For Mentors*********@
-<body>
-    <h3 style="color:dodgerblue"><b>Pending Requests</b></h3>
-    @if (pendingList != null)
+<h3 style="color:dodgerblue"><b>Pending:</b></h3>
+<div class="row rz-p-2" style="justify-content:center;">
+    @if (pendingRequestsDisplay != null)
     {
-        @foreach (int user in pendingList)
+        @foreach (MatchRequestDisplayCardObject displayObject in approvedRequestsDisplay)
         {
-            <CascadingValue Value ="@user">
+            <CascadingValue Value="@displayObject">
                 <RequestsResultCardMentorPending></RequestsResultCardMentorPending>
             </CascadingValue>
         }
-
     }
-</body>
+    else
+    {
+        <label>You have no approved requests.</label>
+    }
+</div>
 
 @**@
 
 @*************Approved Requests For Mentors*********@
-<body>
-    <h3 style="color:forestgreen"><b>Approved Requests</b></h3>
-    @if (requestsList != null)
+<h3 style="color:forestgreen"><b>Approved:</b></h3>
+<div class="row rz-p-2" style="justify-content:center;">
+    @if (approvedRequestsDisplay != null)
     {
-        @foreach (int user in requestsList)
+        @foreach (MatchRequestDisplayCardObject displayObject in approvedRequestsDisplay)
         {
-            <CascadingValue Value
-            ="@user">
+            <CascadingValue Value="@displayObject">
                 <RequestsResultCardMentorDecApp></RequestsResultCardMentorDecApp>
             </CascadingValue>
         }
-
     }
-</body>
+    else
+    {
+        <label>You have no approved requests.</label>
+    }
+</div>
 
 @*************Denied Requests For Mentors*********@
-<body>
-    <h3 style="color:grey"><b>Declined Requests</b></h3>
-    @if (declinedList != null)
+<h3 style="color:grey"><b>Dismissed:</b></h3>
+<div class="row rz-p-3" style="justify-content:center;">
+    @if (declinedRequestsDisplay != null)
     {
-        @foreach (int user in declinedList)
+        @foreach (MatchRequestDisplayCardObject displayObject in declinedRequestsDisplay)
         {
-            <CascadingValue Value="@user">
+            <CascadingValue Value="@displayObject">
                 <RequestsResultCardMentorDecApp></RequestsResultCardMentorDecApp>
             </CascadingValue>
         }
-
     }
-</body>
+    else
+    {
+        <label>You have no dismissed requests.</label>
+    }
+</div>
 
 @code {
-    List<Role> userRoles;
-    User loggedInUser;
+    List<Role>? userRoles;
+    User? loggedInUser;
+
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
-    List<int> pendingList = new List<int>(); // Initialize pendingList
-    List<int> declinedList = new List<int>(); // Initialize declinedList
-    List<int> requestsList = new List<int>(); // Initialize requestsLis    //need to figure out why it keeps throwing a null exception!
-    List<User> userList = new List<User>();
-    public int? matchId;
+    List<Match>? declinedMatches; // Initialize pendingList
+    List<Match>? pendingMatches; // Initialize declinedList
+    List<Match>? approvedMatches; // Initialize requestsLis
 
-    protected override async void OnInitialized()
+    List<MatchRequestDisplayCardObject>? approvedRequestsDisplay;
+    List<MatchRequestDisplayCardObject>? pendingRequestsDisplay;
+    List<MatchRequestDisplayCardObject>? declinedRequestsDisplay;
+
+
+    protected override async Task OnInitializedAsync()
     {
-        userList = await userService.GetUsers();
-
         loggedInUser = sessionService.SessionUser;
         userRoles = sessionService.Roles;
 
-        matchId = _context.UserMatches
-                  .Where(ur => ur.UserId == loggedInUser.UserId)
-                      .Select(ur => ur.MatchId)
-                      .FirstOrDefault();
-        foreach (User user in userList) 
-        {
-            int? matchedId = _context.UserMatches
-                  .Where(ur => ur.UserId == user.UserId)
-                      .Select(ur => ur.MatchId)
-                      .FirstOrDefault();
-            string? status = _context.Matches
-                  .Where(ur => ur.MatchId == matchedId)
-                      .Select(ur => ur.Status)
-                      .FirstOrDefault();
-            if (user.UserId != loggedInUser.UserId && matchedId == matchId)
-            {
-                if (status == "Pending")
-                {
-                    pendingList?.Add(user.UserId);
-                }
-                else if (status == "Declined")
-                {
-                    declinedList?.Add(user.UserId);
-                }
-                else if (status == "Approved")
-                {
-                    requestsList?.Add(user.UserId);
-                }
-            }
-        }
+        approvedRequestsDisplay = await requestService.GetMatchRequestDisplayCards(loggedInUser.UserId, "Approved");
+        pendingRequestsDisplay = await requestService.GetMatchRequestDisplayCards(loggedInUser.UserId, "Pending");
+        declinedRequestsDisplay = await requestService.GetMatchRequestDisplayCards(loggedInUser.UserId, "Declined");
     }
 }

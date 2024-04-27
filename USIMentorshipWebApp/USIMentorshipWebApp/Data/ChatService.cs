@@ -65,7 +65,7 @@ namespace USIMentorshipWebApp.Data
 
             foreach (MatchCommunicationDetail chat in chatMessages)
             {
-                var senderUser = userService.GetUserByIdAsync(chat.SenderUserId);
+                var senderUser = await userService.GetUserByIdAsync(chat.SenderUserId);
                 var mostRecentChat = await GetMostRecentChat(matchId);
                 UserMessages UserMessagesObject = new UserMessages { user = senderUser, userMessage = chat };
                 userMessagesList.Add(UserMessagesObject);

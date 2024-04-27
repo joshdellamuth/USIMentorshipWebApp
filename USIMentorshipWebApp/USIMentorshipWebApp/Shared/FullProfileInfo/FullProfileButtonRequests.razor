@@ -17,7 +17,7 @@
 
     public async Task ShowFullProfile()
     {
-        RequestUser = userService.GetUserByIdAsync(requestUserId);
+        RequestUser = await userService.GetUserByIdAsync(requestUserId);
         roleId = _context.UserRoles
                               .Where(ur => ur.UserId == RequestUser.UserId)
                               .Select(ur => ur.RoleId)

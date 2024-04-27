@@ -252,7 +252,6 @@
     {
         industries = await RegistrationDataService.GetIndustriesAsync();
         jobTitles = await RegistrationDataService.GetJobTitlesAsync();
-        schools = await RegistrationDataService.GetUniversityNamesAsync("Canada");
     }
 
     // graduation year current date changed and for the birthdate changed
@@ -267,20 +266,20 @@
 
     private async Task OnSubmit()
     {
-        // grab what is filled out for the business location (have to reference shared component since it is not defined in this file)
-        // if (businessLocationDropdown.countrySelected != null)
-        // {
-        //     user.BusinessCountryCode = businessLocationDropdown.countrySelected;
-        //     if (businessLocationDropdown.stateSelected != null)
-        //     {
-        //         user.BusinessStateCode = businessLocationDropdown.stateSelected;
+        //grab what is filled out for the business location (have to reference shared component since it is not defined in this file)
+        if (businessLocationDropdown.countrySelected != null)
+        {
+            user.BusinessCountry = businessLocationDropdown.countrySelected;
+            if (businessLocationDropdown.stateSelected != null)
+            {
+                user.BusinessState= businessLocationDropdown.stateSelected;
 
-        //         if (businessLocationDropdown.citySelected != null)
-        //         {
-        //             user.BusinessCityId = businessLocationDropdown.citySelected;
-        //         }
-        //     }
-        // }
+                if (businessLocationDropdown.citySelected != null)
+                {
+                    user.BusinessCity = businessLocationDropdown.citySelected;
+                }
+            }
+        }
         
         
 
