@@ -16,7 +16,7 @@
         <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap=".5rem" Class="rz-p-2">
             @* PROFILE PICTURE AND BUSINESS LOCATION *@
             <RadzenStack Orientation="Orientation.Vertical" Style="max-width:160px;">
-                <RadzenImage Path=@Mentor.ProfilePicutre Style="width: 160px; height: 160px; border-radius: 50%;" AlternateText="@($"{Mentor.FirstName} {Mentor.LastName} profile picture")" />
+                <RadzenImage Path=@Mentor.ProfilePicture Style="width: 160px; height: 160px; border-radius: 50%;" AlternateText="@($"{Mentor.FirstName} {Mentor.LastName} profile picture")" />
                 <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Major</RadzenText>
                 <RadzenText TextStyle="TextStyle.Body1"><b>@Mentor.Major</b></RadzenText>
             </RadzenStack>

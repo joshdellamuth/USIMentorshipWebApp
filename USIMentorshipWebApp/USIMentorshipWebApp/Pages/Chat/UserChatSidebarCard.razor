@@ -12,7 +12,7 @@
             <RadzenStack Orientation="Orientation.Horizontal">
                 @foreach (User user in usersInMatch)
                 {
-                    <RadzenImage Path=@user.ProfilePicutre Style="width: 90px; height: 90px; border-radius: 50%;" AlternateText="@($"{user.FirstName} {user.LastName} profile picture")" />
+                    <RadzenImage Path=@user.ProfilePicture Style="width: 90px; height: 90px; border-radius: 50%;" AlternateText="@($"{user.FirstName} {user.LastName} profile picture")" />
                 }
 
                 <RadzenStack Gap=".5rem" Orientation="Orientation.Vertical">
