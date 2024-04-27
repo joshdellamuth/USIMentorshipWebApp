@@ -8,19 +8,19 @@ namespace USIMentorshipWebApp.Data
     public class UserService
     {
         // Get User By UserId
-        public User GetUserByIdAsync(int? userId)
+        // Get User By UserId
+        public async Task<User>? GetUserByIdAsync(int? userId)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
             try
             {
-                return userContext.Users
-                    .FirstOrDefault(u => u.UserId == userId);
+                return await userContext.Users
+                    .FirstOrDefaultAsync(u => u.UserId == userId);
             }
             catch (Exception ex)
             {
-                // Handle exceptions (e.g., logging, error handling)
-                throw new ApplicationException("Error retrieving user by ID.", ex);
+                return null;
             }
         }
 

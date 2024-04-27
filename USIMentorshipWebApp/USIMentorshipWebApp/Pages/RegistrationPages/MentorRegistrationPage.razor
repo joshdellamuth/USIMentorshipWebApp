@@ -80,18 +80,8 @@
             @* SCHOOL, MAJOR, MINOR, GRADUATION YEAR *@
             <h3>Education Information:</h3>
             <RadzenRow class="mb-4 mt-4" AlignItems="AlignItems.Center" Gap="5">
-                <div class="our-column mb-2">
-                    <label>School:</label>
-                    <RadzenDropDown @bind-SearchText=@schoolsSearchText @bind-Value=@user.School
-                                    AllowFiltering="true" Data=@schools FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                    AllowClear="true" Style="max-width:240px;" Name="School">
-                        <ValueTemplate Context="customContext">
-                            <RadzenTextBox @bind-Value=@user.School Style="width:280px; margin:-8px;" />
-                        </ValueTemplate>
-                    </RadzenDropDown>
-
-                    <RadzenRequiredValidator Text="School is Required" Component="School" />
-                </div>
+                
+                <SchoolDropdown></SchoolDropdown>
 
 
                 <RadzenStack Orientation="Orientation.Vertical">
@@ -242,7 +232,7 @@
     User loggedInUser;
 
     private User user = new User();
-    
+
     BusinessLocationDropdown businessLocationDropdown;
 
     private string schoolsSearchText = "";
@@ -262,7 +252,6 @@
     {
         industries = await RegistrationDataService.GetIndustriesAsync();
         jobTitles = await RegistrationDataService.GetJobTitlesAsync();
-        schools = await RegistrationDataService.GetUniversityNamesAsync();
     }
 
     // graduation year current date changed and for the birthdate changed
@@ -277,20 +266,20 @@
 
     private async Task OnSubmit()
     {
-        // grab what is filled out for the business location (have to reference shared component since it is not defined in this file)
-        // if (businessLocationDropdown.countrySelected != null)
-        // {
-        //     user.BusinessCountryCode = businessLocationDropdown.countrySelected;
-        //     if (businessLocationDropdown.stateSelected != null)
-        //     {
-        //         user.BusinessStateCode = businessLocationDropdown.stateSelected;
+        //grab what is filled out for the business location (have to reference shared component since it is not defined in this file)
+        if (businessLocationDropdown.countrySelected != null)
+        {
+            user.BusinessCountry = businessLocationDropdown.countrySelected;
+            if (businessLocationDropdown.stateSelected != null)
+            {
+                user.BusinessState= businessLocationDropdown.stateSelected;
 
-        //         if (businessLocationDropdown.citySelected != null)
-        //         {
-        //             user.BusinessCityId = businessLocationDropdown.citySelected;
-        //         }
-        //     }
-        // }
+                if (businessLocationDropdown.citySelected != null)
+                {
+                    user.BusinessCity = businessLocationDropdown.citySelected;
+                }
+            }
+        }
         
         
 

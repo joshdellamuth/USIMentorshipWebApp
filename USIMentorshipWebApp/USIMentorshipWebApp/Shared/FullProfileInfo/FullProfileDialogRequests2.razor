@@ -68,7 +68,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        RequestUser = userService.GetUserByIdAsync(requestUserId);
+        RequestUser = await userService.GetUserByIdAsync(requestUserId);
         displayedState = await userService.GetStateByIdAsync(RequestUser.BusinessStateCode);
         displayedCity = await userService.GetCityByIdAsync(RequestUser.BusinessCityId);
         displayedCountry = await userService.GetCountryByIdAsync(RequestUser.BusinessCountryCode);

@@ -1,0 +1,62 @@
+﻿@inject UserService UserService;
+@inject RegistrationDataService registrationDataService;
+@using USIMentorshipWebApp.Data
+@using USIMentorshipWebApp.Models;
+
+@* Note on the data shown *@
+<RadzenStack Orientation="Orientation.Horizontal">
+    @* COUNTRY DROPDOWN *@
+    <div class="our-column mb-2">
+        <label>Country of School:</label>
+        <RadzenDropDown @bind-SearchText=@countriesSearchText FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
+                        Data=@countries Change="@(args => CountryChanged(args))"
+                        AllowClear="true" @bind-Value=@countrySelected Style="width: 100%; max-width: 220px;" />
+    </div>
+
+
+    <div class="our-column mb-2">
+        <label>School:</label>
+        <RadzenDropDown @bind-SearchText=@schoolsSearchText @bind-Value=@schoolSelected
+                        AllowFiltering="true" Disabled="@schoolDropdownDisabled" Data=@schools FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                        AllowClear="true" Style="max-width:240px;" Name="School">
+        </RadzenDropDown>
+
+        <RadzenRequiredValidator Text="School is Required" Component="School" />
+    </div>
+
+</RadzenStack>
+
+@code {
+    // countries data
+    public List<string> countries;
+    public string countriesSearchText;
+    public string? countrySelected;
+
+    // schools data
+    private string schoolsSearchText = "";
+    public List<string> schools = new List<string>();
+    public string? schoolSelected;
+    public bool schoolDropdownDisabled = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        countries = await registrationDataService.GetUniversityCountryNamesAsync();
+    }
+
+    // this is triggered when the selected value changes and args is the newly selected value
+    public async Task CountryChanged(object value)
+    {
+        // disable the city and state dropdown if country is cleared and clear other dropdowns
+        if (countrySelected == null)
+        {
+            schoolSelected = null;
+            schoolDropdownDisabled = true;
+        }
+        else
+        {
+            schoolDropdownDisabled = false;
+            schools = await registrationDataService.GetUniversityNamesAsync(countrySelected);
+        }
+    }
+}
