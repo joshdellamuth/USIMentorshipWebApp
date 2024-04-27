@@ -10,7 +10,7 @@
 @using Radzen
 @using System.Text.Json
 
-<div class="container-fluid">
+<div class="container">
     <div class="row px-3">
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
@@ -60,6 +60,12 @@
                 <RadzenTextBox MaxLength="8" Disabled="true" class="w-100" @bind-Value="@roleName" />
             </RadzenCard>
         </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">LinkedIn</RadzenText>
+                <RadzenTextBox MaxLength="8" class="w-100" @bind-Value="@loggedInUser.LinkedInLink" />
+            </RadzenCard>
+        </div>
         @* <div>
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Industry</RadzenText>
@@ -71,7 +77,7 @@
         <div class="col-md-12 col-lg-12 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">About</RadzenText>
-                <RadzenTextArea class="col-md-6 col-lg-12 p-3 w-100 h-50" Style="resize:vertical" @bind-Value=@loggedInUser.Bio Cols="77"></RadzenTextArea>
+                <RadzenTextArea class="col-md-6 col-lg-12 p-3 w-100 h-50" MaxLength="300" Style="resize:vertical" @bind-Value=@loggedInUser.Bio Cols="77"></RadzenTextArea>
             </RadzenCard>
         </div>
     </div>

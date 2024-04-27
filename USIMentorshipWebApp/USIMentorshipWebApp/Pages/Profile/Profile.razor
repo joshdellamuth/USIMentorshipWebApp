@@ -10,18 +10,16 @@
 <PageTitle>Profile - USI Mentorship Program</PageTitle>
 
 @*This is for layout of page*@     
-<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center">
-    <div class="container">
-        <div class="fixed-column; justify-content-center">
-            <center><h2>@loggedInUser.FullName</h2></center>
-                <RadzenImage Path="@loggedInUser.ProfilePicutre" width="180" height="180" />
-            <RadzenUpload Url="upload/single" ChooseText="Change Profile Picture" Style="width:180px; text-align:center;" Accept="image/*"></RadzenUpload>
-        </div>
-        <div class="flex-column">
-                <ProfileInfo />
-        </div>
+<div class="container-fluid">
+    <div class="fixed-column; justify-content-center">
+        <center><h2>@loggedInUser.FullName</h2></center>
+    <center> <RadzenImage Path="@loggedInUser.ProfilePicutre" width="180" height="180" /></center>
+    <center><RadzenUpload Url="upload/single" ChooseText="Change Profile Picture" Style="width:180px; text-align:center;" Accept="image/*"></RadzenUpload></center>
     </div>
-</RadzenStack>
+    <div class="flex-column">
+            <ProfileInfo />
+    </div>
+</div>
 
 
 @code {
