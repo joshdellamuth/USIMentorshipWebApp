@@ -1,11 +1,12 @@
 ﻿@inject NavigationManager NavigationManager
-@inject RegistrationDataService RegistrationDataService
+@inject RegistrationDataService registrationDataService
 @inject DialogService DialogService
 @inject UserService userService
 @inject SessionService sessionService
 @using USIMentorshipWebApp.Data;
 @using USIMentorshipWebApp.Shared.FullProfileInfo;
 @using USIMentorshipWebApp.Shared.RequestMentorship;
+@using USIMentorshipWebApp.Shared.Dropdowns;
 @using USIMentorshipWebApp.Models;
 @using Radzen
 @using System.Text.Json
@@ -20,8 +21,19 @@
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Date of Birth</RadzenText>
+                <RadzenDatePicker @bind-Value=@loggedInUser.DateOfBirth Name="DateOfBirth" ShowCalendarWeek CurrentDateChanged=@OnCurrentBirthdateChanged DateFormat="MM/dd/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(-18)" />
+            </RadzenCard>
+        </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Phone Number</RadzenText>
                 <RadzenTextBox class="w-100" MaxLength="10" @bind-Value=@loggedInUser.PhoneNumber />
+            </RadzenCard>
+        </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+            <SchoolDropdownProfile></SchoolDropdownProfile>
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
@@ -38,20 +50,15 @@
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
-                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Current Position</RadzenText>
-                <RadzenTextBox MaxLength="30" class="w-100" @bind-Value="@loggedInUser.CurrentPosition" />
-            </RadzenCard>
-        </div>
-        <div class="col-md-6 col-lg-4 p-3">
-            <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Class Year</RadzenText>
-                <RadzenTextBox class="w-100" MaxLength="4" @bind-Value="@exampleGraduationYear" />
+                <RadzenDatePicker @bind-Value=@loggedInUser.GraduationYear Name="GraduationDate" ShowDays=false DateFormat="MM/yyyy"
+                                  Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(30)" CurrentDateChanged=@OnCurrentGraduationYearChanged />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Gender</RadzenText>
-                <RadzenTextBox MaxLength="8" class="w-100" @bind-Value="@loggedInUser.Gender" />
+                <RadzenDropDown @bind-Value=@loggedInUser.Gender Data=@genders Style="max-width:160px;" Name="Gender" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
@@ -63,17 +70,37 @@
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">LinkedIn</RadzenText>
-                <RadzenTextBox MaxLength="8" class="w-100" @bind-Value="@loggedInUser.LinkedInLink" />
+                <RadzenTextBox MaxLength="20" class="w-100" @bind-Value="@loggedInUser.LinkedInLink" />
             </RadzenCard>
         </div>
-        @* <div>
+        <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Industry</RadzenText>
                 <RadzenDropDown @bind-SearchText=@industriesSearchText @bind-Value=@loggedInUser.Industry
                             AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                             Data=@industries AllowClear="true" Style="max-width:190px;" Name="Industry" />
             </RadzenCard>
-        </div> *@
+        </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Current Position</RadzenText>
+                <RadzenDropDown @bind-SearchText=@jobTitlesSearchText @bind-Value=@loggedInUser.CurrentPosition
+                                AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                Data=@jobTitles AllowClear="true" Style="max-width:190px;" Name="CurrentPosition" />
+            </RadzenCard>
+        </div>
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Company</RadzenText>
+                <RadzenTextBox @bind-Value="@loggedInUser.Company" Name="Company" />
+            </RadzenCard>
+        </div>
+        <div class="col-md-12 col-lg-12 p-3">
+            <RadzenCard>
+                <BusinessLocationDropdownProfile @ref="businessLocationDropdownProfile" />
+            </RadzenCard>
+        </div>
+
         <div class="col-md-12 col-lg-12 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">About</RadzenText>
@@ -91,21 +118,29 @@
 @code {
     List<Role> userRoles;
     User loggedInUser;
-    public string? exampleGraduationYear;  
+    BusinessLocationDropdownProfile businessLocationDropdownProfile;
+    public string? exampleGraduationYear;
+    public string? birthdate;
     private UserService _userService = new UserService();
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
     public string? roleName;
 
-    // private string industriesSearchText = "";
-    // public List<string> industries = new List<string>();
+    private string jobTitlesSearchText = "";
+    private string industriesSearchText = "";
+    public List<string> jobTitles = new List<string>();
+    public List<string> industries = new List<string>();
+    public List<string> genders = new List<string> { "Male", "Female", "Other" };
 
-    protected override async void OnInitialized() //On Page Load
+
+    protected override async Task OnInitializedAsync() //On Page Load
     {
-        // industries = await RegistrationDataService.GetIndustriesAsync();
         loggedInUser = sessionService.SessionUser;
         userRoles = sessionService.Roles;
-
+        industries = await registrationDataService.GetIndustriesAsync();
+        jobTitles = await registrationDataService.GetJobTitlesAsync();
+        
         exampleGraduationYear = loggedInUser.GraduationYear.ToString();
+        birthdate = loggedInUser.DateOfBirth.ToString();
         if (userRoles.Any(role => role.RoleName == "Mentee")) //Mentee
         {
             roleName = "Mentee";
@@ -114,6 +149,15 @@
         {
             roleName = "Mentor";
         }
+    }
+
+    void OnCurrentBirthdateChanged(DateTime args)
+    {
+        loggedInUser.DateOfBirth = new DateTime(args.Year, args.Month, 1);
+    }
+    void OnCurrentGraduationYearChanged(DateTime args)
+    {
+        loggedInUser.GraduationYear = new DateTime(args.Year, args.Month, 1);
     }
 
     void SignOut(MouseEventArgs args)

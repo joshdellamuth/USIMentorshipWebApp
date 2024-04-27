@@ -244,7 +244,7 @@ namespace USIMentorshipWebApp.Data
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
-            var country = userContext.Countries
+            Country? country = userContext.Countries
                     .Where(c => c.CountryCode == countryCode)
                     .FirstOrDefault();
 
@@ -255,7 +255,7 @@ namespace USIMentorshipWebApp.Data
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
-            var country = userContext.States
+            State? country = userContext.States
                     .Where(c => c.StateCode == stateCode)
                     .FirstOrDefault();
 
@@ -266,7 +266,7 @@ namespace USIMentorshipWebApp.Data
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
-            var country = userContext.Cities
+            City? country = userContext.Cities
                     .Where(c => c.CityId == cityCode)
                     .FirstOrDefault();
 
