@@ -155,6 +155,8 @@
 
     private async Task OnSubmit()
     {
+        // all mentees that sign up will be set that they go to USI
+        user.School = "University of Southern Indiana";
         // Assume AddUser is updated to handle async operation if necessary
         await UserService.AddUserAsync(user, "Mentee");
 

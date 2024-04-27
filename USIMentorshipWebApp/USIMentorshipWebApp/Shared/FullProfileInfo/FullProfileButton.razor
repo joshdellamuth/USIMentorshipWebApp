@@ -1,5 +1,7 @@
 ﻿@using USIMentorshipWebApp.Models
+@using USIMentorshipWebApp.Data
 @inject DialogService DialogService
+@inject SessionService sessionService;
 
 <RadzenButton Variant="Variant.Outlined" Click=@ShowFullProfile Style="font-size:12px" Text="Full Profile" />
 
@@ -10,9 +12,24 @@
 
     public async Task ShowFullProfile()
     {
-        await DialogService.OpenAsync<FullProfileDialog>($"Mentor {Mentor.FirstName} {Mentor.LastName}",
-               new Dictionary<string, object>() { { "Mentor", Mentor } },
-               // can configure the dropdown to be resizable and dragable (commented out)
-               new DialogOptions() { Width = "700px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
+        var roles = sessionService.GetUserRoles(Mentor);
+        // if their role contains mentor display this one 
+        if (roles.Any(role => role.RoleName == "Mentor"))
+        {
+            await DialogService.OpenAsync<FullProfileDialog>($"Mentor {Mentor.FirstName} {Mentor.LastName}",
+                new Dictionary<string, object>() { { "Mentor", Mentor } },
+                // can configure the dropdown to be resizable and dragable (commented out)
+                new DialogOptions() { Width = "700px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
+        }
+
+        if (roles.Any(role => role.RoleName == "Mentee"))
+        {
+            await DialogService.OpenAsync<FullProfileDialog>($"Mentee {Mentor.FirstName} {Mentor.LastName}",
+                new Dictionary<string, object>() { { "Mentor", Mentor } },
+                // can configure the dropdown to be resizable and dragable (commented out)
+                new DialogOptions() { Width = "700px", CloseDialogOnOverlayClick = true /* Resizable = true, Draggable = true */ });
+        }
+
+    //if their role contains mentee display this one
     }
 }

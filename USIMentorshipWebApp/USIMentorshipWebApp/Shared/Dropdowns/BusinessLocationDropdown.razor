@@ -63,12 +63,16 @@
     // this is triggered when the selected value changes and args is the newly selected value
     public async Task CountryChanged(object value)
     {
+        stateSelected = null;
+        citySelected = null;
+        stateDropdownDisabled = true;
+        cityDropdownDisabled = true;
         // disable the city and state dropdown if country is cleared and clear other dropdowns
         if (countrySelected == null)
         {
-            // set everything to null
-            citySelected = null;
+            // set everything to null and disable the dropdowns
             stateSelected = null;
+            citySelected = null;
             stateDropdownDisabled = true;
             cityDropdownDisabled = true;
         }
@@ -79,13 +83,13 @@
             var countryStates = await registrationDataService.GetStatesByCountryAsync(countrySelected);
 
             // see if country states was null
-            if (countryStates == null)
+            if (countryStates.Count == 0)
             {
                 // if it is, deactivate states dropdown and activate the cites and set cities to the get country by cities
                 stateDropdownDisabled = true;
                 stateSelected = null;
-                cities = await registrationDataService.GetCityByCountryAsync(countrySelected);
                 cityDropdownDisabled = false;
+                cities = await registrationDataService.GetCityByCountryAsync(countrySelected);
             }
             else
             {
@@ -98,30 +102,31 @@
     // this is triggered when the selected value changes and args is the newly selected value
     public async Task StateChanged(object value)
     {
-        // disable the city dropdown when state is cleared 
-        if (stateSelected == null)
-        {
-            
-        }
-        else
+        citySelected = null;
+        cityDropdownDisabled = true;
+        if (stateSelected != null)
         {
             var stateCites = await registrationDataService.GetCityByStateAndCountryAsync(countrySelected, stateSelected);
-            if (stateCites != null)
-            {
-                cityDropdownDisabled = false;
-                cities = stateCites;
-            }
-            else
+            if (stateCites.Count == 0)
             {
                 cityDropdownDisabled = true;
                 citySelected = null;
             }
+            else
+            {
+                cityDropdownDisabled = false;
+                cities = stateCites;
+            }
+        }
+        else
+        {
+            cityDropdownDisabled = true;
+            citySelected = null;
         }
     }
 
     public async Task CityChanged(object value)
     {
-        
                 
     }
 }
