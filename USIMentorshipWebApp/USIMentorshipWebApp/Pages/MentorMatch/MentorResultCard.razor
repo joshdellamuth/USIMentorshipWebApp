@@ -39,7 +39,7 @@
 
                 @* BUSINESS LOCATION *@
                 <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Business Location</RadzenText>
-                <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@((displayedCity?.CityName ?? "N/A") + ", " + (displayedState?.StateName ?? "N/A") + ", " + (displayedCountry?.CountryName ?? "N/A"))</b></RadzenText>
+                <RadzenText class="mb-2" TextStyle="TextStyle.Body1"><b>@((displayedCity ?? "N/A") + ", " + (displayedState ?? "N/A") + ", " + (displayedCountry ?? "N/A"))</b></RadzenText>
             </RadzenStack>
         </RadzenStack>
     </div>
@@ -83,16 +83,16 @@
 
     }
 
-    State? displayedState;
-    City? displayedCity;
-    Country? displayedCountry;
+    string? displayedState;
+    string? displayedCity;
+    string? displayedCountry;
 
     protected override async Task OnInitializedAsync()
     {
         // set the logged in User to example mentee
         loggedInUser = sessionService.SessionUser;
-        displayedState = await userService.GetStateByIdAsync(Mentor.BusinessStateCode);
-        displayedCountry = await userService.GetCountryByIdAsync(Mentor.BusinessCountryCode);
-        displayedCity = await userService.GetCityByIdAsync(Mentor.BusinessCityId);
+        displayedState = Mentor.BusinessState;
+        displayedCountry = Mentor.BusinessCountry;
+        displayedCity = Mentor.BusinessCity;
     }
 }

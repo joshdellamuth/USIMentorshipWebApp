@@ -216,39 +216,6 @@ namespace USIMentorshipWebApp.Data
             return userWithAdminRole;
         }
 
-        public async Task<Country?> GetCountryByIdAsync(string countryCode)
-        {
-            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
-
-            Country? country = userContext.Countries
-                    .Where(c => c.CountryCode == countryCode)
-                    .FirstOrDefault();
-
-            return country;
-        }
-
-        public async Task<State?> GetStateByIdAsync(string stateCode)
-        {
-            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
-
-            State? country = userContext.States
-                    .Where(c => c.StateCode == stateCode)
-                    .FirstOrDefault();
-
-            return country;
-        }
-
-        public async Task<City?> GetCityByIdAsync(int? cityCode)
-        {
-            using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
-
-            City? country = userContext.Cities
-                    .Where(c => c.CityId == cityCode)
-                    .FirstOrDefault();
-
-            return country;
-        }
-
         public async Task<List<User>> GetUsers()
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
@@ -258,52 +225,41 @@ namespace USIMentorshipWebApp.Data
         }
 
         #region Mentor Match Methods to retrieve the data
-        public async Task<List<City>> GetMentorCitiesGivenAllMentorsAsync(List<User?> allMentors)
+        public async Task<List<string>> GetMentorCitiesGivenAllMentorsAsync(List<User?> allMentors)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
             var cities = allMentors
-                .Select(user => user.BusinessCityId) // Select BusinessCityId from each user
-                .Distinct() // Remove duplicates
-                .Join(userContext.Cities, // Join with Cities table
-                    businessCityId => businessCityId, // specifying our list of businessCityIds as businessCityId
-                    city => city.CityId, // Key from the Cities table
-                    (businessCityId, city) => city) // Select CityName
-                .ToList(); // Convert to List
+                .Where(u => u?.BusinessCity != null) // Exclude null entries
+                .Select(u => u.BusinessCity)
+                .Distinct()
+                .ToList();
 
             return cities;
         }
-        #endregion
 
-        #region Mentor Match Methods to retrieve the data
-        public async Task<List<State>> GetMentorStatesGivenAllMentorsAsync(List<User?> allMentors)
+        public async Task<List<string>> GetMentorStatesGivenAllMentorsAsync(List<User?> allMentors)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
             var states = allMentors
-                .Select(user => user.BusinessStateCode) // Select BusinessCityId from each user
-                .Distinct() // Remove duplicates
-                .Join(userContext.States, // Join with Cities table
-                    businessStateCode => businessStateCode, // specifying our list of businessCityIds as businessCityId
-                    state => state.StateCode, // Key from the Cities table
-                    (businessCityId, state) => state) // Select CityName
-                .ToList(); // Convert to List
+                .Where(u => u?.BusinessState != null) // Exclude null entries
+                .Select(u => u.BusinessState)
+                .Distinct()
+                .ToList();
 
             return states;
         }
 
-        public async Task<List<Country>> GetMentorCountriesGivenAllMentorsAsync(List<User?> allMentors)
+        public async Task<List<string>> GetMentorCountriesGivenAllMentorsAsync(List<User?> allMentors)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
 
             var countries = allMentors
-                .Select(user => user.BusinessCountryCode) // Select BusinessCityId from each user
-                .Distinct() // Remove duplicates
-                .Join(userContext.Countries, // Join with Cities table
-                    businessCountryCode => businessCountryCode, // specifying our list of businessCityIds as businessCityId
-                    country => country.CountryCode, // Key from the Cities table
-                    (businessCountryId, country) => country) // Select CityName
-                .ToList(); // Convert to List
+                .Where(u => u?.BusinessCountry != null) // Exclude null entries
+                .Select(u => u.BusinessCountry)
+                .Distinct()
+                .ToList();
 
             return countries;
         }

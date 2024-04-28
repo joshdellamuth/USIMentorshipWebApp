@@ -105,32 +105,5 @@ namespace USIMentorshipWebApp.Data
 
             return allSchools;
         }
-
-        public async Task<List<Country>?> GetAllCountries()
-        {
-            using UsiMentorshipApplicationContext adminPortalService = new UsiMentorshipApplicationContext();
-
-            var allCountries = await adminPortalService.Countries.ToListAsync();
-
-            return allCountries;
-        }
-
-        public async Task<List<State>?> GetAllStates()
-        {
-            using UsiMentorshipApplicationContext adminPortalService = new UsiMentorshipApplicationContext();
-
-            var allStates = await adminPortalService.States.ToListAsync();
-
-            return allStates;
-        }
-
-        public async Task<List<City>?> GetAllCities()
-        {
-            using UsiMentorshipApplicationContext adminPortalService = new UsiMentorshipApplicationContext();
-
-            var allCities = await adminPortalService.Cities.ToListAsync();
-
-            return allCities;
-        }
     }
 }

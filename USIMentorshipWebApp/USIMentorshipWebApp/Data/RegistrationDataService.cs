@@ -18,14 +18,6 @@ namespace USIMentorshipWebApp.Data
             _http = http;
         }
 
-
-        public City GetCityById(int id)
-        {
-            using UsiMentorshipApplicationContext registrationDataService = new UsiMentorshipApplicationContext();
-
-            return registrationDataService.Cities.FirstOrDefault(s => s.CityId == id);
-        }
-
         public async Task<List<string>> GetIndustriesAsync()
         {
             using var context = new UsiMentorshipApplicationContext();
@@ -42,14 +34,6 @@ namespace USIMentorshipWebApp.Data
         {
             using var context = new UsiMentorshipApplicationContext();
             return await context.Schools.Select(s => s.SchoolName).ToListAsync();
-        }
-
-
-        public async Task<List<string>> GetCitiesByCountryName(string countryName)
-        {
-            var response = await _http.GetFromJsonAsync<List<City>>($"https://countriesnow.space/api/v0.1/countries/city?id={countryName}");
-
-            return response.Select(c => c.CityName).ToList();
         }
 
         public async Task<List<string>> GetAllCountriesAsync()

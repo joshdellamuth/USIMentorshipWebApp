@@ -54,7 +54,7 @@
     <div class="our-column mb-2">
         <label>Business Countries:</label>
         <RadzenDropDown @bind-Value=@businessCountriesSelected Data=@businessCountries Multiple="true" Chips=true Style="max-width:160px;" 
-                        TextProperty="CountryName" ValueProperty="CountryCode" FilterOperator="StringFilterOperator.StartsWith" />
+                        FilterOperator="StringFilterOperator.StartsWith" />
     </div>
 
     @* BUSINESS STATES *@
@@ -62,7 +62,7 @@
         <label>Business States:</label>
         <RadzenDropDown @bind-SearchText=@businessStatesSearchText @bind-Value=@businessStatesSelected Multiple="true" 
                         Chips=true AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith"
-                        Data=@businessStates AllowClear="true" Style="max-width:160px;" TextProperty="StateName" ValueProperty="StateCode" />
+                        Data=@businessStates AllowClear="true" Style="max-width:160px;"/>
     </div>
 
     @* BUSINESS CITIES *@
@@ -70,7 +70,7 @@
         <label>Business Cities:</label>
         <RadzenDropDown @bind-SearchText=@businessCitiesSearchText @bind-Value=@businessCitiesSelected Multiple="true"
                         Chips=true AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith"
-                        Data=@businessCities AllowClear="true" Style="max-width:160px;" TextProperty="CityName" ValueProperty="CityId"/>
+                        Data=@businessCities AllowClear="true" Style="max-width:160px;"/>
     </div>
 
     @* MENTOR NAME SEARCH *@
@@ -135,19 +135,19 @@
 
     #region Business Country
     public List<string?>? businessCountriesSelected;
-    public List<Country>? businessCountries;
+    public List<string>? businessCountries;
     public string? businessCountriesSearchText;
     #endregion
 
     #region Business State
     public List<string?>? businessStatesSelected;
-    public List<State>? businessStates;
+    public List<string>? businessStates;
     public string? businessStatesSearchText;
     #endregion
 
     #region Business City
-    public List<int?>? businessCitiesSelected;
-    public List<City>? businessCities;
+    public List<string?>? businessCitiesSelected;
+    public List<string>? businessCities;
     public string? businessCitiesSearchText;
     #endregion
 
@@ -164,7 +164,7 @@
 
     #region Mentor Results Variables 
     public List<User?>? mentorResults;
-    public List<User> allMentors;
+    public List<User?>? allMentors;
     #endregion
 
     protected override async Task OnInitializedAsync()
@@ -247,21 +247,21 @@
         if (businessCountriesSelected != null && businessCountriesSelected.Count != 0)
         {
             mentorResults = mentorResults
-                .Where(user => businessCountriesSelected.Contains(user.BusinessCountryCode))
+                .Where(user => businessCountriesSelected.Contains(user.BusinessCountry))
                 .ToList();
         }
 
         if (businessStatesSelected != null && businessStatesSelected.Count != 0)
         {
             mentorResults = mentorResults
-                .Where(user => businessStatesSelected.Contains(user.BusinessStateCode))
+                .Where(user => businessStatesSelected.Contains(user.BusinessState))
                 .ToList();
         }
 
         if (businessCitiesSelected != null && businessCitiesSelected.Count != 0)
         {
             mentorResults = mentorResults
-                .Where(user => businessCitiesSelected.Contains(user.BusinessCityId))
+                .Where(user => businessCitiesSelected.Contains(user.BusinessCity))
                 .ToList();
         }
 

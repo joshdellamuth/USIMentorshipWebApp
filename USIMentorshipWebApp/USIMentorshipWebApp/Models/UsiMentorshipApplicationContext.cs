@@ -15,11 +15,7 @@ public partial class UsiMentorshipApplicationContext : DbContext
     {
     }
 
-    public virtual DbSet<City> Cities { get; set; }
-
     public virtual DbSet<ConditionDetail> ConditionDetails { get; set; }
-
-    public virtual DbSet<Country> Countries { get; set; }
 
     public virtual DbSet<Industry> Industries { get; set; }
 
@@ -32,8 +28,6 @@ public partial class UsiMentorshipApplicationContext : DbContext
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<School> Schools { get; set; }
-
-    public virtual DbSet<State> States { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -49,27 +43,9 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<City>(entity =>
-        {
-            entity.HasKey(e => e.CityId).HasName("PK__Cities__F2D21B7691B981E8");
-
-            entity.Property(e => e.CityName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.StateCode)
-                .HasMaxLength(2)
-                .IsUnicode(false)
-                .IsFixedLength();
-
-            entity.HasOne(d => d.StateCodeNavigation).WithMany(p => p.Cities)
-                .HasForeignKey(d => d.StateCode)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Cities__StateCod__6477ECF3");
-        });
-
         modelBuilder.Entity<ConditionDetail>(entity =>
         {
-            entity.HasKey(e => e.ConditionDetailId).HasName("PK__Conditio__84553ACB1B2248A9");
+            entity.HasKey(e => e.ConditionDetailId).HasName("PK__Conditio__84553ACBDCDD8C7D");
 
             entity.Property(e => e.ConditionName)
                 .HasMaxLength(45)
@@ -83,23 +59,9 @@ public partial class UsiMentorshipApplicationContext : DbContext
                 .HasConstraintName("FK__Condition__Match__5812160E");
         });
 
-        modelBuilder.Entity<Country>(entity =>
-        {
-            entity.HasKey(e => e.CountryCode).HasName("PK__Countrie__5D9B0D2DFDD08C11");
-
-            entity.Property(e => e.CountryCode)
-                .HasMaxLength(2)
-                .IsUnicode(false)
-                .IsFixedLength();
-            entity.Property(e => e.CountryName)
-                .HasMaxLength(100)
-                .IsUnicode(false)
-                .IsFixedLength();
-        });
-
         modelBuilder.Entity<Industry>(entity =>
         {
-            entity.HasKey(e => e.IndustryId).HasName("PK__Industri__808DEDCC6DEED639");
+            entity.HasKey(e => e.IndustryId).HasName("PK__Industri__808DEDCC039E063F");
 
             entity.Property(e => e.IndustryName)
                 .HasMaxLength(100)
@@ -108,7 +70,7 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
         modelBuilder.Entity<JobTitle>(entity =>
         {
-            entity.HasKey(e => e.JobTitleId).HasName("PK__JobTitle__35382FE978A54744");
+            entity.HasKey(e => e.JobTitleId).HasName("PK__JobTitle__35382FE99C5F8BF1");
 
             entity.Property(e => e.JobTitleName)
                 .HasMaxLength(100)
@@ -117,7 +79,7 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
         modelBuilder.Entity<Match>(entity =>
         {
-            entity.HasKey(e => e.MatchId).HasName("PK__Matches__4218C81747827816");
+            entity.HasKey(e => e.MatchId).HasName("PK__Matches__4218C81731F4AB9F");
 
             entity.Property(e => e.EndDate).HasColumnType("datetime");
             entity.Property(e => e.StartDate).HasColumnType("datetime");
@@ -128,7 +90,7 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
         modelBuilder.Entity<MatchCommunicationDetail>(entity =>
         {
-            entity.HasKey(e => e.CommunicationDetailId).HasName("PK__MatchCom__AC036A098B455B47");
+            entity.HasKey(e => e.CommunicationDetailId).HasName("PK__MatchCom__AC036A0943FBA544");
 
             entity.ToTable("MatchCommunicationDetail");
 
@@ -152,7 +114,7 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1ADD2DC5B4");
+            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1ADE7FBB1E");
 
             entity.Property(e => e.RoleDescription)
                 .HasMaxLength(100)
@@ -164,7 +126,7 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
         modelBuilder.Entity<School>(entity =>
         {
-            entity.HasKey(e => e.SchoolId).HasName("PK__Schools__3DA4675B19E540C4");
+            entity.HasKey(e => e.SchoolId).HasName("PK__Schools__3DA4675BF0410B11");
 
             entity.Property(e => e.SchoolName)
                 .HasMaxLength(100)
@@ -174,30 +136,9 @@ public partial class UsiMentorshipApplicationContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<State>(entity =>
-        {
-            entity.HasKey(e => e.StateCode).HasName("PK__States__D515E98B9CB5EBE9");
-
-            entity.Property(e => e.StateCode)
-                .HasMaxLength(2)
-                .IsUnicode(false)
-                .IsFixedLength();
-            entity.Property(e => e.CountryCode)
-                .HasMaxLength(2)
-                .IsUnicode(false)
-                .IsFixedLength();
-            entity.Property(e => e.StateName)
-                .HasMaxLength(22)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.CountryCodeNavigation).WithMany(p => p.States)
-                .HasForeignKey(d => d.CountryCode)
-                .HasConstraintName("FK_States_OtherTable");
-        });
-
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CA6D2DA3B");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CBD8EF08F");
 
             entity.Property(e => e.Bio)
                 .HasMaxLength(300)
@@ -208,17 +149,9 @@ public partial class UsiMentorshipApplicationContext : DbContext
             entity.Property(e => e.BusinessCountry)
                 .HasMaxLength(70)
                 .IsUnicode(false);
-            entity.Property(e => e.BusinessCountryCode)
-                .HasMaxLength(2)
-                .IsUnicode(false)
-                .IsFixedLength();
             entity.Property(e => e.BusinessState)
                 .HasMaxLength(70)
                 .IsUnicode(false);
-            entity.Property(e => e.BusinessStateCode)
-                .HasMaxLength(2)
-                .IsUnicode(false)
-                .IsFixedLength();
             entity.Property(e => e.Company)
                 .HasMaxLength(45)
                 .IsUnicode(false);
@@ -260,26 +193,17 @@ public partial class UsiMentorshipApplicationContext : DbContext
             entity.Property(e => e.ProfilePicture)
                 .HasMaxLength(200)
                 .IsUnicode(false);
-            entity.Property(e => e.ProfilePictures).HasMaxLength(75);
             entity.Property(e => e.School)
                 .HasMaxLength(150)
                 .IsUnicode(false);
             entity.Property(e => e.Status)
                 .HasMaxLength(45)
                 .IsUnicode(false);
-
-            entity.HasOne(d => d.BusinessCityNavigation).WithMany(p => p.Users)
-                .HasForeignKey(d => d.BusinessCityId)
-                .HasConstraintName("FK_Users_Cities");
-
-            entity.HasOne(d => d.BusinessCountryCodeNavigation).WithMany(p => p.Users)
-                .HasForeignKey(d => d.BusinessCountryCode)
-                .HasConstraintName("FK_Users_Countries");
         });
 
         modelBuilder.Entity<UserDetail>(entity =>
         {
-            entity.HasKey(e => e.UserDetail1).HasName("PK__UserDeta__BA66F1232C5E7972");
+            entity.HasKey(e => e.UserDetail1).HasName("PK__UserDeta__BA66F1239BFC9A4B");
 
             entity.Property(e => e.UserDetail1).HasColumnName("UserDetail");
             entity.Property(e => e.DetailName)
@@ -296,7 +220,7 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
         modelBuilder.Entity<UserMatch>(entity =>
         {
-            entity.HasKey(e => e.UserMatchesId).HasName("PK__UserMatc__B6D9FCF447B2986C");
+            entity.HasKey(e => e.UserMatchesId).HasName("PK__UserMatc__B6D9FCF4D7952B0E");
 
             entity.HasOne(d => d.Match).WithMany(p => p.UserMatches)
                 .HasForeignKey(d => d.MatchId)
@@ -309,7 +233,7 @@ public partial class UsiMentorshipApplicationContext : DbContext
 
         modelBuilder.Entity<UserRole>(entity =>
         {
-            entity.HasKey(e => e.UserRolesId).HasName("PK__UserRole__43D8BF2DA1CBC0A9");
+            entity.HasKey(e => e.UserRolesId).HasName("PK__UserRole__43D8BF2D0EF6A025");
 
             entity.Property(e => e.EndDate).HasColumnType("datetime");
             entity.Property(e => e.StartDate).HasColumnType("datetime");

@@ -51,23 +51,11 @@ public partial class User
 
     public int? MenteesPerSemester { get; set; }
 
-    public int? BusinessCityId { get; set; }
-
-    public string? BusinessStateCode { get; set; }
-
-    public string? BusinessCountryCode { get; set; }
-
-    public string? ProfilePictures { get; set; }
+    public string? BusinessCity { get; set; }
 
     public string? BusinessState { get; set; }
 
     public string? BusinessCountry { get; set; }
-
-    public string? BusinessCity { get; set; }
-
-    public virtual City? BusinessCityNavigation { get; set; }
-
-    public virtual Country? BusinessCountryCodeNavigation { get; set; }
 
     public virtual ICollection<MatchCommunicationDetail> MatchCommunicationDetails { get; set; } = new List<MatchCommunicationDetail>();
 

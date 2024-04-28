@@ -27,27 +27,27 @@
 
 @code {
     private UsiMentorshipApplicationContext _context = new UsiMentorshipApplicationContext();
-    User loggedInUser;
+    User? loggedInUser;
 
     // countries variables
     public List<string>? countries;
     public string? countriesSearchText;
     public string? countrySelected;
-    public Country? userCountry;
+    public string? userCountry;
 
     // states variables
     public bool stateDropdownDisabled = true;
     public List<string>? states;
     public string? stateSearchText;
     public string? stateSelected;
-    public State? userState;
+    public string? userState;
 
     // cities variables
     public bool cityDropdownDisabled = true;
     public List<string>? cities;
     public string? citySearchText;
     public string? citySelected;
-    public City? userCity;
+    public string? userCity;
 
 
     protected override async Task OnInitializedAsync()
