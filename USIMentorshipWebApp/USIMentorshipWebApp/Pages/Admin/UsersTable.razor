@@ -1,6 +1,9 @@
 ﻿@using USIMentorshipWebApp.Data
 @using USIMentorshipWebApp.Models
 @inject AdminPortalService adminPortalService
+@inject RegistrationDataService evilRegistrationService
+@inject RegistrationDataService registrationDataService;
+
 @using Microsoft.EntityFrameworkCore
 @using USIMentorshipWebApp.Shared.Dropdowns
 
@@ -20,67 +23,93 @@
         </RadzenDataGridColumn>
 
         <RadzenDataGridColumn TItem="User" Property="FirstName" Title="First Name">
-
+            <EditTemplate>
+                
+            </EditTemplate>
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="LastName" Title="Last Name">
 
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="Password" Title="Password">
 
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="PhoneNumber" Title="Phone Number">
 
         </RadzenDataGridColumn>
+        
         <RadzenDataGridColumn TItem="User" Property="EmailAddress" Title="Email Address">
 
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="ProfilePicture" Title="Email Address">
 
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="LinkedInLink" Title="LinkedIn Link">
 
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="Bio" Title="Bio">
 
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="Status" Title="Account Status">
 
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="Major" Title="Major">
 
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="Minor" Title="Minor">
 
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="Industry" Title="Industry">
 
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="Company" Title="Company">
 
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="CurrentPosition" Title="Current Position">
-
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.CurrentPosition Data=@jobTitles></RadzenDropDown>
+            </EditTemplate>
         </RadzenDataGridColumn>
+      
         <RadzenDataGridColumn TItem="User" Property="DateOfBirth" Title="Date Of Birth">
-
+            
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="GraduationYear" Title="Graduation Year">
 
         </RadzenDataGridColumn>
+       
         <RadzenDataGridColumn TItem="User" Property="Gender" Title="Gender">
-
-        </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="User" Property="School" Title="School">
-            <EditTemplate>
-                <SchoolDropdown ></SchoolDropdown>
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.Gender Data=@genders></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
+      
+        <RadzenDataGridColumn TItem="User" Property="School" Title="School">
+            <EditTemplate Context="user">
+                <SchoolDropdown></SchoolDropdown>
+            </EditTemplate>
+        </RadzenDataGridColumn>
+      
         <RadzenDataGridColumn TItem="User" Property="MenteesPerSemester" Title="Mentees Per Semester">
 
         </RadzenDataGridColumn>
+      
         <RadzenDataGridColumn TItem="User" Property="BusinessCityId" Title="Business City Id">
 
         </RadzenDataGridColumn>
+      
         <RadzenDataGridColumn TItem="User" Property="BusinessStateCode" Title="Business State Code">
 
         </RadzenDataGridColumn>
@@ -91,7 +120,7 @@
 
         <RadzenDataGridColumn TItem="User" Context="user" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Frozen="true" FrozenPosition="FrozenColumnPosition.Right">
             <Template>
-                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(user))" @onclick:stopPropagation="true"></RadzenButton>
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(user))"></RadzenButton>
             </Template>
             <EditTemplate>
                 <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => SaveRow(user))"></RadzenButton>
@@ -111,6 +140,12 @@
     List<User> usersToUpdate = new List<User>();
     List<User> usersToInsert = new List<User>();
 
+
+    public List<string> genders = new List<string> { "Male", "Female", "Other" };
+    public List<string> jobTitles = new List<string>();
+
+
+
     private UsiMentorshipApplicationContext dbContext = new UsiMentorshipApplicationContext();
 
     void Reset()
@@ -127,7 +162,13 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
+
         allUsers = await adminPortalService.GetAllUsers();
+        jobTitles = await evilRegistrationService.GetJobTitlesAsync();
+        countries = await registrationDataService.GetUniversityCountryNamesAsync();
+
+
     }
 
     DataGridEditMode editMode = DataGridEditMode.Single;
@@ -171,5 +212,35 @@
          }
 
          
+    }
+
+    //SCHOOL DROPDOWN BELOW COPIED FROM SHARED COMPONENT
+    // countries data
+    public List<string> countries;
+    public string countriesSearchText;
+    public string? countrySelected;
+
+    // schools data
+    private string schoolsSearchText = "";
+    public List<string> schools = new List<string>();
+    public string? schoolSelected;
+    public bool schoolDropdownDisabled = true;
+
+   
+
+    // this is triggered when the selected value changes and args is the newly selected value
+    public async Task CountryChanged(object value)
+    {
+        // disable the city and state dropdown if country is cleared and clear other dropdowns
+        if (countrySelected == null)
+        {
+            schoolSelected = null;
+            schoolDropdownDisabled = true;
+        }
+        else
+        {
+            schoolDropdownDisabled = false;
+            schools = await registrationDataService.GetUniversityNamesAsync(countrySelected);
+        }
     }
 }
