@@ -43,6 +43,7 @@
                         Sign Up, it will go to the landing page and then the mentor match right after
                         -->
                         <button class="btn btn-primary" @onclick="GoToSignUp">Sign Up</button>
+                    <button class="btn btn-primary" @onclick="GoToPasswordResetPage">Forgot Password? Click Here</button>
                     </div>
 
                 </EditForm>
@@ -91,5 +92,10 @@
     void GoToSignUp(MouseEventArgs args)
     {
         NavigationManager.NavigateTo("/sign-up-landing-page");
+    }
+    void GoToPasswordResetPage(MouseEventArgs args)
+    {
+        Console.WriteLine("Navigating to ResetCodePage");
+        NavigationManager.NavigateTo("/CreateNewPassword");
     }
 }

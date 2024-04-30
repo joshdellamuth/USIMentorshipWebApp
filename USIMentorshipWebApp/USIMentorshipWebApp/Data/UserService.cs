@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Diagnostics.Metrics;
 using USIMentorshipWebApp.Models;
+using Microsoft.Extensions.Caching.Memory;
+using System;
 
 
 namespace USIMentorshipWebApp.Data
@@ -10,6 +12,7 @@ namespace USIMentorshipWebApp.Data
     {
         // Get User By UserId
         // Get User By UserId
+
         public async Task<User>? GetUserByIdAsync(int? userId)
         {
             using UsiMentorshipApplicationContext userContext = new UsiMentorshipApplicationContext();
@@ -103,6 +106,8 @@ namespace USIMentorshipWebApp.Data
                 return null;
             }
         }
+
+
 
         public async Task<List<User>> GetAllMentors()
         {

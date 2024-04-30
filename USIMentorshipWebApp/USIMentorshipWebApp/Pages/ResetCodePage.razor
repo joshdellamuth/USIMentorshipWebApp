@@ -1,0 +1,73 @@
+﻿@page "/ResetCodePage"
+
+@using USIMentorshipWebApp.Data;
+
+@inject UserService UserService
+@inject PasswordService PasswordService
+@inject SessionService sessionService
+@inject NavigationManager NavigationManager
+
+<h3>Password Reset</h3>
+
+<EditForm Model="@this" OnValidSubmit="VerifyResetCode">
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <InputText id="email" class="form-control" @bind-Value="email" />
+    </div>
+    <div class="form-group">
+        <label for="resetCode">Reset Code:</label>
+        <InputText id="resetCode" class="form-control" @bind-Value="enteredResetCode" />
+    </div>
+    <button class="btn btn-info" @onclick="SendResetCode">Receive Code</button>
+    <button type="submit" class="btn btn-primary">Verify Code</button>
+</EditForm>
+
+@if (message != null)
+{
+    <div class="alert alert-info">@message</div>
+}
+
+@code {
+    private string email;
+    private string enteredResetCode;
+    private string message;
+
+    private async Task SendResetCode()
+    {
+        if (string.IsNullOrEmpty(email))
+        {
+            message = "Please enter your email address.";
+            return;
+        }
+        bool isSent = await PasswordService.SendPasswordResetCode(email);
+        if (isSent)
+        {
+            message = "Reset code sent to your email.";
+        }
+        else
+        {
+            message = "Failed to send reset code. Please check your email address and try again.";
+        }
+    }
+
+    private async Task VerifyResetCode()
+    {
+        if (string.IsNullOrEmpty(email))
+        {
+            message = "Please enter your email address.";
+            return;
+        }
+
+        bool isValid = await UserService.VerifyResetCodeAsync(email, enteredResetCode);
+
+        if (isValid)
+        {
+            message = "Code verified! Please <a href='/CreateNewPassword'>click here</a> to reset your password.";
+            NavigationManager.NavigateTo("/CreateNewPassword");
+        }
+        else
+        {
+            message = "Invalid or expired code. Please try again.";
+        }
+    }
+}

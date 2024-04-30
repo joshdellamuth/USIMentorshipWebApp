@@ -27,6 +27,7 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<RequestService>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<ChatService>();
 builder.Services.AddScoped<AdminPortalService>();
 builder.Services.AddScoped<RegistrationDataService>();
