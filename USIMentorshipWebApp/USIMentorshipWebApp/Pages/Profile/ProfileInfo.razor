@@ -45,7 +45,7 @@
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard Style="width:100">
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Minor</RadzenText>
-                <RadzenTextBox class="w-100" @bind-Value="@loggedInUser.Minor" />
+                <RadzenTextBox MaxLength="30" class="w-100" @bind-Value="@loggedInUser.Minor" />
             </RadzenCard>
         </div>
         <div class="col-md-6 col-lg-4 p-3">
@@ -92,7 +92,7 @@
         <div class="col-md-6 col-lg-4 p-3">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Company</RadzenText>
-                <RadzenTextBox @bind-Value="@loggedInUser.Company" Name="Company" />
+                <RadzenTextBox MaxLength="30" @bind-Value="@loggedInUser.Company" Name="Company" />
             </RadzenCard>
         </div>
         <div class="col-md-12 col-lg-12 p-3">
@@ -168,6 +168,9 @@
 
     void SaveChanges()
     {
+        loggedInUser.BusinessCountry = businessLocationDropdownProfile.countrySelected;
+        loggedInUser.BusinessState = businessLocationDropdownProfile.stateSelected;
+        loggedInUser.BusinessCity = businessLocationDropdownProfile.citySelected;
         _userService.UpdateUser(loggedInUser);
     }
 }
