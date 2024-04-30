@@ -29,7 +29,12 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="wwwroot\ProfilePictures\" />
     <Folder Include="Shared\Buttons\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\ProfilePictures\upowrk.jpg" />
   </ItemGroup>
 
 </Project>
