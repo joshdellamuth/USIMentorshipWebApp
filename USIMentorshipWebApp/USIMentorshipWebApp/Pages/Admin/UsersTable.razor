@@ -23,71 +23,98 @@
         </RadzenDataGridColumn>
 
         <RadzenDataGridColumn TItem="User" Property="FirstName" Title="First Name">
-            <EditTemplate>
-                
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.FirstName></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
        
         <RadzenDataGridColumn TItem="User" Property="LastName" Title="Last Name">
-
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.LastName></RadzenDropDown>
+            </EditTemplate>
         </RadzenDataGridColumn>
        
         <RadzenDataGridColumn TItem="User" Property="Password" Title="Password">
-
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.Password></RadzenDropDown>
+            </EditTemplate>
         </RadzenDataGridColumn>
        
         <RadzenDataGridColumn TItem="User" Property="PhoneNumber" Title="Phone Number">
-
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.PhoneNumber></RadzenDropDown>
+            </EditTemplate>
         </RadzenDataGridColumn>
         
         <RadzenDataGridColumn TItem="User" Property="EmailAddress" Title="Email Address">
-
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.EmailAddress></RadzenDropDown>
+            </EditTemplate>
         </RadzenDataGridColumn>
        
         <RadzenDataGridColumn TItem="User" Property="ProfilePicture" Title="Email Address">
-
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.ProfilePicture></RadzenDropDown>
+            </EditTemplate>
         </RadzenDataGridColumn>
        
         <RadzenDataGridColumn TItem="User" Property="LinkedInLink" Title="LinkedIn Link">
-
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.LinkedInLink></RadzenDropDown>
+            </EditTemplate>
         </RadzenDataGridColumn>
        
         <RadzenDataGridColumn TItem="User" Property="Bio" Title="Bio">
-
+            <EditTemplate Context="user">
+                <RadzenTextArea @bind-Value=@user.Bio></RadzenTextArea>
+            </EditTemplate>
         </RadzenDataGridColumn>
        
         <RadzenDataGridColumn TItem="User" Property="Status" Title="Account Status">
+            <EditTemplate Context="user">
 
+            </EditTemplate>
         </RadzenDataGridColumn>
        
         <RadzenDataGridColumn TItem="User" Property="Major" Title="Major">
-
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.Major></RadzenDropDown>
+            </EditTemplate>
         </RadzenDataGridColumn>
        
         <RadzenDataGridColumn TItem="User" Property="Minor" Title="Minor">
-
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.Minor></RadzenDropDown>
+            </EditTemplate>
         </RadzenDataGridColumn>
        
         <RadzenDataGridColumn TItem="User" Property="Industry" Title="Industry">
-
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.Industry Data=@industries></RadzenDropDown>
+            </EditTemplate>
         </RadzenDataGridColumn>
        
         <RadzenDataGridColumn TItem="User" Property="Company" Title="Company">
-
-        </RadzenDataGridColumn>
-       
-        <RadzenDataGridColumn TItem="User" Property="CurrentPosition" Title="Current Position">
             <EditTemplate Context="user">
                 <RadzenDropDown @bind-Value=@user.CurrentPosition Data=@jobTitles></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
+       
+        <RadzenDataGridColumn TItem="User" Property="CurrentPosition" Title="Current Position">
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.Company></RadzenDropDown>
+            </EditTemplate>
+        </RadzenDataGridColumn>
       
         <RadzenDataGridColumn TItem="User" Property="DateOfBirth" Title="Date Of Birth">
-            
+            <EditTemplate Context="user">
+@*                 <RadzenDatePicker @bind-Value=@user.DateOfBirth Name="DateOfBirth" ShowCalendarWeek CurrentDateChanged=@OnCurrentBirthdateChanged DateFormat="MM/dd/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(-18)"></RadzenDatePicker>
+ *@            </EditTemplate>
         </RadzenDataGridColumn>
        
         <RadzenDataGridColumn TItem="User" Property="GraduationYear" Title="Graduation Year">
-
+            @* <RadzenDatePicker @bind-Value=@user.GraduationYear Name="GraduationDate" ShowDays=false DateFormat="MM/yyyy"
+                              Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(30)" CurrentDateChanged=@OnCurrentGraduationYearChanged /> *@
         </RadzenDataGridColumn>
        
         <RadzenDataGridColumn TItem="User" Property="Gender" Title="Gender">
@@ -103,7 +130,9 @@
         </RadzenDataGridColumn>
       
         <RadzenDataGridColumn TItem="User" Property="MenteesPerSemester" Title="Mentees Per Semester">
-
+            <EditTemplate Context="user">
+                <RadzenDropDown @bind-Value=@user.MenteesPerSemester Data=@MenteesPerSemesterOptions></RadzenDropDown>
+            </EditTemplate>
         </RadzenDataGridColumn>
       
         <RadzenDataGridColumn TItem="User" Property="BusinessCityId" Title="Business City Id">
@@ -148,6 +177,9 @@
 
     public List<string> genders = new List<string> { "Male", "Female", "Other" };
     public List<string> jobTitles = new List<string>();
+    public List<string> industries = new List<string>();
+    public List<int> MenteesPerSemesterOptions = new List<int> { 1, 2, 3, 4, 5 };
+
 
     private UsiMentorshipApplicationContext dbContext = new UsiMentorshipApplicationContext();
 
