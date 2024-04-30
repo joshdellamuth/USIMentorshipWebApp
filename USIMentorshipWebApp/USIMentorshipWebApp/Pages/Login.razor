@@ -4,7 +4,7 @@
 @layout NotLoggedInLayout
 @inject NavigationManager NavigationManager
 @inject UserService UserService
-@inject IJSRuntime js;
+@inject IJSRuntime JSRuntime
 @inject AuthenticationStateProvider authStateProvider
 @inject UserService userService
 @inject SessionService sessionService
@@ -55,6 +55,12 @@
 @code {
     LoginModel loginModel = new LoginModel();
 
+
+    private async Task ShowJavaScriptAlert(string message)
+    {
+        await JSRuntime.InvokeVoidAsync("alert", message);
+    }
+
     private async Task OnLogin()
     {
         var user = UserService.GetUserByEmail(loginModel.Email);
@@ -65,7 +71,7 @@
         }
         else
         {
-            // Implement user feedback for failed login
+            await JSRuntime.InvokeVoidAsync("alert", "The username or password is incorrect. If you don't have an account Sign up");
         }
     }
 
