@@ -19,133 +19,132 @@
 
     <Columns>
         <RadzenDataGridColumn TItem="User" Property="UserId" Title="User ID">
-            
+
         </RadzenDataGridColumn>
 
         <RadzenDataGridColumn TItem="User" Property="FirstName" Title="First Name">
             <EditTemplate Context="user">
-                <RadzenDropDown @bind-Value=@user.FirstName></RadzenDropDown>
+                <RadzenDropDown @bind-Value=@user.FirstName Data=@users></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="LastName" Title="Last Name">
             <EditTemplate Context="user">
-                <RadzenDropDown @bind-Value=@user.LastName></RadzenDropDown>
+                <RadzenDropDown @bind-Value=@user.LastName Data=@users></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="Password" Title="Password">
             <EditTemplate Context="user">
-                <RadzenDropDown @bind-Value=@user.Password></RadzenDropDown>
+                <RadzenDropDown @bind-Value=@user.Password Data=@users></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="PhoneNumber" Title="Phone Number">
             <EditTemplate Context="user">
-                <RadzenDropDown @bind-Value=@user.PhoneNumber></RadzenDropDown>
+                <RadzenDropDown @bind-Value=@user.PhoneNumber Data=@users></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-        
+
         <RadzenDataGridColumn TItem="User" Property="EmailAddress" Title="Email Address">
             <EditTemplate Context="user">
-                <RadzenDropDown @bind-Value=@user.EmailAddress></RadzenDropDown>
+                <RadzenDropDown @bind-Value=@user.EmailAddress Data=@users></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="ProfilePicture" Title="Email Address">
             <EditTemplate Context="user">
-                <RadzenDropDown @bind-Value=@user.ProfilePicture></RadzenDropDown>
+                <RadzenDropDown @bind-Value=@user.ProfilePicture Data=@users></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="LinkedInLink" Title="LinkedIn Link">
             <EditTemplate Context="user">
-                <RadzenDropDown @bind-Value=@user.LinkedInLink></RadzenDropDown>
+                <RadzenDropDown @bind-Value=@user.LinkedInLink Data=@users></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="Bio" Title="Bio">
             <EditTemplate Context="user">
                 <RadzenTextArea @bind-Value=@user.Bio></RadzenTextArea>
             </EditTemplate>
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="Status" Title="Account Status">
             <EditTemplate Context="user">
 
             </EditTemplate>
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="Major" Title="Major">
             <EditTemplate Context="user">
-                <RadzenDropDown @bind-Value=@user.Major></RadzenDropDown>
+                <RadzenDropDown @bind-Value=@user.Major Data=@users></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="Minor" Title="Minor">
             <EditTemplate Context="user">
-                <RadzenDropDown @bind-Value=@user.Minor></RadzenDropDown>
+                <RadzenDropDown @bind-Value=@user.Minor Data=@users></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="Industry" Title="Industry">
             <EditTemplate Context="user">
                 <RadzenDropDown @bind-Value=@user.Industry Data=@industries></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="Company" Title="Company">
             <EditTemplate Context="user">
-                <RadzenDropDown @bind-Value=@user.CurrentPosition Data=@jobTitles></RadzenDropDown>
+                <RadzenDropDown @bind-Value=@user.Company Data=@users></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="CurrentPosition" Title="Current Position">
             <EditTemplate Context="user">
-                <RadzenDropDown @bind-Value=@user.Company></RadzenDropDown>
+                <RadzenDropDown @bind-Value=@user.CurrentPosition Data=@users></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-      
+
         <RadzenDataGridColumn TItem="User" Property="DateOfBirth" Title="Date Of Birth">
             <EditTemplate Context="user">
-@*                 <RadzenDatePicker @bind-Value=@user.DateOfBirth Name="DateOfBirth" ShowCalendarWeek CurrentDateChanged=@OnCurrentBirthdateChanged DateFormat="MM/dd/yyyy" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(-18)"></RadzenDatePicker>
- *@            </EditTemplate>
+
+            </EditTemplate>
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="GraduationYear" Title="Graduation Year">
-            @* <RadzenDatePicker @bind-Value=@user.GraduationYear Name="GraduationDate" ShowDays=false DateFormat="MM/yyyy"
-                              Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today.AddYears(30)" CurrentDateChanged=@OnCurrentGraduationYearChanged /> *@
+
         </RadzenDataGridColumn>
-       
+
         <RadzenDataGridColumn TItem="User" Property="Gender" Title="Gender">
             <EditTemplate Context="user">
                 <RadzenDropDown @bind-Value=@user.Gender Data=@genders></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-      
+
         <RadzenDataGridColumn TItem="User" Property="School" Title="School">
             <EditTemplate Context="user">
-                <SchoolDropdown></SchoolDropdown>
+
             </EditTemplate>
         </RadzenDataGridColumn>
-      
+
         <RadzenDataGridColumn TItem="User" Property="MenteesPerSemester" Title="Mentees Per Semester">
             <EditTemplate Context="user">
                 <RadzenDropDown @bind-Value=@user.MenteesPerSemester Data=@MenteesPerSemesterOptions></RadzenDropDown>
             </EditTemplate>
         </RadzenDataGridColumn>
-      
-        <RadzenDataGridColumn TItem="User" Property="BusinessCityId" Title="Business City Id">
+
+        @* <RadzenDataGridColumn TItem="User" Property="BusinessCityId" Title="Business City Id">
 
         </RadzenDataGridColumn>
-      
+
         <RadzenDataGridColumn TItem="User" Property="BusinessStateCode" Title="Business State Code">
 
         </RadzenDataGridColumn>
 
         <RadzenDataGridColumn TItem="User" Property="BusinessCountryCode" Title="Business Country Code">
 
-        </RadzenDataGridColumn>
+        </RadzenDataGridColumn> *@
 
         <RadzenDataGridColumn TItem="User" Context="user" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Frozen="true" FrozenPosition="FrozenColumnPosition.Right">
             <Template>
@@ -206,7 +205,7 @@
         jobTitles = await evilRegistrationService.GetJobTitlesAsync();
     }
 
-    // clear out the users to edit list and add this new user from the row selected to the usersToUpdate list 
+    // clear out the users to edit list and add this new user from the row selected to the usersToUpdate list
     async Task EditRow(User user)
     {
         if (editMode == DataGridEditMode.Single)
@@ -223,7 +222,7 @@
         await usersGrid.EditRow(user);
     }
 
-    // called when you click the check, 
+    // called when you click the check,
     void OnUpdateRow(User user)
     {
         // clears out the users to insert and add list
@@ -249,7 +248,7 @@
         await usersGrid.UpdateRow(user);
     }
 
-    // reverts all changes made to an entity passed in and entity state stores what the user used to be 
+    // reverts all changes made to an entity passed in and entity state stores what the user used to be
     void CancelEdit(User user)
     {
         // removes the user from the usersToEdit list
@@ -267,7 +266,7 @@
         // see if that entry has been modified
         if (userEntry.State == EntityState.Modified)
         {
-            // set the current value of the entity back to the old values 
+            // set the current value of the entity back to the old values
             userEntry.CurrentValues.SetValues(userEntry.OriginalValues);
 
             // set the state to unchanged (tell EF there is nothing to change)
