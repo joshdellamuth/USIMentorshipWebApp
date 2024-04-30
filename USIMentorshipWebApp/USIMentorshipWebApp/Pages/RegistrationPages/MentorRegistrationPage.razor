@@ -6,6 +6,10 @@
 @inject RegistrationDataService RegistrationDataService
 @inject UserService UserService
 @inject SessionService sessionService
+@inject NotificationService NotificationService
+@inject IWebHostEnvironment env
+@inject IJSRuntime JSRuntime
+
 
 @using USIMentorshipWebApp.Models;
 @using USIMentorshipWebApp.Data;
@@ -74,7 +78,9 @@
 
             @* UPLOAD PROFILE PICTURE *@
             <RadzenRow class="mb-4">
-                <InputFile OnChange="UploadFile"></InputFile>
+                <InputFile OnChange="@OnFileChange"  accept="image/*" class="form-control" style="width:100%;" Name="upload" />
+
+
             </RadzenRow>
 
             @* SCHOOL, MAJOR, MINOR, GRADUATION YEAR *@
@@ -237,6 +243,15 @@
     private string industriesSearchText = ""; // Add this line
     private string jobTitlesSearchText = "";
 
+   
+    private IBrowserFile selectedFile;
+
+    // Create a unique identifier and append it to the filename
+    private string fileNameWithoutExtension = "";
+    private string uniqueIdentifier = "";
+    private string newFileName = "";
+    private string? updatedExtension;
+
 
 
     public List<string> industries = new List<string>();
@@ -262,6 +277,54 @@
         user.GraduationYear = new DateTime(args.Year, args.Month, 1);
     }
 
+    private async Task ShowJavaScriptAlert(string message)
+    {
+        await JSRuntime.InvokeVoidAsync("alert", message);
+    }
+
+    private async Task OnFileChange(InputFileChangeEventArgs e)
+    {
+                     // Assume single file upload as per your setup
+        if (e.File == null) // Check if the file is selected
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "You must select a file.");
+            return;
+        }
+
+        selectedFile = e.File;
+        if (selectedFile == null)
+        {
+            //test to see if it works
+            await ShowJavaScriptAlert("You must select a file to upload.");
+            return;
+        }
+
+
+        // Validate file size
+        const long maxFileSize = 5 * 1024 * 1024; // 5 MB
+        if (selectedFile.Size > maxFileSize)
+        {
+            await ShowJavaScriptAlert("File size exceeds the maximum limit of 5MB.");
+            return;
+        }
+
+        // Validate file type
+        string[] permittedExtensions = { ".jpg", ".jpeg", ".png" };
+        string fileExtension = Path.GetExtension(selectedFile.Name).ToLowerInvariant();
+        if (!permittedExtensions.Contains(fileExtension))
+        {
+            await ShowJavaScriptAlert("Invalid file type. Only JPEG and PNG files are allowed.");
+            return;
+        }
+
+        updatedExtension = fileExtension;
+
+
+
+
+
+    }
+
     private async Task OnSubmit()
     {
         //grab what is filled out for the business location (have to reference shared component since it is not defined in this file)
@@ -284,6 +347,51 @@
             user.School = schoolDropdown.schoolSelected;
         }
 
+        if (selectedFile == null)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "You must select a profile picture.");
+            return;
+        }
+
+        // Create a unique identifier and append it to the filename
+        string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(selectedFile.Name);
+        string uniqueIdentifier = Guid.NewGuid().ToString();
+        string newFileName = $"{fileNameWithoutExtension}_{uniqueIdentifier}{updatedExtension}";
+
+
+        /*var filePath = Path.Combine(env.ContentRootPath, "images", newFileName); using (var fileStream = new FileStream(filePath, FileMode.Create))
+        {
+            await selectedFile.OpenReadStream().CopyToAsync(fileStream);
+
+        }
+
+
+        user.ProfilePicture = filePath;
+        */
+
+        // Build the file path using WebRootPath for static file access
+        var directoryPath = Path.Combine(env.WebRootPath, "images");
+        var filePath = Path.Combine(directoryPath, newFileName);
+
+        // Ensure the directory exists
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
+        using (var fileStream = new FileStream(filePath, FileMode.Create))
+        {
+            await selectedFile.OpenReadStream().CopyToAsync(fileStream);
+        }
+
+        // Create a web path for the image
+        var webPath = $"images/{newFileName}";
+        user.ProfilePicture = webPath;
+
+        // Define the file path where the image will be saved
+
+
+
         // Assume AddUser is updated to handle async operation if necessary
         await UserService.AddUserAsync(user, "Mentor");
 
@@ -305,19 +413,5 @@
         NavigationManager.NavigateTo("/");
     }
 
-    // variables and methods for file upload
-    private async Task UploadFile(InputFileChangeEventArgs e)
-    {
-        var file = e.File;
-        if (file != null)
-        {
-            using var stream = file.OpenReadStream(maxAllowedSize: 1024 * 1024);
-            using var memoryStream = new MemoryStream();
-            await stream.CopyToAsync(memoryStream);
-            var bytes = memoryStream.ToArray();
 
-            // Now you can save the byte array to your database
-            // Make sure to use an async method to avoid blocking the thread
-        }
-    }
 }
