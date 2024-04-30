@@ -57,6 +57,7 @@ namespace USIMentorshipWebApp.Data
         {
             var httpClient = new HttpClient();
             // formats the countryName to go in the URL
+            // ACCOUNT FOR NULL VALES
             var formattedURLName = countryName.Replace(" ", "%20").ToLower();
             var response = await httpClient.GetStringAsync($"http://universities.hipolabs.com/search?country={formattedURLName}");
             var universities = JsonConvert.DeserializeObject<List<University>>(response);

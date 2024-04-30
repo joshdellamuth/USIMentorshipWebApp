@@ -14,7 +14,7 @@
     }
 </style>
 
-<RadzenDataGrid @ref="usersGrid" PageSize="5" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@allUsers"
+<RadzenDataGrid @ref="usersGrid" PageSize="5" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@users"
                 TItem="User" EditMode="@editMode" RowUpdate="@OnUpdateRow">
 
     <Columns>
@@ -128,29 +128,35 @@
                 <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@((args) => CancelEdit(user))"> </RadzenButton>
             </EditTemplate>
         </RadzenDataGridColumn>
-
-
-
     </Columns>
 </RadzenDataGrid>
 
 @code {
+    // defines an instance of the RadzenDataGrid and fills it with User objects
     RadzenDataGrid<User> usersGrid;
-    List<User>? allUsers;
+
+    // all of the users retrieved to display in the table
+    List<User>? users;
+
+    // for updating
     List<User> usersToUpdate = new List<User>();
+    // for adding a user
     List<User> usersToInsert = new List<User>();
 
+    // editMode for the grid
+    DataGridEditMode editMode = DataGridEditMode.Single;
 
     public List<string> genders = new List<string> { "Male", "Female", "Other" };
     public List<string> jobTitles = new List<string>();
-
-
 
     private UsiMentorshipApplicationContext dbContext = new UsiMentorshipApplicationContext();
 
     void Reset()
     {
+        // for adding a user
         usersToInsert.Clear();
+
+        // for updating
         usersToUpdate.Clear();
     }
 
@@ -164,15 +170,11 @@
     {
         await base.OnInitializedAsync();
 
-        allUsers = await adminPortalService.GetAllUsers();
+        users = await adminPortalService.GetAllUsers();
         jobTitles = await evilRegistrationService.GetJobTitlesAsync();
-        countries = await registrationDataService.GetUniversityCountryNamesAsync();
-
-
     }
 
-    DataGridEditMode editMode = DataGridEditMode.Single;
-
+    // clear out the users to edit list and add this new user from the row selected to the usersToUpdate list 
     async Task EditRow(User user)
     {
         if (editMode == DataGridEditMode.Single)
@@ -180,67 +182,64 @@
             Reset();
         }
 
+        // starts tracking (add a better comment to explain this line)
+        dbContext.Users.Attach(user);
+
         usersToUpdate.Add(user);
+
+        // Radzen dataGrid method to define the row as being in edit mode (it knows the row by the user object passed in)
         await usersGrid.EditRow(user);
     }
 
+    // called when you click the check, 
     void OnUpdateRow(User user)
     {
+        // clears out the users to insert and add list
         Reset(user);
 
+        // starts tracking (add a better comment to explain this line)
+        dbContext.Users.Attach(user);
+
+        // Update is used in Entity Framework and updates the object passed in to the database
         dbContext.Update(user);
 
+        // saves the database changes
         dbContext.SaveChanges();
     }
 
+    // make the row view mode and reflect changes
     async Task SaveRow(User user)
     {
+        // starts tracking (add a better comment to explain this line)
+        dbContext.Users.Attach(user);
+
+        // update row is a Radzen method that is used to turn the row into not edit mode and reflect the changes
         await usersGrid.UpdateRow(user);
     }
 
+    // reverts all changes made to an entity passed in and entity state stores what the user used to be 
     void CancelEdit(User user)
     {
-         Reset(user);
+        // removes the user from the usersToEdit list
+        Reset(user);
 
-         usersGrid.CancelEditRow(user);
+        // sets the row to view mode by the user object passed in (that's how it knows what row)
+        usersGrid.CancelEditRow(user);
 
-         var orderEntry = dbContext.Entry(user);
-         if (orderEntry.State == EntityState.Modified)
-         {
-              orderEntry.CurrentValues.SetValues(orderEntry.OriginalValues);
-              orderEntry.State = EntityState.Unchanged;
-         }
+        // starts tracking (add a better comment to explain this line)
+        dbContext.Users.Attach(user);
 
-         
-    }
+        // tracks the user object specified
+        var userEntry = dbContext.Entry(user);
 
-    //SCHOOL DROPDOWN BELOW COPIED FROM SHARED COMPONENT
-    // countries data
-    public List<string> countries;
-    public string countriesSearchText;
-    public string? countrySelected;
-
-    // schools data
-    private string schoolsSearchText = "";
-    public List<string> schools = new List<string>();
-    public string? schoolSelected;
-    public bool schoolDropdownDisabled = true;
-
-   
-
-    // this is triggered when the selected value changes and args is the newly selected value
-    public async Task CountryChanged(object value)
-    {
-        // disable the city and state dropdown if country is cleared and clear other dropdowns
-        if (countrySelected == null)
+        // see if that entry has been modified
+        if (userEntry.State == EntityState.Modified)
         {
-            schoolSelected = null;
-            schoolDropdownDisabled = true;
-        }
-        else
-        {
-            schoolDropdownDisabled = false;
-            schools = await registrationDataService.GetUniversityNamesAsync(countrySelected);
+            // set the current value of the entity back to the old values 
+            userEntry.CurrentValues.SetValues(userEntry.OriginalValues);
+
+            // set the state to unchanged (tell EF there is nothing to change)
+            userEntry.State = EntityState.Unchanged;
         }
     }
 }
