@@ -1,0 +1,19 @@
+﻿@* This defines MainLayout as a Layout component which
+    allows us to ise the body tag (@Body) to render
+    child elements. For example, if we navigate to 
+    /mentor-match, it will render in whatever is defined
+    in that route 
+*@
+@inherits LayoutComponentBase
+<RadzenDialog />
+
+<PageTitle>USIMentorshipWebApp</PageTitle>
+
+<NavMenu />
+<main>
+    <div class="height-scrollable">
+        <div class="">
+            @Body
+        </div>
+    </div>
+</main>
